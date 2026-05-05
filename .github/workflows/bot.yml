@@ -18,10 +18,10 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Kütüphaneler
+        - name: Kütüphaneler
         run: |
+          python -m pip install --upgrade pip
           pip install pandas yfinance requests ta numpy lxml html5lib beautifulsoup4
-
       - name: Botu çalıştır
         run: python bot.py
         env:
