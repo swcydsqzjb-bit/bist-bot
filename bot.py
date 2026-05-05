@@ -357,3 +357,4 @@ if __name__ == "__main__":
         intraday_scan()
     else:
         daily_scan()
+send_message("BOT CALISTI")
