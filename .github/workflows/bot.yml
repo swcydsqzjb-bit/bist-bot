@@ -20,7 +20,7 @@ jobs:
 
       - name: Kütüphaneler
         run: |
-          pip install pandas yfinance requests ta numpy
+          pip install pandas yfinance requests ta numpy lxml html5lib beautifulsoup4
 
       - name: Botu çalıştır
         run: python bot.py
