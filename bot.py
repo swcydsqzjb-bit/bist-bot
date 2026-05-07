@@ -20,7 +20,6 @@ def send_message(text):
     )
     print("Telegram cevap:", r.status_code, r.text)
 
-send_message("✅ GitHub Actions test mesajı geldi")
 
 def get_symbols():
     url = "https://stockanalysis.com/list/borsa-istanbul/"
@@ -360,4 +359,4 @@ if __name__ == "__main__":
         intraday_scan()
     else:
         daily_scan()
-send_message("BOT CALISTI")
+
