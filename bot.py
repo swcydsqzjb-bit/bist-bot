@@ -14,10 +14,13 @@ CHAT_ID = os.getenv("CHAT_ID")
 MODE = os.getenv("BOT_MODE", "daily")
 
 def send_message(text):
-    requests.post(
+    r = requests.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
         data={"chat_id": CHAT_ID, "text": text}
     )
+    print("Telegram cevap:", r.status_code, r.text)
+
+send_message("✅ GitHub Actions test mesajı geldi")
 
 def get_symbols():
     url = "https://stockanalysis.com/list/borsa-istanbul/"
