@@ -12,7 +12,7 @@ on:
 
 jobs:
   daily-scan:
-    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 6 * * 1-5'
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.schedule, '6')
     runs-on: ubuntu-latest
 
     steps:
@@ -37,7 +37,7 @@ jobs:
           BOT_MODE: daily
 
   intraday-scan:
-    if: github.event_name == 'schedule' && github.event.schedule == '*/15 7-15 * * 1-5'
+    if: github.event_name == 'schedule' && contains(github.event.schedule, '7-15')
     runs-on: ubuntu-latest
 
     steps:
