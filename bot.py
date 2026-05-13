@@ -355,8 +355,21 @@ def intraday_scan():
         send_message(mesaj)
 
 if __name__ == "__main__":
-    if MODE == "intraday":
-        intraday_scan()
-    else:
+    now = datetime.now(ZoneInfo("Europe/Istanbul"))
+
+    if now.weekday() >= 5:
+        exit()
+
+    if MODE == "daily":
         daily_scan()
 
+    elif MODE == "intraday":
+        intraday_scan()
+
+    else:
+        if now.hour == 9 and now.minute >= 30:
+            daily_scan()
+        elif now.hour == 10 and now.minute <= 15:
+            daily_scan()
+        elif 10 <= now.hour <= 18:
+            intraday_scan()
