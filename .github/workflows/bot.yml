@@ -1,12 +1,12 @@
-name: BIST DAILY
+name: BIST BOT
 
 on:
   schedule:
-    - cron: "35 6 * * 1-5"
+    - cron: "*/15 6-15 * * 1-5"
   workflow_dispatch:
 
 jobs:
-  daily-scan:
+  scan:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,9 +23,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas yfinance requests ta numpy lxml html5lib beautifulsoup4
 
-      - name: Günlük tarama çalıştır
+      - name: Botu çalıştır
         run: python bot.py
         env:
           TOKEN: ${{ secrets.TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-          BOT_MODE: daily
+          BOT_MODE: auto
