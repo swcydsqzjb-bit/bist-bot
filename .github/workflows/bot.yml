@@ -29,3 +29,4 @@ jobs:
           TOKEN: ${{ secrets.TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           BOT_MODE: auto
+# refresh
