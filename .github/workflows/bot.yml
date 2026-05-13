@@ -2,7 +2,7 @@ name: BIST BOT
 
 on:
   schedule:
-    - cron: "*/15 6-15 * * 1-5"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 jobs:
