@@ -176,6 +176,9 @@ def daily_scan():
                 perf_5g > 12 and
                 uzun_ust_fitil
             )
+            # Ani hacim kontrolü
+            volume_ratio_3 = volume / volume.rolling(3).mean()
+            ani_hacim = volume_ratio_3.iloc[-1] > 2.2
 
             # İlk patlama skoru
             patlama_skor = 0
@@ -185,6 +188,8 @@ def daily_scan():
                 patlama_skor += 2
             if hacim_orani > 1.5:
                 patlama_skor += 2
+            if ani_hacim:
+                patlama_skor += 1
             if zirve_uzaklik <= 5:
                 patlama_skor += 1
             if 45 < last_rsi < 68:
@@ -312,6 +317,13 @@ def intraday_scan():
             gunici_direnc = float(high.iloc[-20:-1].max())
             hacim_orani = last_volume / last_volavg20 if last_volavg20 > 0 else 0
             son3_getiri = ((last_close / float(close.iloc[-4])) - 1) * 100
+            # İntraday ani hacim kontrolü
+            volume_ratio_3 = volume / volume.rolling(3).mean()
+            ani_hacim = volume_ratio_3.iloc[-1] > 1.8
+
+            # Son mum hacim patlaması
+            onceki5_ort = float(volume.iloc[-6:-1].mean())
+            mum_patlamasi = last_volume > onceki5_ort * 2
 
             mum_araligi = last_high - last_low
             ust_fitil = last_high - last_close
@@ -324,7 +336,7 @@ def intraday_scan():
                 last_close > gunici_direnc and
                 last_close > last_ema20 and
                 50 < last_rsi < 75 and
-                hacim_orani > 1.8 and
+                (hacim_orani > 1.8 or ani_hacim or mum_patlamasi) and
                 son3_getiri < 8 and
                 not fake_intraday
             )
@@ -427,6 +439,13 @@ def tavan_oncesi_momentum_scan():
             ema20_yukari = last_ema20 > prev_ema20
             direnc_kirildi = last_close > gunici_direnc
             hacim_patlamasi = hacim_orani > 2.0 and hacim_ivmesi > 1.4
+            # İntraday ani hacim kontrolü
+            volume_ratio_3 = volume / volume.rolling(3).mean()
+            ani_hacim = volume_ratio_3.iloc[-1] > 1.8
+
+            # Son mum hacim patlaması
+            onceki5_ort = float(volume.iloc[-6:-1].mean())
+            mum_patlamasi = last_volume > onceki5_ort * 2
             guclu_kapanis = kapanis_gucu > 0.65 and ust_fitil_orani < 0.35
             fazla_ucmamis = son3_getiri < 7 and son12_getiri < 14
             sikismadan_cikis = son20_range < 10
@@ -436,6 +455,10 @@ def tavan_oncesi_momentum_scan():
                 skor += 3
             if hacim_patlamasi:
                 skor += 3
+            if ani_hacim:
+                skor += 1
+            if mum_patlamasi:
+                skor += 2
             if guclu_kapanis:
                 skor += 2
             if ema20_ustu and ema20_yukari:
