@@ -365,7 +365,126 @@ if __name__ == "__main__":
 
     elif MODE == "intraday":
         intraday_scan()
+def tavan_oncesi_momentum_scan():
+    now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
+    if now.weekday() >= 5:
+        return
+
+    if not (10 <= now.hour <= 18):
+        return
+
+    hisseler = get_symbols()
+    adaylar = []
+
+    for hisse in hisseler:
+        try:
+            df = yf.download(hisse, period="5d", interval="15m", progress=False, auto_adjust=False)
+
+            if df.empty or len(df) < 60:
+                continue
+
+            df = clean_df(df)
+
+            close = df["Close"].astype(float)
+            high = df["High"].astype(float)
+            low = df["Low"].astype(float)
+            volume = df["Volume"].astype(float)
+
+            ema20 = ta.trend.ema_indicator(close, window=20)
+
+            last_close = float(close.iloc[-1])
+            prev_close = float(close.iloc[-2])
+            last_high = float(high.iloc[-1])
+            last_low = float(low.iloc[-1])
+            last_volume = float(volume.iloc[-1])
+            last_ema20 = float(ema20.iloc[-1])
+            prev_ema20 = float(ema20.iloc[-4])
+
+            gunici_direnc = float(high.iloc[-25:-1].max())
+            hacim_ort20 = float(volume.iloc[-21:-1].mean())
+            hacim_orani = last_volume / hacim_ort20 if hacim_ort20 > 0 else 0
+
+            son3_getiri = ((last_close / float(close.iloc[-4])) - 1) * 100
+            son12_getiri = ((last_close / float(close.iloc[-13])) - 1) * 100
+
+            son3_hacim = float(volume.tail(3).mean())
+            onceki20_hacim = float(volume.iloc[-23:-3].mean())
+            hacim_ivmesi = son3_hacim / onceki20_hacim if onceki20_hacim > 0 else 0
+
+            son20_range = (
+                (float(high.iloc[-21:-1].max()) - float(low.iloc[-21:-1].min()))
+                / float(low.iloc[-21:-1].min()) * 100
+            )
+
+            mum_araligi = last_high - last_low
+            ust_fitil = last_high - last_close
+            kapanis_gucu = (last_close - last_low) / mum_araligi if mum_araligi > 0 else 0
+            ust_fitil_orani = ust_fitil / mum_araligi if mum_araligi > 0 else 1
+
+            son_mum_yesil = last_close > prev_close
+            ema20_ustu = last_close > last_ema20
+            ema20_yukari = last_ema20 > prev_ema20
+            direnc_kirildi = last_close > gunici_direnc
+            hacim_patlamasi = hacim_orani > 2.0 and hacim_ivmesi > 1.4
+            guclu_kapanis = kapanis_gucu > 0.65 and ust_fitil_orani < 0.35
+            fazla_ucmamis = son3_getiri < 7 and son12_getiri < 14
+            sikismadan_cikis = son20_range < 10
+
+            skor = 0
+            if direnc_kirildi:
+                skor += 3
+            if hacim_patlamasi:
+                skor += 3
+            if guclu_kapanis:
+                skor += 2
+            if ema20_ustu and ema20_yukari:
+                skor += 2
+            if fazla_ucmamis:
+                skor += 1
+            if sikismadan_cikis:
+                skor += 1
+            if son_mum_yesil:
+                skor += 1
+
+            if skor < 8:
+                continue
+
+            adaylar.append((
+                hisse.replace(".IS", ""),
+                round(last_close, 2),
+                skor,
+                round(hacim_orani, 2),
+                round(hacim_ivmesi, 2),
+                round(son3_getiri, 2),
+                round(son12_getiri, 2),
+                round(son20_range, 2),
+                round(kapanis_gucu, 2),
+            ))
+
+            time.sleep(0.03)
+
+        except Exception:
+            pass
+
+    adaylar = sorted(adaylar, key=lambda x: (x[2], x[3], x[4], -x[5]), reverse=True)
+
+    if adaylar:
+        mesaj = "🚀 TAVAN ÖNCESİ MOMENTUM ALARMI\n"
+        mesaj += "RSI kullanılmadı ✅\n"
+        mesaj += "Filtre: hacim + direnç kırılımı + güçlü kapanış + EMA20\n\n"
+
+        for kod, fiyat, skor, hacim, ivme, son3, son12, bant, kapanis in adaylar[:8]:
+            mesaj += (
+                f"{kod} | Fiyat: {fiyat}\n"
+                f"Momentum skoru: {skor}/13\n"
+                f"Hacim: {hacim}x | Hacim ivmesi: {ivme}x\n"
+                f"Son 3 mum: %{son3} | Son 12 mum: %{son12}\n"
+                f"20 mum bant: %{bant} | Kapanış gücü: {kapanis}\n"
+                f"Sinyal: 🚀 TAVAN ÖNCESİ MOMENTUM ADAYI\n\n"
+            )
+
+        send_message(mesaj)
     else:
         if now.hour == 9 and now.minute >= 30:
             daily_scan()
@@ -373,3 +492,5 @@ if __name__ == "__main__":
             daily_scan()
         elif 10 <= now.hour <= 18:
             intraday_scan()
+            tavan_oncesi_momentum_scan()
+            
