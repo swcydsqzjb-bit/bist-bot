@@ -509,11 +509,25 @@ def tavan_oncesi_momentum_scan():
 
         send_message(mesaj)
     else:
-        if now.hour == 9 and now.minute >= 30:
-            daily_scan()
-        elif now.hour == 10 and now.minute <= 15:
+    print("Momentum filtresi çalıştı ama aday bulamadı")
+
+
+if __name__ == "__main__":
+    now = datetime.now(ZoneInfo("Europe/Istanbul"))
+
+    if now.weekday() >= 5:
+        exit()
+
+    if MODE == "daily":
+        daily_scan()
+
+    elif MODE == "intraday":
+        intraday_scan()
+        tavan_oncesi_momentum_scan()
+
+    else:
+        if now.hour == 9 and 30 <= now.minute < 45:
             daily_scan()
         elif 10 <= now.hour <= 18:
             intraday_scan()
             tavan_oncesi_momentum_scan()
-            
