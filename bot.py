@@ -509,7 +509,7 @@ def tavan_oncesi_momentum_scan():
 
         send_message(mesaj)
     else:
-    print("Momentum filtresi çalıştı ama aday bulamadı")
+        print("Momentum filtresi çalıştı ama aday bulamadı")
 
 
 if __name__ == "__main__":
