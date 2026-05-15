@@ -471,18 +471,18 @@ def tavan_oncesi_momentum_scan():
                 skor += 1
 
             zorunlu_sart = (
-    direnc_kirildi and
-    guclu_kapanis and
-    ema20_ustu and
-    fazla_ucmamis and
-    (hacim_patlamasi or ani_hacim or mum_patlamasi)
-)
+                direnc_kirildi and
+                guclu_kapanis and
+                ema20_ustu and
+                fazla_ucmamis and
+                (hacim_patlamasi or ani_hacim or mum_patlamasi)
+            )
 
-if not zorunlu_sart:
-    continue
+            if not zorunlu_sart:
+                continue
 
-if skor < 10:
-    continue
+            if skor < 10:
+                continue
 
             adaylar.append((
                 hisse.replace(".IS", ""),
