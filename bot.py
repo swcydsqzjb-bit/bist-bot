@@ -375,9 +375,11 @@ if __name__ == "__main__":
     if MODE == "daily":
         daily_scan()
 
-    elif MODE == "intraday":
-        intraday_scan()
-def tavan_oncesi_momentum_scan():
+elif MODE == "intraday":
+    intraday_scan()
+
+
+def hazirlik_15dk_5dk_tetik_scan():
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
     if now.weekday() >= 5:
@@ -391,109 +393,158 @@ def tavan_oncesi_momentum_scan():
 
     for hisse in hisseler:
         try:
-            df = yf.download(hisse, period="5d", interval="15m", progress=False, auto_adjust=False)
+            # 1H hazırlık: son 10 gün
+            df1h = yf.download(hisse, period="10d", interval="1h", progress=False, auto_adjust=False)
+            # 15DK hazır ol: son 5 gün
+            df15 = yf.download(hisse, period="5d", interval="15m", progress=False, auto_adjust=False)
+            # 5DK son tetik: son 1 gün
+            df5 = yf.download(hisse, period="1d", interval="5m", progress=False, auto_adjust=False)
 
-            if df.empty or len(df) < 60:
+            if df1h.empty or df15.empty or df5.empty:
                 continue
 
-            df = clean_df(df)
+            if len(df1h) < 45 or len(df15) < 60 or len(df5) < 35:
+                continue
 
-            close = df["Close"].astype(float)
-            high = df["High"].astype(float)
-            low = df["Low"].astype(float)
-            volume = df["Volume"].astype(float)
+            df1h = clean_df(df1h)
+            df15 = clean_df(df15)
+            df5 = clean_df(df5)
 
-            ema20 = ta.trend.ema_indicator(close, window=20)
+            # ---------- 1H HAZIRLIK ----------
+            c1 = df1h["Close"].astype(float)
+            h1 = df1h["High"].astype(float)
+            l1 = df1h["Low"].astype(float)
+            v1 = df1h["Volume"].astype(float)
 
-            last_close = float(close.iloc[-1])
-            prev_close = float(close.iloc[-2])
-            last_high = float(high.iloc[-1])
-            last_low = float(low.iloc[-1])
-            last_volume = float(volume.iloc[-1])
-            last_ema20 = float(ema20.iloc[-1])
-            prev_ema20 = float(ema20.iloc[-4])
+            ema20_1h = ta.trend.ema_indicator(c1, window=20)
 
-            gunici_direnc = float(high.iloc[-25:-1].max())
-            hacim_ort20 = float(volume.iloc[-21:-1].mean())
-            hacim_orani = last_volume / hacim_ort20 if hacim_ort20 > 0 else 0
+            last1 = float(c1.iloc[-1])
+            ema1 = float(ema20_1h.iloc[-1])
 
-            son3_getiri = ((last_close / float(close.iloc[-4])) - 1) * 100
-            son12_getiri = ((last_close / float(close.iloc[-13])) - 1) * 100
+            range_1h = (float(h1.tail(35).max()) - float(l1.tail(35).min())) / float(l1.tail(35).min()) * 100
+            perf_1h_7gun = ((last1 / float(c1.iloc[-35])) - 1) * 100
 
-            son3_hacim = float(volume.tail(3).mean())
-            onceki20_hacim = float(volume.iloc[-23:-3].mean())
-            hacim_ivmesi = son3_hacim / onceki20_hacim if onceki20_hacim > 0 else 0
+            son8_hacim_1h = float(v1.tail(8).mean())
+            onceki25_hacim_1h = float(v1.iloc[-33:-8].mean())
+            hacim_birikim_1h = son8_hacim_1h > onceki25_hacim_1h * 1.15 if onceki25_hacim_1h > 0 else False
 
-            son20_range = (
-                (float(high.iloc[-21:-1].max()) - float(low.iloc[-21:-1].min()))
-                / float(low.iloc[-21:-1].min()) * 100
+            hazirlik_1h = (
+                range_1h < 22 and
+                perf_1h_7gun < 28 and
+                last1 > ema1 and
+                hacim_birikim_1h
             )
 
-            mum_araligi = last_high - last_low
-            ust_fitil = last_high - last_close
-            kapanis_gucu = (last_close - last_low) / mum_araligi if mum_araligi > 0 else 0
-            ust_fitil_orani = ust_fitil / mum_araligi if mum_araligi > 0 else 1
+            if not hazirlik_1h:
+                continue
 
-            son_mum_yesil = last_close > prev_close
-            ema20_ustu = last_close > last_ema20
-            ema20_yukari = last_ema20 > prev_ema20
-            direnc_kirildi = last_close > gunici_direnc
-            hacim_patlamasi = hacim_orani > 2.0 and hacim_ivmesi > 1.4
-            # İntraday ani hacim kontrolü
-            volume_ratio_3 = volume / volume.rolling(3).mean()
-            ani_hacim = volume_ratio_3.iloc[-1] > 1.8
+            # ---------- 15DK HAZIR OL ----------
+            c15 = df15["Close"].astype(float)
+            h15 = df15["High"].astype(float)
+            l15 = df15["Low"].astype(float)
+            v15 = df15["Volume"].astype(float)
 
-            # Son mum hacim patlaması
-            onceki5_ort = float(volume.iloc[-6:-1].mean())
-            mum_patlamasi = last_volume > onceki5_ort * 2
-            guclu_kapanis = kapanis_gucu > 0.65 and ust_fitil_orani < 0.35
-            fazla_ucmamis = son3_getiri < 7 and son12_getiri < 14
-            sikismadan_cikis = son20_range < 10
+            ema20_15 = ta.trend.ema_indicator(c15, window=20)
+
+            last15 = float(c15.iloc[-1])
+            prev15 = float(c15.iloc[-2])
+            high15 = float(h15.iloc[-1])
+            low15 = float(l15.iloc[-1])
+            ema15 = float(ema20_15.iloc[-1])
+
+            direnc15 = float(h15.iloc[-30:-1].max())
+            hacim15_ort = float(v15.iloc[-31:-1].mean())
+            hacim15 = float(v15.iloc[-1]) / hacim15_ort if hacim15_ort > 0 else 0
+
+            mum_aralik15 = high15 - low15
+            kapanis_gucu15 = (last15 - low15) / mum_aralik15 if mum_aralik15 > 0 else 0
+            ust_fitil15 = (high15 - last15) / mum_aralik15 if mum_aralik15 > 0 else 1
+
+            son3_15_getiri = ((last15 / float(c15.iloc[-4])) - 1) * 100
+
+            hazir_15dk = (
+                last15 >= direnc15 * 0.985 and
+                last15 > ema15 and
+                hacim15 > 1.25 and
+                kapanis_gucu15 > 0.55 and
+                ust_fitil15 < 0.45 and
+                son3_15_getiri < 6
+            )
+
+            if not hazir_15dk:
+                continue
+
+            # ---------- 5DK SON TETİK ----------
+            c5 = df5["Close"].astype(float)
+            h5 = df5["High"].astype(float)
+            l5 = df5["Low"].astype(float)
+            v5 = df5["Volume"].astype(float)
+
+            ema20_5 = ta.trend.ema_indicator(c5, window=20)
+
+            last5 = float(c5.iloc[-1])
+            prev5 = float(c5.iloc[-2])
+            high5 = float(h5.iloc[-1])
+            low5 = float(l5.iloc[-1])
+            ema5 = float(ema20_5.iloc[-1])
+
+            direnc5 = float(h5.iloc[-20:-1].max())
+            hacim5_ort = float(v5.iloc[-21:-1].mean())
+            hacim5 = float(v5.iloc[-1]) / hacim5_ort if hacim5_ort > 0 else 0
+
+            son3_hacim5 = float(v5.tail(3).mean())
+            onceki15_hacim5 = float(v5.iloc[-18:-3].mean())
+            hacim_ivme5 = son3_hacim5 / onceki15_hacim5 if onceki15_hacim5 > 0 else 0
+
+            mum_aralik5 = high5 - low5
+            kapanis_gucu5 = (last5 - low5) / mum_aralik5 if mum_aralik5 > 0 else 0
+            ust_fitil5 = (high5 - last5) / mum_aralik5 if mum_aralik5 > 0 else 1
+
+            son3_5_getiri = ((last5 / float(c5.iloc[-4])) - 1) * 100
+            son12_5_getiri = ((last5 / float(c5.iloc[-13])) - 1) * 100
+
+            son5_yesil = int((c5.tail(5).diff() > 0).sum())
+
+            tetik_5dk = (
+                last5 > direnc5 and
+                last5 > ema5 and
+                hacim5 > 1.7 and
+                hacim_ivme5 > 1.25 and
+                kapanis_gucu5 > 0.6 and
+                ust_fitil5 < 0.35 and
+                son3_5_getiri < 4.5 and
+                son12_5_getiri < 10 and
+                son5_yesil >= 2
+            )
+
+            if not tetik_5dk:
+                continue
 
             skor = 0
-            if direnc_kirildi:
-                skor += 3
-            if hacim_patlamasi:
-                skor += 3
-            if ani_hacim:
+            if hazirlik_1h:
+                skor += 4
+            if hazir_15dk:
+                skor += 4
+            if tetik_5dk:
+                skor += 5
+            if hacim5 > 2:
                 skor += 1
-            if mum_patlamasi:
-                skor += 2
-            if guclu_kapanis:
-                skor += 2
-            if ema20_ustu and ema20_yukari:
-                skor += 2
-            if fazla_ucmamis:
+            if hacim_ivme5 > 1.5:
                 skor += 1
-            if sikismadan_cikis:
+            if kapanis_gucu5 > 0.75:
                 skor += 1
-            if son_mum_yesil:
-                skor += 1
-
-            zorunlu_sart = (
-                direnc_kirildi and
-                guclu_kapanis and
-                ema20_ustu and
-                fazla_ucmamis and
-                (hacim_patlamasi or ani_hacim or mum_patlamasi)
-            )
-
-            if not zorunlu_sart:
-                continue
-
-            if skor < 10:
-                continue
 
             adaylar.append((
                 hisse.replace(".IS", ""),
-                round(last_close, 2),
+                round(last5, 2),
                 skor,
-                round(hacim_orani, 2),
-                round(hacim_ivmesi, 2),
-                round(son3_getiri, 2),
-                round(son12_getiri, 2),
-                round(son20_range, 2),
-                round(kapanis_gucu, 2),
+                round(range_1h, 2),
+                round(perf_1h_7gun, 2),
+                round(hacim15, 2),
+                round(hacim5, 2),
+                round(hacim_ivme5, 2),
+                round(son3_5_getiri, 2),
+                round(kapanis_gucu5, 2)
             ))
 
             time.sleep(0.03)
@@ -501,26 +552,26 @@ def tavan_oncesi_momentum_scan():
         except Exception:
             pass
 
-    adaylar = sorted(adaylar, key=lambda x: (x[2], x[3], x[4], -x[5]), reverse=True)
+    adaylar = sorted(adaylar, key=lambda x: (x[2], x[6], x[7], -x[8]), reverse=True)
 
     if adaylar:
-        mesaj = "🚀 TAVAN ÖNCESİ MOMENTUM ALARMI\n"
-        mesaj += "RSI kullanılmadı ✅\n"
-        mesaj += "Filtre: hacim + direnç kırılımı + güçlü kapanış + EMA20\n\n"
+        mesaj = "🟣 1H HAZIRLIK + 🟡 15DK HAZIR OL + 🔴 5DK TETİK\n\n"
+        mesaj += "Filtre: 1 haftalık hazırlık + 15dk direnç yakınlığı + 5dk son patlama tetik\n\n"
 
-        for kod, fiyat, skor, hacim, ivme, son3, son12, bant, kapanis in adaylar[:8]:
+        for kod, fiyat, skor, range1h, perf1h, hacim15, hacim5, ivme5, son3, kapanis in adaylar[:8]:
             mesaj += (
                 f"{kod} | Fiyat: {fiyat}\n"
-                f"Momentum skoru: {skor}/13\n"
-                f"Hacim: {hacim}x | Hacim ivmesi: {ivme}x\n"
-                f"Son 3 mum: %{son3} | Son 12 mum: %{son12}\n"
-                f"20 mum bant: %{bant} | Kapanış gücü: {kapanis}\n"
-                f"Sinyal: 🚀 TAVAN ÖNCESİ MOMENTUM ADAYI\n\n"
+                f"Skor: {skor}/16\n"
+                f"1H Bant: %{range1h} | 1H 7g getiri: %{perf1h}\n"
+                f"15DK Hacim: {hacim15}x\n"
+                f"5DK Hacim: {hacim5}x | İvme: {ivme5}x\n"
+                f"5DK Son 3 mum: %{son3} | Kapanış gücü: {kapanis}\n"
+                f"Sinyal: 🔴 ARTIK HAZIR OL / TETİK GELDİ\n\n"
             )
 
         send_message(mesaj)
     else:
-        print("Momentum filtresi çalıştı ama aday bulamadı")
+        print("1H+15DK+5DK filtre çalıştı ama aday bulamadı")
 
 
 if __name__ == "__main__":
@@ -534,11 +585,11 @@ if __name__ == "__main__":
 
     elif MODE == "intraday":
         intraday_scan()
-        tavan_oncesi_momentum_scan()
+        hazirlik_15dk_5dk_tetik_scan()
 
     else:
         if now.hour == 9 and 30 <= now.minute < 45:
             daily_scan()
         elif 10 <= now.hour <= 18:
             intraday_scan()
-            tavan_oncesi_momentum_scan()
+            hazirlik_15dk_5dk_tetik_scan()
