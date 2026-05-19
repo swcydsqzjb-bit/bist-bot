@@ -399,8 +399,9 @@ def hazirlik_15dk_5dk_tetik_scan():
             df15 = yf.download(hisse, period="5d", interval="15m", progress=False, auto_adjust=False)
             # 5DK son tetik: son 1 gün
             df5 = yf.download(hisse, period="1d", interval="5m", progress=False, auto_adjust=False)
+            df1d = yf.download(hisse, period="3mo", interval="1d", progress=False, auto_adjust=False)
 
-            if df1h.empty or df15.empty or df5.empty:
+            if df1h.empty or df15.empty or df5.empty or df1d.empty:
                 continue
 
             if len(df1h) < 45 or len(df15) < 60 or len(df5) < 35:
@@ -409,6 +410,18 @@ def hazirlik_15dk_5dk_tetik_scan():
             df1h = clean_df(df1h)
             df15 = clean_df(df15)
             df5 = clean_df(df5)
+            df1d = clean_df(df1d)
+
+            c1d = df1d["Close"].astype(float)
+            ema20_1d = ta.trend.ema_indicator(c1d, window=20)
+
+            last1d = float(c1d.iloc[-1])
+            ema1d = float(ema20_1d.iloc[-1])
+
+            gunluk_guclu = last1d > ema1d
+
+            if not gunluk_guclu:
+                continue
 
             # ---------- 1H HAZIRLIK ----------
             c1 = df1h["Close"].astype(float)
@@ -505,16 +518,22 @@ def hazirlik_15dk_5dk_tetik_scan():
 
             son5_yesil = int((c5.tail(5).diff() > 0).sum())
 
+            son4_kapanis_yukseliyor = (
+                c5.iloc[-1] > c5.iloc[-2] >
+                c5.iloc[-3] > c5.iloc[-4]
+            )
+
             tetik_5dk = (
                 last5 > direnc5 and
                 last5 > ema5 and
-                hacim5 > 1.7 and
-                hacim_ivme5 > 1.25 and
-                kapanis_gucu5 > 0.6 and
-                ust_fitil5 < 0.35 and
-                son3_5_getiri < 4.5 and
-                son12_5_getiri < 10 and
-                son5_yesil >= 2
+                hacim5 > 2.3 and
+                hacim_ivme5 > 1.35 and
+                kapanis_gucu5 > 0.68 and
+                ust_fitil5 < 0.22 and
+                son3_5_getiri < 4.2 and
+                son12_5_getiri < 9 and
+                son5_yesil >= 3 and
+                son4_kapanis_yukseliyor
             )
 
             if not tetik_5dk:
