@@ -290,11 +290,13 @@ def intraday_scan():
     for hisse in hisseler:
         try:
             df = yf.download(hisse, period="5d", interval="15m", progress=False, auto_adjust=False)
+            df1h = yf.download(hisse, period="10d", interval="1h", progress=False, auto_adjust=False)
 
-            if df.empty or len(df) < 40:
+            if df.empty or df1h.empty or len(df) < 40 or len(df1h) < 30:
                 continue
 
             df = clean_df(df)
+            df1h = clean_df(df1h)
 
             close = df["Close"].astype(float)
             high = df["High"].astype(float)
@@ -332,12 +334,36 @@ def intraday_scan():
 
             fake_intraday = uzun_ust_fitil or kapanis_zayif
 
+            kapanis_gucu = (last_close - last_low) / (last_high - last_low) if (last_high - last_low) > 0 else 0
+
+            ust_fitil_orani = (last_high - last_close) / (last_high - last_low) if (last_high - last_low) > 0 else 1
+
+            son4_yukselis = (
+                close.iloc[-1] > close.iloc[-2] >
+                close.iloc[-3] > close.iloc[-4]
+            )
+
+            son12_getiri = ((last_close / float(close.iloc[-13])) - 1) * 100
+
+            c1h = df1h["Close"].astype(float)
+            ema1h = ta.trend.ema_indicator(c1h, window=20)
+
+            last1h = float(c1h.iloc[-1])
+            last_ema1h = float(ema1h.iloc[-1])
+
+            trend_1h_guclu = last1h > last_ema1h
+           
             alarm = (
                 last_close > gunici_direnc and
                 last_close > last_ema20 and
-                50 < last_rsi < 75 and
+                trend_1h_guclu and
+                52 < last_rsi < 72 and
                 (hacim_orani > 1.8 or ani_hacim or mum_patlamasi) and
-                son3_getiri < 8 and
+                son3_getiri < 6 and
+                son12_getiri < 10 and
+                kapanis_gucu > 0.60 and
+                ust_fitil_orani < 0.35 and
+                son4_yukselis and
                 not fake_intraday
             )
 
