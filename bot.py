@@ -526,15 +526,14 @@ def hazirlik_15dk_5dk_tetik_scan():
             tetik_5dk = (
                 last5 > direnc5 and
                 last5 > ema5 and
-                hacim5 > 2.3 and
-                hacim_ivme5 > 1.35 and
-                kapanis_gucu5 > 0.68 and
-                ust_fitil5 < 0.22 and
+                hacim5 > 1.8 and
+                hacim_ivme5 > 1.15 and
+                kapanis_gucu5 > 0.58 and
+                ust_fitil5 < 0.35 and
                 son3_5_getiri < 4.2 and
                 son12_5_getiri < 9 and
-                son5_yesil >= 3 and
-                son4_kapanis_yukseliyor
-            )
+                son5_yesil >= 3
+             )
 
             if not tetik_5dk:
                 continue
