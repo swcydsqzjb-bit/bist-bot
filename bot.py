@@ -57,6 +57,10 @@ def daily_scan():
             ema50 = ta.trend.ema_indicator(close, window=50)
             rsi = ta.momentum.rsi(close, window=14)
             volavg20 = volume.rolling(20).mean()
+            ema20_egim = ema20.iloc[-1] > ema20.iloc[-4]
+            son3_kapanis_destek = close.iloc[-1] >= close.iloc[-3] * 0.97
+            hacim_kalite = volume.tail(5).mean() > volume.iloc[-20:-5].mean() * 1.10
+            haftalik_momentum = close.iloc[-1] > close.iloc[-10]
 
             last_close = float(close.iloc[-1])
             prev_close = float(close.iloc[-2])
@@ -130,7 +134,12 @@ def daily_scan():
             onceki15_hacim = float(volume.iloc[-20:-5].mean())
 
             sikisma = son20_range < 22
-            trend_destegi = last_close > last_ema20 and last_ema20 > last_ema50
+            trend_destegi = (
+                last_close > last_ema20 and
+                last_ema20 > last_ema50 and
+                ema20_egim and
+                son3_kapanis_destek
+            )
             hacim_sessiz_toplanma = son5_hacim > onceki15_hacim * 1.15 if onceki15_hacim > 0 else False
 
             erken_patlama = (
@@ -202,8 +211,12 @@ def daily_scan():
                 patlama_skor += 2
             if sahte_toplama_riski:
                 patlama_skor -= 2
+            if hacim_kalite:
+                patlama_skor += 1
+            if haftalik_momentum:
+                patlama_skor += 1
 
-            if patlama_skor < 6:
+            if patlama_skor < 7:
                 continue
 
             durumlar = []
