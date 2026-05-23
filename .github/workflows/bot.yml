@@ -24,7 +24,7 @@ jobs:
           pip install pandas yfinance requests ta numpy lxml html5lib beautifulsoup4
           pip install yfinance pandas numpy ta requests telethon
       - name: Botu çalıştır
-        run: python bot.py
+        run: python akd_reader.py
         env:
           TOKEN: ${{ secrets.TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
