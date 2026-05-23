@@ -27,8 +27,18 @@ client = TelegramClient(
 with client:
     send_message("🧪 AKD Reader test başladı")
 
-    client.send_message("ucretsizderinlikbot", "/takas SNICA")
-    time.sleep(7)
+    hisse = "SNICA"
+
+    client.send_message(
+        "ucretsizderinlikbot",
+        f"/takas {hisse}"
+    )
+    time.sleep(5)
+
+    client.send_message(
+        "ucretsizderinlikbot",
+        f"/akd {hisse}"
+    )
 
     mesajlar = client.get_messages("ucretsizderinlikbot", limit=1)
 
