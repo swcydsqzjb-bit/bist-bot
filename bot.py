@@ -691,7 +691,10 @@ def telegram_veri_cek(komut):
 
     except Exception as e:
         return f"Hata: {e}"
-if MODE == "test_akd":
+
+print("MODE:", MODE, flush=True)
+
+if "test_akd" in str(MODE):
     veri = telegram_veri_cek("/takas SNICA")
     print("TAKAS TEST CEVABI:", flush=True)
     print(veri, flush=True)
