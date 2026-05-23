@@ -695,3 +695,5 @@ if MODE == "test_akd":
     veri = telegram_veri_cek("/takas SNICA")
     print("TAKAS TEST CEVABI:")
     print(veri)
+
+time.sleep(15)
