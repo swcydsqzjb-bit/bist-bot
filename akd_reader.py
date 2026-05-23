@@ -33,17 +33,20 @@ with client:
         "ucretsizderinlikbot",
         f"/takas {hisse}"
     )
-    time.sleep(5)
+    time.sleep(12)
 
     client.send_message(
         "ucretsizderinlikbot",
         f"/akd {hisse}"
     )
 
-    mesajlar = client.get_messages("ucretsizderinlikbot", limit=1)
+    mesajlar = client.get_messages("ucretsizderinlikbot", limit=5)
 
-    if mesajlar:
-        cevap = mesajlar[0].text
-        send_message("🧪 TAKAS CEVABI:\n" + str(cevap)[:3500])
-    else:
-        send_message("❌ Takas cevabı bulunamadı")
+    cevap = "Cevap bulunamadı"
+
+for msg in mesajlar:
+    if msg.text and "/akd" not in msg.text:
+        cevap = msg.text
+        break
+
+send_message("🧪 AKD CEVABI:\n" + str(cevap)[:3500])
