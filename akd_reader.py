@@ -24,29 +24,29 @@ client = TelegramClient(
     TG_API_HASH
 )
 
-with client:
-    send_message("🧪 AKD Reader test başladı")
+def son_cevabi_oku(aranan_kelime, limit=8):
+    mesajlar = client.get_messages("ucretsizderinlikbot", limit=limit)
 
+    for msg in mesajlar:
+        if msg.text and aranan_kelime in msg.text:
+            return msg.text
+
+    return "Cevap bulunamadı"
+
+
+with client:
     hisse = "SNICA"
 
-    client.send_message(
-        "ucretsizderinlikbot",
-        f"/takas {hisse}"
-    )
-    time.sleep(12)
+    send_message("🧪 AKD/Takas test başladı")
 
-    client.send_message(
-        "ucretsizderinlikbot",
-        f"/akd {hisse}"
-    )
+    client.send_message("ucretsizderinlikbot", f"/takas {hisse}")
+    time.sleep(10)
+    takas = son_cevabi_oku("Takas")
 
-    mesajlar = client.get_messages("ucretsizderinlikbot", limit=5)
+    send_message("📊 TAKAS CEVABI:\n" + str(takas)[:3500])
 
-    cevap = "Cevap bulunamadı"
+    client.send_message("ucretsizderinlikbot", f"/akd {hisse}")
+    time.sleep(15)
+    akd = son_cevabi_oku("Aracı Kurum")
 
-for msg in mesajlar:
-    if msg.text and "/akd" not in msg.text:
-        cevap = msg.text
-        break
-
-send_message("🧪 AKD CEVABI:\n" + str(cevap)[:3500])
+    send_message("🏦 AKD CEVABI:\n" + str(akd)[:3500])
