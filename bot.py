@@ -693,7 +693,7 @@ def telegram_veri_cek(komut):
         return f"Hata: {e}"
 if MODE == "test_akd":
     veri = telegram_veri_cek("/takas SNICA")
-    print("TAKAS TEST CEVABI:")
-    print(veri)
+    print("TAKAS TEST CEVABI:", flush=True)
+    print(veri, flush=True)
 
 time.sleep(15)
