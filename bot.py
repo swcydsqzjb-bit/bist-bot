@@ -408,7 +408,7 @@ def intraday_scan():
 if __name__ == "__main__":
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
-    if now.weekday() >= 5:
+    if now.weekday() >= 5 and MODE != "test_akd":
         exit()
 
     if MODE == "daily":
