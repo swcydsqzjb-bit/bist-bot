@@ -696,7 +696,6 @@ print("MODE:", MODE, flush=True)
 
 if "test_akd" in str(MODE):
     veri = telegram_veri_cek("/takas SNICA")
-    print("TAKAS TEST CEVABI:", flush=True)
-    print(veri, flush=True)
+    send_message("🧪 TAKAS TEST CEVABI:\n" + str(veri)[:3500])
 
 time.sleep(15)
