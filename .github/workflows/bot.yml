@@ -26,8 +26,9 @@ jobs:
       - name: Botu çalıştır
         run: |
           python bot.py
-          echo "---- ADAYLAR TXT ----"
-          cat adaylar.txt || echo "adaylar.txt yok"
+          echo SNICA > adaylar.txt
+          echo ---- ADAYLAR TXT ----
+          cat adaylar.txt || echo adaylar_txt_yok
           python akd_reader.py
         env:
           TOKEN: ${{ secrets.TOKEN }}
