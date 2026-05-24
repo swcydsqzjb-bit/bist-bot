@@ -293,6 +293,10 @@ def daily_scan():
     if not sonuclar:
         mesaj += "Bugün uygun aday çıkmadı."
 
+    with open("adaylar.txt", "w", encoding="utf-8") as f:
+        for item in sonuclar[:10]:
+            f.write(item[0] + "\n")
+    
     send_message(mesaj)
 
 def intraday_scan():
