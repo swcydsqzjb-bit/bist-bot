@@ -40,8 +40,8 @@ def main():
                 for x in f.readlines()
                 if x.strip()
             ]))
-except:
-    hisseler = []
+    except Exception:
+        hisseler = []
 
 if not hisseler:
     send_message("❌ adaylar.txt boş veya bulunamadı")
