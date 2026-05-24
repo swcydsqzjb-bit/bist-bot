@@ -56,7 +56,6 @@ def main():
     client.start()
 
     for hisse in hisseler[:10]:
-        send_message(f"🔍 Kontrol ediliyor: {hisse}")
 
 
     client.send_message(BOT_USERNAME, f"/takas {hisse}")
@@ -70,7 +69,6 @@ def main():
             takas = msg.text
             break
 
-    send_message("📊 TAKAS CEVABI:\n" + str(takas)[:3500])
 
     client.send_message(BOT_USERNAME, f"/akd {hisse}")
     time.sleep(20)
