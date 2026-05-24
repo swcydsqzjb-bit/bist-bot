@@ -27,7 +27,7 @@ jobs:
         run: |
           python bot.py
           echo "---- ADAYLAR TXT ----"
-          cat adaylar.txt || echo "adaylar.txt yok
+          cat adaylar.txt || echo "adaylar.txt yok"
           python akd_reader.py
         env:
           TOKEN: ${{ secrets.TOKEN }}
