@@ -43,9 +43,9 @@ def main():
     except Exception:
         hisseler = []
 
-if not hisseler:
-    send_message("❌ adaylar.txt boş veya bulunamadı")
-    return
+    if not hisseler:
+        send_message("❌ adaylar.txt boş veya bulunamadı")
+        return
 
     client = TelegramClient(
         StringSession(TG_SESSION),
