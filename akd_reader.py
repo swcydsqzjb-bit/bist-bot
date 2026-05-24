@@ -77,8 +77,6 @@ def main():
             "Ziraat" in takas
         )
 
-    if not guclu_takas:
-        continue
 
 
     client.send_message(BOT_USERNAME, f"/akd {hisse}")
