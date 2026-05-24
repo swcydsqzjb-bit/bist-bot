@@ -18,6 +18,16 @@ def send_message(text):
     )
     print("Telegram cevap:", r.status_code, r.text, flush=True)
 
+def send_photo(photo_path, caption=""):
+    url = f"https://api.telegram.org/bot{TOKEN}/sendPhoto"
+    with open(photo_path, "rb") as photo:
+        r = requests.post(
+            url,
+            data={"chat_id": CHAT_ID, "caption": caption},
+            files={"photo": photo}
+        )
+    print("Foto cevap:", r.status_code, r.text, flush=True)
+
 client = TelegramClient(
     StringSession(TG_SESSION),
     TG_API_ID,
@@ -49,4 +59,19 @@ with client:
     time.sleep(15)
     akd = son_cevabi_oku("Aracı Kurum")
 
-    send_message("🏦 AKD CEVABI:\n" + str(akd)[:3500])
+    client.send_message("ucretsizderinlikbot", f"/akd {hisse}")
+time.sleep(15)
+
+mesajlar = client.get_messages("ucretsizderinlikbot", limit=8)
+
+akd_bulundu = False
+
+for msg in mesajlar:
+    if msg.photo:
+        dosya = client.download_media(msg, file="akd.png")
+        send_photo(dosya, f"🏦 {hisse} AKD Görseli")
+        akd_bulundu = True
+        break
+
+if not akd_bulundu:
+    send_message("❌ AKD görseli bulunamadı")
