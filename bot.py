@@ -266,7 +266,10 @@ def daily_scan():
         ),
         reverse=True
     )
-
+    with open("adaylar.txt", "w", encoding="utf-8") as f:
+        for item in sonuclar[:10]:
+            f.write(item[0] + "\n")
+            
     mesaj = "📊 BIST SABAH 09:30 PRO TARAMA\n"
     mesaj += f"Toplam liste: {len(hisseler)}\n"
     mesaj += f"Başarılı aday: {basarili}\n"
@@ -403,6 +406,10 @@ def intraday_scan():
                 f"Son 3 mum: %{son3}\n"
                 f"Filtre: Fake breakout elendi ✅\n\n"
             )
+        with open("adaylar.txt", "a", encoding="utf-8") as f:
+            for item in alarm_listesi[:10]:
+                f.write(item[0] + "\n")
+        
         send_message(mesaj)
 
 if __name__ == "__main__":
@@ -625,6 +632,9 @@ def hazirlik_15dk_5dk_tetik_scan():
                 f"5DK Son 3 mum: %{son3} | Kapanış gücü: {kapanis}\n"
                 f"Sinyal: 🔴 ARTIK HAZIR OL / TETİK GELDİ\n\n"
             )
+        with open("adaylar.txt", "w", encoding="utf-8") as f:
+            for item in adaylar[:10]:
+                f.write(item[0] + "\n")
 
         send_message(mesaj)
     else:
