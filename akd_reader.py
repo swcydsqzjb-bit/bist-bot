@@ -65,9 +65,7 @@ def main():
 
         for msg in mesajlar:
             try:
-                msg.click(text="7G")
-                time.sleep(8)
-                break
+                print(msg.buttons)
             except Exception:
                 pass
         
