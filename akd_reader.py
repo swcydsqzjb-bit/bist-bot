@@ -11,69 +11,72 @@ TG_API_ID = int(os.getenv("TG_API_ID"))
 TG_API_HASH = os.getenv("TG_API_HASH")
 TG_SESSION = os.getenv("TG_SESSION")
 
+BOT_USERNAME = "ucretsizderinlikbot"
+
+
 def send_message(text):
     r = requests.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
         data={"chat_id": CHAT_ID, "text": text}
     )
-    print("Telegram cevap:", r.status_code, r.text, flush=True)
+    print("Telegram mesaj:", r.status_code, r.text, flush=True)
+
 
 def send_photo(photo_path, caption=""):
-    url = f"https://api.telegram.org/bot{TOKEN}/sendPhoto"
     with open(photo_path, "rb") as photo:
         r = requests.post(
-            url,
+            f"https://api.telegram.org/bot{TOKEN}/sendPhoto",
             data={"chat_id": CHAT_ID, "caption": caption},
             files={"photo": photo}
         )
-    print("Foto cevap:", r.status_code, r.text, flush=True)
-
-client = TelegramClient(
-    StringSession(TG_SESSION),
-    TG_API_ID,
-    TG_API_HASH
-)
-
-def son_cevabi_oku(aranan_kelime, limit=8):
-    mesajlar = client.get_messages("ucretsizderinlikbot", limit=limit)
-
-    for msg in mesajlar:
-        if msg.text and aranan_kelime in msg.text:
-            return msg.text
-
-    return "Cevap bulunamadı"
+    print("Telegram foto:", r.status_code, r.text, flush=True)
 
 
-with client:
+def main():
     hisse = "SNICA"
+
+    client = TelegramClient(
+        StringSession(TG_SESSION),
+        TG_API_ID,
+        TG_API_HASH
+    )
+
+    client.start()
 
     send_message("🧪 AKD/Takas test başladı")
 
-    client.send_message("ucretsizderinlikbot", f"/takas {hisse}")
+    client.send_message(BOT_USERNAME, f"/takas {hisse}")
     time.sleep(10)
-    takas = son_cevabi_oku("Takas")
+
+    takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
+    takas = "Takas cevabı bulunamadı"
+
+    for msg in takas_mesajlari:
+        if msg.text and "Takas" in msg.text:
+            takas = msg.text
+            break
 
     send_message("📊 TAKAS CEVABI:\n" + str(takas)[:3500])
 
-    client.send_message("ucretsizderinlikbot", f"/akd {hisse}")
-    time.sleep(15)
-    akd = son_cevabi_oku("Aracı Kurum")
+    client.send_message(BOT_USERNAME, f"/akd {hisse}")
+    time.sleep(20)
 
-    client.send_message("ucretsizderinlikbot", f"/akd {hisse}")
-time.sleep(15)
+    akd_mesajlari = client.get_messages(BOT_USERNAME, limit=10)
+    akd_bulundu = False
 
-mesajlar = client.get_messages("ucretsizderinlikbot", limit=8)
+    for msg in akd_mesajlari:
+        if msg.media:
+            dosya = client.download_media(msg, file="akd_gorsel.png")
+            if dosya:
+                send_photo(dosya, f"🏦 {hisse} AKD Görseli")
+                akd_bulundu = True
+                break
 
-akd_bulundu = False
+    if not akd_bulundu:
+        send_message("❌ AKD görseli bulunamadı")
 
-for msg in mesajlar:
-    if msg.media:
-        dosya = client.download_media(msg, file="akd.png")
+    client.disconnect()
 
-        if dosya:
-            send_photo(dosya, f"🏦 {hisse} AKD Görseli")
-            akd_bulundu = True
-            break
 
-if not akd_bulundu:
-    send_message("❌ AKD görseli bulunamadı")
+if __name__ == "__main__":
+    main()
