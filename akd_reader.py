@@ -33,7 +33,19 @@ def send_photo(photo_path, caption=""):
 
 
 def main():
-    hisse = "SNICA"
+    try:
+    with open("adaylar.txt", "r", encoding="utf-8") as f:
+        hisseler = list(dict.fromkeys([
+            x.strip().upper()
+            for x in f.readlines()
+            if x.strip()
+        ]))
+except:
+    hisseler = []
+
+if not hisseler:
+    send_message("❌ adaylar.txt boş veya bulunamadı")
+    return
 
     client = TelegramClient(
         StringSession(TG_SESSION),
@@ -43,7 +55,9 @@ def main():
 
     client.start()
 
-    send_message("🧪 AKD/Takas test başladı")
+    for hisse in hisseler[:10]:
+        send_message(f"🔍 Kontrol ediliyor: {hisse}")
+
 
     client.send_message(BOT_USERNAME, f"/takas {hisse}")
     time.sleep(10)
@@ -75,7 +89,8 @@ def main():
     if not akd_bulundu:
         send_message("❌ AKD görseli bulunamadı")
 
-    client.disconnect()
+
+client.disconnect()
 
 
 if __name__ == "__main__":
