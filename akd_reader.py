@@ -58,27 +58,27 @@ def main():
     for hisse in hisseler[:10]:
 
 
-    client.send_message(BOT_USERNAME, f"/takas {hisse}")
-    time.sleep(10)
+        client.send_message(BOT_USERNAME, f"/takas {hisse}")
+        time.sleep(10)
 
-    takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
-    takas = "Takas cevabı bulunamadı"
+        takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
+        takas = "Takas cevabı bulunamadı"
 
-    for msg in takas_mesajlari:
-        if msg.text and "Takas" in msg.text:
-            takas = msg.text
-            break
+        for msg in takas_mesajlari:
+            if msg.text and "Takas" in msg.text:
+                takas = msg.text
+                break
 
-    guclu_takas = (
-        "BofA" in takas or
-        "İş" in takas or
-        "Garanti" in takas or
-        "Yapı Kr." in takas or
-        "Ziraat" in takas
-    )
+        guclu_takas = (
+            "BofA" in takas or
+            "İş" in takas or
+            "Garanti" in takas or
+            "Yapı Kr." in takas or
+            "Ziraat" in takas
+        )
 
-if not guclu_takas:
-    continue
+    if not guclu_takas:
+        continue
 
 
     client.send_message(BOT_USERNAME, f"/akd {hisse}")
