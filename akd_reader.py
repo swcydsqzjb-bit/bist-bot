@@ -67,11 +67,13 @@ mesajlar = client.get_messages("ucretsizderinlikbot", limit=8)
 akd_bulundu = False
 
 for msg in mesajlar:
-    if msg.photo:
+    if msg.media:
         dosya = client.download_media(msg, file="akd.png")
-        send_photo(dosya, f"🏦 {hisse} AKD Görseli")
-        akd_bulundu = True
-        break
+
+        if dosya:
+            send_photo(dosya, f"🏦 {hisse} AKD Görseli")
+            akd_bulundu = True
+            break
 
 if not akd_bulundu:
     send_message("❌ AKD görseli bulunamadı")
