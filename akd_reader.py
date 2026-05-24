@@ -34,12 +34,12 @@ def send_photo(photo_path, caption=""):
 
 def main():
     try:
-    with open("adaylar.txt", "r", encoding="utf-8") as f:
-        hisseler = list(dict.fromkeys([
-            x.strip().upper()
-            for x in f.readlines()
-            if x.strip()
-        ]))
+        with open("adaylar.txt", "r", encoding="utf-8") as f:
+            hisseler = list(dict.fromkeys([
+                x.strip().upper()
+                for x in f.readlines()
+                if x.strip()
+            ]))
 except:
     hisseler = []
 
