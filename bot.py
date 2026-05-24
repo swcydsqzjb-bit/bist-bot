@@ -648,8 +648,8 @@ def hazirlik_15dk_5dk_tetik_scan():
 if __name__ == "__main__":
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
-    if now.weekday() >= 5:
-        exit()
+    if now.weekday() >= 5 and MODE != "daily":
+    exit()
 
     if MODE == "daily":
         daily_scan()
