@@ -90,7 +90,7 @@ def main():
         send_message("❌ AKD görseli bulunamadı")
 
 
-client.disconnect()
+    client.disconnect()
 
 
 if __name__ == "__main__":
