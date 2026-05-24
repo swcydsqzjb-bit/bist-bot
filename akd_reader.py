@@ -69,6 +69,17 @@ def main():
             takas = msg.text
             break
 
+    guclu_takas = (
+        "BofA" in takas or
+        "İş" in takas or
+        "Garanti" in takas or
+        "Yapı Kr." in takas or
+        "Ziraat" in takas
+    )
+
+if not guclu_takas:
+    continue
+
 
     client.send_message(BOT_USERNAME, f"/akd {hisse}")
     time.sleep(20)
