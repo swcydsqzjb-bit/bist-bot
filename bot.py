@@ -269,6 +269,10 @@ def daily_scan():
     with open("adaylar.txt", "w", encoding="utf-8") as f:
         for item in sonuclar[:10]:
             f.write(item[0] + "\n")
+
+    if not sonuclar:
+        with open("adaylar.txt", "w", encoding="utf-8") as f:
+            f.write("SNICA\n")
             
     mesaj = "📊 BIST SABAH 09:30 PRO TARAMA\n"
     mesaj += f"Toplam liste: {len(hisseler)}\n"
