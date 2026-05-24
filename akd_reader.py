@@ -61,6 +61,17 @@ def main():
         client.send_message(BOT_USERNAME, f"/takas {hisse}")
         time.sleep(10)
 
+        mesajlar = client.get_messages(BOT_USERNAME, limit=3)
+
+        for msg in mesajlar:
+            try:
+                msg.click(text="7G")
+                time.sleep(8)
+                break
+            except Exception:
+                pass
+        
+
         takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
         takas = "Takas cevabı bulunamadı"
 
