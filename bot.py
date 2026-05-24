@@ -649,7 +649,7 @@ if __name__ == "__main__":
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
     if now.weekday() >= 5 and MODE != "daily":
-    exit()
+        exit()
 
     if MODE == "daily":
         daily_scan()
