@@ -104,6 +104,37 @@ def daily_scan():
             last_rsi = float(rsi.iloc[-1])
             last_volavg20 = float(volavg20.iloc[-1])
             formasyon = formasyon_etiketi(close, high, low, volume)
+
+            ai_skor = 0
+
+            if hacim_orani > 1.5:
+                ai_skor += 20
+
+            if 50 < last_rsi < 65:
+                ai_skor += 15
+
+            if last_close > last_ema20:
+                ai_skor += 15
+
+            if last_ema20 > last_ema50:
+                ai_skor += 10
+
+            if duseni_kirdi:
+                ai_skor += 15
+
+            if sikisma:
+                ai_skor += 10
+
+            if formasyon != "Yok":
+                ai_skor += 10
+
+            if sahte_toplama_riski:
+                ai_skor -= 20
+
+            if perf_20g > 25:
+                ai_skor -= 15
+
+            ai_skor = max(0, min(100, ai_skor))
             
             prev_high_20 = float(high.tail(20).max())
 
@@ -166,6 +197,15 @@ def daily_scan():
             onceki15_hacim = float(volume.iloc[-20:-5].mean())
 
             sikisma = son20_range < 22
+
+            haber_oncesi = (
+                hacim_orani > 1.3 and
+                50 < last_rsi < 65 and
+                son20_range < 18 and
+                last_close > last_ema20 and
+                perf_5g > 0 and
+                perf_20g < 15
+            )
             trend_destegi = (
                 last_close > last_ema20 and
                 last_ema20 > last_ema50 and
@@ -262,6 +302,8 @@ def daily_scan():
                 durumlar.append("✅ FAZLA ŞİŞMEMİŞ")
             if sahte_toplama_riski:
                 durumlar.append("⚠️ SAHTE RİSK")
+            if haber_oncesi:
+                durumlar.append("🕵️ HABER ÖNCESİ")
 
             basarili += 1
 
@@ -278,7 +320,9 @@ def daily_scan():
                 round(perf_20g, 1),
                 round(son20_range, 1),
                 " ".join(durumlar),
-                formasyon
+                formasyon,
+                ai_skor
+    
             ))
 
             time.sleep(0.03)
@@ -313,9 +357,10 @@ def daily_scan():
     mesaj += f"Hata sayısı: {hata}\n\n"
     mesaj += "🔥 İlk patlama adayları:\n\n"
 
-    for kod, fiyat, rsi, pskor, tskor, hacim, zirve, ema20fark, perf5, perf20, range20, durum, formasyon in sonuclar[:10]:
+    for kod, fiyat, rsi, pskor, tskor, hacim, zirve, ema20fark, perf5, perf20, range20, durum, formasyon, ai_skor in sonuclar[:10]:
         mesaj += (
             f"{kod} | Fiyat: {fiyat}\n"
+            f"AI Skor: {ai_skor}/100\n"
             f"RSI: {rsi} | Patlama: {pskor}/12 | Toplanma: {tskor}/6\n"
             f"Hacim: {hacim}x | Zirve uzaklık: %{zirve}\n"
             f"EMA20 fark: %{ema20fark} | 5g: %{perf5} | 20g: %{perf20}\n"
