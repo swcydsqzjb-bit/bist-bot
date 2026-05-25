@@ -299,6 +299,14 @@ def daily_scan():
                 f.write(item[0] + "\n")
         else:
             f.write("SNICA\n")
+
+    from datetime import datetime
+
+    saat = datetime.now(ZoneInfo("Europe/Istanbul")).strftime("%H:%M")
+
+    if saat != "09:30":
+        print("Sabah taraması saati değil")
+        return
     
     send_message(mesaj)
 
