@@ -67,21 +67,21 @@ def main():
         mesajlar = client.get_messages(BOT_USERNAME, limit=5)
 
         for msg in mesajlar:
-    if msg.buttons and msg.text and hisse in msg.text:
-        try:
-            msg.click(text="7G")
-            time.sleep(8)
+            if msg.buttons and msg.text and hisse in msg.text:
+                try:
+                       msg.click(text="7G")
+                       time.sleep(8)
 
-            yeni_mesajlar = client.get_messages(BOT_USERNAME, limit=5)
+                       yeni_mesajlar = client.get_messages(BOT_USERNAME, limit=5)
 
-            for yeni in yeni_mesajlar:
-                if yeni.id > onceki_id and yeni.media:
-                    dosya = client.download_media(yeni.media)
-                    if dosya:
-                        send_photo(dosya, f"📊 {hisse} 7G Takas Görseli")
-                    break
+                       for yeni in yeni_mesajlar:
+                           if yeni.id > onceki_id and yeni.media:
+                               dosya = client.download_media(yeni.media)
+                               if dosya:
+                                   send_photo(dosya, f"📊 {hisse} 7G Takas Görseli")
+                               break
 
-            break
+                       break
 
         except Exception as e:
             print("7G tıklama hatası:", e)
