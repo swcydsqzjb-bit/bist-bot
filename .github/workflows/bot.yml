@@ -28,7 +28,7 @@ jobs:
           python bot.py
           echo ---- ADAYLAR TXT ----
           cat adaylar.txt || echo adaylar_txt_yok
-          python akd_reader.py
+          #python akd_reader.py
         env:
           TOKEN: ${{ secrets.TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
