@@ -61,25 +61,30 @@ def main():
         client.send_message(BOT_USERNAME, f"/takas {hisse}")
         time.sleep(10)
 
-        mesajlar = client.get_messages(BOT_USERNAME, limit=3)
+
+        onceki_id = client.get_messages(BOT_USERNAME, limit=1)[0].id
+
+        mesajlar = client.get_messages(BOT_USERNAME, limit=5)
 
         for msg in mesajlar:
-            if msg.buttons:
-                try:
-                    msg.click(text="7G")
-                    time.sleep(8)
+    if msg.buttons and msg.text and hisse in msg.text:
+        try:
+            msg.click(text="7G")
+            time.sleep(8)
 
-                    guncel = client.get_messages(BOT_USERNAME, ids=msg.id)
+            yeni_mesajlar = client.get_messages(BOT_USERNAME, limit=5)
 
-                    if guncel.media:
-                        dosya = client.download_media(guncel.media)
-                        if dosya:
-                            send_photo(dosya, f"📊 {hisse} 7G Takas Görseli")
-                    elif guncel.text:
-                        send_message(f"📊 {hisse} 7G TAKAS:\n" + guncel.text[:3000])
+            for yeni in yeni_mesajlar:
+                if yeni.id > onceki_id and yeni.media:
+                    dosya = client.download_media(yeni.media)
+                    if dosya:
+                        send_photo(dosya, f"📊 {hisse} 7G Takas Görseli")
                     break
-                except Exception as e:
-                    print("7G tiklama hatasi:", e)
+
+            break
+
+        except Exception as e:
+            print("7G tıklama hatası:", e)
         
 
         takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
