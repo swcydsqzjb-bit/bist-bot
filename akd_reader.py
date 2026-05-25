@@ -64,10 +64,13 @@ def main():
         mesajlar = client.get_messages(BOT_USERNAME, limit=3)
 
         for msg in mesajlar:
-            try:
-                print(msg.buttons)
-            except Exception:
-                pass
+            if msg.buttons:
+                for row in msg.buttons:
+                    for btn in row:
+                        try:
+                            print("BUTTON:", btn.text)
+                        except Exception:
+                            pass
         
 
         takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
