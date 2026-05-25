@@ -34,6 +34,37 @@ def clean_df(df):
         df.columns = df.columns.get_level_values(0)
     return df
 
+def formasyon_etiketi(close, high, low, volume):
+    etiketler = []
+
+    son20_range = (
+        (float(high.tail(20).max()) - float(low.tail(20).min()))
+        / float(low.tail(20).min()) * 100
+    )
+
+    son10_getiri = ((float(close.iloc[-1]) / float(close.iloc[-11])) - 1) * 100
+    son20_getiri = ((float(close.iloc[-1]) / float(close.iloc[-21])) - 1) * 100
+
+    # Çanak: önce düşüş, sonra toparlanma, direnç bölgesine yaklaşma
+    sol = float(close.iloc[-30])
+    dip = float(close.iloc[-15:-5].min())
+    son = float(close.iloc[-1])
+    if sol > dip and son > dip * 1.08 and son < sol * 1.08:
+        etiketler.append("🟢 ÇANAK")
+
+    # Üçgen / sıkışma: dar bant
+    if son20_range < 12:
+        etiketler.append("🔺 ÜÇGEN/SIKIŞMA")
+
+    # Flama: önce sert yükseliş, sonra dar bantta dinlenme
+    if son20_getiri > 12 and son10_getiri < 6 and son20_range < 16:
+        etiketler.append("🟡 FLAMA")
+
+    if not etiketler:
+        return "Yok"
+
+    return " ".join(etiketler)
+
 def daily_scan():
     hisseler = get_symbols()
     sonuclar = []
@@ -72,7 +103,8 @@ def daily_scan():
             last_ema50 = float(ema50.iloc[-1])
             last_rsi = float(rsi.iloc[-1])
             last_volavg20 = float(volavg20.iloc[-1])
-
+            formasyon = formasyon_etiketi(close, high, low, volume)
+            
             prev_high_20 = float(high.tail(20).max())
 
             hacim_orani = last_volume / last_volavg20 if last_volavg20 > 0 else 0
@@ -245,7 +277,8 @@ def daily_scan():
                 round(perf_5g, 1),
                 round(perf_20g, 1),
                 round(son20_range, 1),
-                " ".join(durumlar)
+                " ".join(durumlar),
+                formasyon
             ))
 
             time.sleep(0.03)
@@ -280,7 +313,7 @@ def daily_scan():
     mesaj += f"Hata sayısı: {hata}\n\n"
     mesaj += "🔥 İlk patlama adayları:\n\n"
 
-    for kod, fiyat, rsi, pskor, tskor, hacim, zirve, ema20fark, perf5, perf20, range20, durum in sonuclar[:10]:
+    for kod, fiyat, rsi, pskor, tskor, hacim, zirve, ema20fark, perf5, perf20, range20, durum, formasyon in sonuclar[:10]:
         mesaj += (
             f"{kod} | Fiyat: {fiyat}\n"
             f"RSI: {rsi} | Patlama: {pskor}/12 | Toplanma: {tskor}/6\n"
@@ -288,6 +321,7 @@ def daily_scan():
             f"EMA20 fark: %{ema20fark} | 5g: %{perf5} | 20g: %{perf20}\n"
             f"20g Bant: %{range20}\n"
             f"Sinyal: {durum}\n\n"
+            f"Formasyon: {formasyon}\n\n"
         )
 
     if not sonuclar:
