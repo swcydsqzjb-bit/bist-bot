@@ -65,12 +65,12 @@ def main():
 
         for msg in mesajlar:
             if msg.buttons:
-                for row in msg.buttons:
-                    for btn in row:
-                        try:
-                            print("BUTTON:", btn.text)
-                        except Exception:
-                            pass
+                try:
+                    msg.click(text="7G")
+                    time.sleep(8)
+                    break
+                except Exception as e:
+                    print("7G tiklama hatasi:", e)
         
 
         takas_mesajlari = client.get_messages(BOT_USERNAME, limit=8)
