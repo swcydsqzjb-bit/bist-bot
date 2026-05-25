@@ -68,6 +68,15 @@ def main():
                 try:
                     msg.click(text="7G")
                     time.sleep(8)
+
+                    guncel = client.get_messages(BOT_USERNAME, ids=msg.id)
+
+                    if guncel.media:
+                        dosya = client.download_media(guncel.media)
+                        if dosya:
+                            send_photo(dosya, f"📊 {hisse} 7G Takas Görseli")
+                    elif guncel.text:
+                        send_message(f"📊 {hisse} 7G TAKAS:\n" + guncel.text[:3000])
                     break
                 except Exception as e:
                     print("7G tiklama hatasi:", e)
