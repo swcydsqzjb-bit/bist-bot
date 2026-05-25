@@ -81,7 +81,6 @@ def main():
                                 send_photo(dosya, f"📊 {hisse} 7G Takas Görseli")
                             break
 
-                break
 
                 except Exception as e:
                     print("7G tıklama hatası:", e)
