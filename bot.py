@@ -304,11 +304,9 @@ def daily_scan():
 
     saat = datetime.now(ZoneInfo("Europe/Istanbul")).strftime("%H:%M")
 
-    if saat != "09:30":
-        print("Sabah taraması saati değil")
-        return
+    if saat == "09:30":
+        send_message(mesaj)
     
-    send_message(mesaj)
 
 def intraday_scan():
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
