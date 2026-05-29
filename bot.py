@@ -740,6 +740,8 @@ def hazirlik_15dk_5dk_tetik_scan():
 if __name__ == "__main__":
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
+    send_message(f"🧪 TEST | Bot çalıştı | MODE={MODE} | Saat={now.strftime('%H:%M')}")
+    
     if now.weekday() >= 5 and MODE != "daily":
         exit()
 
