@@ -741,6 +741,7 @@ if __name__ == "__main__":
     now = datetime.now(ZoneInfo("Europe/Istanbul"))
 
     send_message(f"🧪 TEST | Bot çalıştı | MODE={MODE} | Saat={now.strftime('%H:%M')}")
+    send_message("🧪 AUTO BLOĞUNA GİRDİ")
     
     if now.weekday() >= 5 and MODE != "daily":
         exit()
@@ -753,10 +754,15 @@ if __name__ == "__main__":
         hazirlik_15dk_5dk_tetik_scan()
 
     else:
-        if now.hour == 9 and 30 <= now.minute < 45:
-            daily_scan()
-        elif 10 <= now.hour <= 18:
-                intraday_scan()
-                hazirlik_15dk_5dk_tetik_scan()
+        send_message("🧪 AUTO MODE ÇALIŞIYOR")
+
+    if now.hour == 9 and 25 <= now.minute <= 45:
+        send_message("🧪 DAILY ÇALIŞACAK")
+        daily_scan()
+
+    if 10 <= now.hour <= 18:
+        send_message("🧪 INTRADAY ÇALIŞACAK")
+        intraday_scan()
+        hazirlik_15dk_5dk_tetik_scan() 
             
 time.sleep(15)
