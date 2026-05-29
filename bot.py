@@ -754,14 +754,14 @@ if __name__ == "__main__":
         hazirlik_15dk_5dk_tetik_scan()
 
     else:
-        send_message("🧪 AUTO MODE ÇALIŞIYOR")
+        #send_message("🧪 AUTO MODE ÇALIŞIYOR")
 
     if now.hour == 9 and 25 <= now.minute <= 45:
-        send_message("🧪 DAILY ÇALIŞACAK")
+        #send_message("🧪 DAILY ÇALIŞACAK")
         daily_scan()
 
     if 10 <= now.hour <= 18:
-        send_message("🧪 INTRADAY ÇALIŞACAK")
+        #send_message("🧪 INTRADAY ÇALIŞACAK")
         intraday_scan()
         hazirlik_15dk_5dk_tetik_scan() 
             
