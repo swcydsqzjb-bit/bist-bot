@@ -754,55 +754,7 @@ if __name__ == "__main__":
         if now.hour == 9 and 30 <= now.minute < 45:
             daily_scan()
         elif 10 <= now.hour <= 18:
-            intraday_scan()
-            hazirlik_15dk_5dk_tetik_scan()
-
-# =========================
-# AKD / TAKAS OKUYUCU
-# =========================
-
-from telethon.sync import TelegramClient
-from telethon.sessions import StringSession
-
-TG_API_ID = os.getenv("TG_API_ID")
-TG_API_HASH = os.getenv("TG_API_HASH")
-TG_SESSION = os.getenv("TG_SESSION")
-
-client = TelegramClient(
-    StringSession(TG_SESSION),
-    int(TG_API_ID),
-    TG_API_HASH
-)
-
-def telegram_veri_cek(komut):
-    try:
-        client.start()
-
-        mesaj = client.send_message(
-            "ucretsizderinlikbot",
-            komut
-        )
-
-        time.sleep(5)
-
-        cevaplar = client.get_messages(
-            "ucretsizderinlikbot",
-            limit=1
-        )
-
-        if cevaplar:
-            return cevaplar[0].text
-
-        return "Veri bulunamadı"
-
-    except Exception as e:
-        return f"Hata: {e}"
-
-print("MODE TEST:", MODE, flush=True)
-
-if "test_akd" in str(MODE):
-    send_message("🧪 test_akd bloğuna girdim")
-    veri = telegram_veri_cek("/takas SNICA")
-    send_message("🧪 TAKAS TEST CEVABI:\n" + str(veri)[:3500])
-
+                intraday_scan()
+                hazirlik_15dk_5dk_tetik_scan()
+            
 time.sleep(15)
