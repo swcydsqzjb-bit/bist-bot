@@ -760,7 +760,7 @@ if __name__ == "__main__":
             #send_message("🧪 DAILY ÇALIŞACAK")
             daily_scan()
 
-        if 10 <= now.hour <= 18:
+        if 0 <= now.hour <= 23:
             #send_message("🧪 INTRADAY ÇALIŞACAK")
             intraday_scan()
             hazirlik_15dk_5dk_tetik_scan() 
