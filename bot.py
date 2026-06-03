@@ -756,7 +756,7 @@ if __name__ == "__main__":
     else:
         #send_message("🧪 AUTO MODE ÇALIŞIYOR")
 
-        if now.hour == 9 and 25 <= now.minute <= 45:
+        if now.hour == 9:
             #send_message("🧪 DAILY ÇALIŞACAK")
             daily_scan()
 
