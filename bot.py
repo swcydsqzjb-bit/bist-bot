@@ -379,11 +379,7 @@ def daily_scan():
         else:
             f.write("SNICA\n")
 
-    from datetime import datetime
 
-    saat = datetime.now(ZoneInfo("Europe/Istanbul")).strftime("%H:%M")
-
-    if saat == "09:30":
         send_message(mesaj)
     
 
