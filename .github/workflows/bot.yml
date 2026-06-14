@@ -35,5 +35,5 @@ jobs:
           TG_API_ID: ${{ secrets.TG_API_ID }}
           TG_API_HASH: ${{ secrets.TG_API_HASH }}
           TG_SESSION: ${{ secrets.TG_SESSION }}
-          BOT_MODE: daily
+          BOT_MODE: auto
 # refresh
