@@ -105,6 +105,14 @@ def daily_scan():
             last_volavg20 = float(volavg20.iloc[-1])
             formasyon = formasyon_etiketi(close, high, low, volume)
 
+            
+            
+            prev_high_20 = float(high.tail(20).max())
+
+            hacim_orani = last_volume / last_volavg20 if last_volavg20 > 0 else 0
+            zirve_uzaklik = ((prev_high_20 - last_close) / prev_high_20) * 100
+            ema20_uzaklik = ((last_close - last_ema20) / last_ema20) * 100
+
             ai_skor = 0
 
             if hacim_orani > 1.5:
@@ -135,12 +143,6 @@ def daily_scan():
                 ai_skor -= 15
 
             ai_skor = max(0, min(100, ai_skor))
-            
-            prev_high_20 = float(high.tail(20).max())
-
-            hacim_orani = last_volume / last_volavg20 if last_volavg20 > 0 else 0
-            zirve_uzaklik = ((prev_high_20 - last_close) / prev_high_20) * 100
-            ema20_uzaklik = ((last_close - last_ema20) / last_ema20) * 100
 
             perf_5g = ((last_close / float(close.iloc[-6])) - 1) * 100
             perf_10g = ((last_close / float(close.iloc[-11])) - 1) * 100
@@ -327,7 +329,7 @@ def daily_scan():
 
             time.sleep(0.03)
 
-        except Exception:
+        except Exception as e:
             hata += 1
             print(f"{hisse} HATA: {e}")
     sonuclar = sorted(
