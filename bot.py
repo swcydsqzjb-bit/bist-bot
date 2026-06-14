@@ -329,7 +329,7 @@ def daily_scan():
 
         except Exception:
             hata += 1
-
+            print(f"{hisse} HATA: {e}")
     sonuclar = sorted(
         sonuclar,
         key=lambda x: (
