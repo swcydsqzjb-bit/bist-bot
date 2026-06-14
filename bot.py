@@ -113,36 +113,7 @@ def daily_scan():
             zirve_uzaklik = ((prev_high_20 - last_close) / prev_high_20) * 100
             ema20_uzaklik = ((last_close - last_ema20) / last_ema20) * 100
 
-            ai_skor = 0
-
-            if hacim_orani > 1.5:
-                ai_skor += 20
-
-            if 50 < last_rsi < 65:
-                ai_skor += 15
-
-            if last_close > last_ema20:
-                ai_skor += 15
-
-            if last_ema20 > last_ema50:
-                ai_skor += 10
-
-            if duseni_kirdi:
-                ai_skor += 15
-
-            if sikisma:
-                ai_skor += 10
-
-            if formasyon != "Yok":
-                ai_skor += 10
-
-            if sahte_toplama_riski:
-                ai_skor -= 20
-
-            if perf_20g > 25:
-                ai_skor -= 15
-
-            ai_skor = max(0, min(100, ai_skor))
+            
 
             perf_5g = ((last_close / float(close.iloc[-6])) - 1) * 100
             perf_10g = ((last_close / float(close.iloc[-11])) - 1) * 100
@@ -292,6 +263,37 @@ def daily_scan():
 
             if patlama_skor < 7:
                 continue
+
+            ai_skor = 0
+
+            if hacim_orani > 1.5:
+                ai_skor += 20
+
+            if 50 < last_rsi < 65:
+                ai_skor += 15
+
+            if last_close > last_ema20:
+                ai_skor += 15
+
+            if last_ema20 > last_ema50:
+                ai_skor += 10
+
+            if duseni_kirdi:
+                ai_skor += 15
+
+            if sikisma:
+                ai_skor += 10
+
+            if formasyon != "Yok":
+                ai_skor += 10
+
+            if sahte_toplama_riski:
+                ai_skor -= 20
+
+            if perf_20g > 25:
+                ai_skor -= 15
+
+            ai_skor = max(0, min(100, ai_skor))
 
             durumlar = []
             if gercek_toplama:
