@@ -26,6 +26,7 @@ jobs:
       - name: Botu çalıştır
         run: |
           python bot.py
+          python leader_lag.py
           echo ---- ADAYLAR TXT ----
           cat adaylar.txt || echo adaylar_txt_yok
           #python akd_reader.py
