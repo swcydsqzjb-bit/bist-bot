@@ -31,7 +31,7 @@ SYMBOL_SOURCE_URL = (
     "https://stockanalysis.com/list/borsa-istanbul/"
 )
 
-DAILY_PERIOD = "1y"
+DAILY_PERIOD = "3y"
 DAILY_INTERVAL = "1d"
 
 MIN_DAILY_BARS = 120
