@@ -2,39 +2,89 @@ name: BIST BOT
 
 on:
   workflow_dispatch:
+
   schedule:
     - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bist-bot
+  cancel-in-progress: false
 
 jobs:
   scan:
     runs-on: ubuntu-latest
 
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+      TG_API_ID: ${{ secrets.TG_API_ID }}
+      TG_API_HASH: ${{ secrets.TG_API_HASH }}
+      TG_SESSION: ${{ secrets.TG_SESSION }}
+      BOT_MODE: auto
+
     steps:
-      - name: Repo çek
+      - name: Repoyu çek
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Python kur
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+          cache: pip
 
-      - name: Kütüphaneler
+      - name: Kütüphaneleri kur
         run: |
           python -m pip install --upgrade pip
-          pip install pandas yfinance requests ta numpy lxml html5lib beautifulsoup4
-          pip install yfinance pandas numpy ta requests telethon
+          pip install pandas yfinance requests ta numpy lxml html5lib beautifulsoup4 telethon
+
       - name: Botu çalıştır
         run: |
           python bot.py
-          #python leader_lag.py
-          echo ---- ADAYLAR TXT ----
-          cat adaylar.txt || echo adaylar_txt_yok
-          #python akd_reader.py
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-          TG_API_ID: ${{ secrets.TG_API_ID }}
-          TG_API_HASH: ${{ secrets.TG_API_HASH }}
-          TG_SESSION: ${{ secrets.TG_SESSION }}
-          BOT_MODE: auto
-# refresh
+
+      - name: Performans geçmişini güncelle
+        run: |
+          python performance_tracker.py
+
+      - name: Oluşan dosyaları göster
+        if: always()
+        run: |
+          echo "---- ADAYLAR TXT ----"
+          if [ -f adaylar.txt ]; then
+            cat adaylar.txt
+          else
+            echo "adaylar.txt oluşmadı"
+          fi
+
+          echo "---- PERFORMANS ----"
+          if [ -f signals_history.csv ]; then
+            cat signals_history.csv
+          else
+            echo "signals_history.csv oluşmadı"
+          fi
+
+      - name: Performans geçmişini repoya kaydet
+        run: |
+          if [ ! -f signals_history.csv ]; then
+            echo "signals_history.csv bulunamadı, kayıt yapılmayacak."
+            exit 0
+          fi
+
+          git config user.name "bist-bot"
+          git config user.email "bist-bot@users.noreply.github.com"
+
+          git add signals_history.csv
+
+          if git diff --cached --quiet; then
+            echo "Performans dosyasında değişiklik yok."
+            exit 0
+          fi
+
+          git commit -m "Performans geçmişini güncelle"
+
+          git pull --rebase origin main
+          git push origin main
