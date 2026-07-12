@@ -2,6 +2,11 @@ name: BIST V3 TEST
 
 on:
   workflow_dispatch:
+    inputs:
+      symbol_limit:
+        description: "Testte taranacak hisse sayısı"
+        required: false
+        default: "50"
 
 permissions:
   contents: read
@@ -9,7 +14,10 @@ permissions:
 jobs:
   v3-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
+
+    env:
+      V3_SYMBOL_LIMIT: ${{ github.event.inputs.symbol_limit || '50' }}
 
     steps:
       - name: Repoyu çek
@@ -25,6 +33,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: V3 puanlama motorunu test et
+      - name: V3 Smart Money tarayıcısını test et
         run: |
-          python v3_scoring.py
+          python v3_scanner.py
+
+      - name: V3 sonuçlarını göster
+        if: always()
+        run: |
+          echo "===== V3 GÜNLÜK ADAYLAR ====="
+
+          if [ -f v3_today_candidates.csv ]; then
+            cat v3_today_candidates.csv
+          else
+            echo "v3_today_candidates.csv oluşmadı"
+          fi
+
+          echo "===== V3 VERİ KALİTESİ ====="
+
+          if [ -f v3_data_quality_report.csv ]; then
+            cat v3_data_quality_report.csv
+          else
+            echo "v3_data_quality_report.csv oluşmadı"
+          fi
