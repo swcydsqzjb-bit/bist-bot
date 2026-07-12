@@ -49,6 +49,10 @@ jobs:
         run: |
           python v3_performance.py
 
+      - name: V4 öğrenme motorunu çalıştır
+        run: |
+          python v4_learning.py
+          
       - name: Sonuçları göster
         if: always()
         run: |
@@ -80,6 +84,13 @@ jobs:
             exit 0
           fi
 
+          echo "===== V4 ÖĞRENME SONUÇLARI ====="
+          if [ -f v4_learning_results.csv ]; then
+            cat v4_learning_results.csv
+          else
+            echo "V4 öğrenme dosyası oluşmadı"
+          fi
+          
           git config user.name "bist-v3-bot"
           git config user.email "bist-v3-bot@users.noreply.github.com"
 
