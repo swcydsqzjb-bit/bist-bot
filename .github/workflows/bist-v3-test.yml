@@ -4,17 +4,21 @@ on:
   workflow_dispatch:
     inputs:
       symbol_limit:
-        description: "Testte taranacak hisse sayısı"
+        description: "Taranacak hisse sayısı: 50 veya tümü için 0"
         required: false
         default: "50"
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: bist-v3-test
+  cancel-in-progress: false
 
 jobs:
   v3-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
 
     env:
       TOKEN: ${{ secrets.TOKEN }}
@@ -24,6 +28,8 @@ jobs:
     steps:
       - name: Repoyu çek
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Python kur
         uses: actions/setup-python@v5
@@ -39,21 +45,55 @@ jobs:
         run: |
           python v3_main.py
 
-      - name: V3 sonuçlarını göster
+      - name: V3 performans hafızasını güncelle
+        run: |
+          python v3_performance.py
+
+      - name: Sonuçları göster
         if: always()
         run: |
-          echo "===== V3 GÜNLÜK ADAYLAR ====="
-
+          echo "===== BUGÜNÜN V3 ADAYLARI ====="
           if [ -f v3_today_candidates.csv ]; then
             cat v3_today_candidates.csv
           else
-            echo "v3_today_candidates.csv oluşmadı"
+            echo "Aday dosyası oluşmadı"
           fi
 
-          echo "===== V3 VERİ KALİTESİ ====="
-
-          if [ -f v3_data_quality_report.csv ]; then
-            cat v3_data_quality_report.csv
+          echo "===== V3 SİNYAL GEÇMİŞİ ====="
+          if [ -f v3_signals_history.csv ]; then
+            cat v3_signals_history.csv
           else
-            echo "v3_data_quality_report.csv oluşmadı"
+            echo "Geçmiş dosyası oluşmadı"
           fi
+
+          echo "===== V3 PERFORMANS ÖZETİ ====="
+          if [ -f v3_performance_summary.csv ]; then
+            cat v3_performance_summary.csv
+          else
+            echo "Özet dosyası oluşmadı"
+          fi
+
+      - name: V3 hafızasını repoya kaydet
+        run: |
+          if [ ! -f v3_signals_history.csv ]; then
+            echo "v3_signals_history.csv oluşmadı."
+            exit 0
+          fi
+
+          git config user.name "bist-v3-bot"
+          git config user.email "bist-v3-bot@users.noreply.github.com"
+
+          git add v3_signals_history.csv
+
+          if [ -f v3_performance_summary.csv ]; then
+            git add v3_performance_summary.csv
+          fi
+
+          if git diff --cached --quiet; then
+            echo "V3 performans geçmişinde değişiklik yok."
+            exit 0
+          fi
+
+          git commit -m "V3 performans geçmişini güncelle"
+          git pull --rebase origin main
+          git push origin main
