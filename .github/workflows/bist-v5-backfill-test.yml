@@ -1,0 +1,67 @@
+name: BIST V5 BACKFILL TEST
+
+on:
+  workflow_dispatch:
+    inputs:
+      symbol_limit:
+        description: "İlk testte taranacak hisse sayısı"
+        required: false
+        default: "50"
+
+      step_days:
+        description: "Kaç işlem gününde bir geçmiş tarama"
+        required: false
+        default: "10"
+
+permissions:
+  contents: read
+
+jobs:
+  backfill-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      V5_SYMBOL_LIMIT: ${{ github.event.inputs.symbol_limit || '50' }}
+      V5_STEP_DAYS: ${{ github.event.inputs.step_days || '10' }}
+
+    steps:
+      - name: Repoyu çek
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Kütüphaneleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: V5 geçmiş sinyallerini üret
+        run: |
+          python v5_backfill.py
+
+      - name: Backfill özetini göster
+        if: always()
+        run: |
+          echo "===== V5 BACKFILL DOSYASI ====="
+
+          if [ -f v5_backfill_history.csv ]; then
+            echo "Satır sayısı:"
+            wc -l v5_backfill_history.csv
+
+            echo "İlk kayıtlar:"
+            head -n 6 v5_backfill_history.csv
+          else
+            echo "v5_backfill_history.csv oluşmadı."
+          fi
+
+      - name: Backfill dosyasını indirilebilir kaydet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v5-backfill-history
+          path: v5_backfill_history.csv
+          if-no-files-found: warn
