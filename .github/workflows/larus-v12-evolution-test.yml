@@ -1,0 +1,86 @@
+name: LARUS V12 EVOLUTION TEST
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: larus-v12-evolution-test
+  cancel-in-progress: false
+
+jobs:
+  v12-evolution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Repoyu cek
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Kutuphaneleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: V12 Evolution Engine calistir
+        run: |
+          python v12_evolution.py
+
+      - name: V12 sonuclarini goster
+        if: always()
+        run: |
+          echo "===== V12 STATUS ====="
+          if [ -f v12_status.json ]; then
+            cat v12_status.json
+          else
+            echo "v12_status.json bulunamadi."
+          fi
+
+          echo ""
+          echo "===== V12 FEATURE REPORT ====="
+          if [ -f v12_feature_report.csv ]; then
+            cat v12_feature_report.csv
+          else
+            echo "v12_feature_report.csv bulunamadi."
+          fi
+
+          echo ""
+          echo "===== V12 RECOMMENDED WEIGHTS ====="
+          if [ -f v12_recommended_weights.csv ]; then
+            cat v12_recommended_weights.csv
+          else
+            echo "v12_recommended_weights.csv bulunamadi."
+          fi
+
+      - name: V12 sonuclarini GitHub'a kaydet
+        run: |
+          git config user.name "larus-alpha-bot"
+          git config user.email "larus-alpha-bot@users.noreply.github.com"
+
+          git add \
+            v12_status.json \
+            v12_feature_report.csv \
+            v12_recommended_weights.csv
+
+          git diff --cached --quiet || \
+            git commit -m "V12 evolution update"
+
+          git push
+
+      - name: Artifact olarak kaydet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: larus-v12-evolution-results
+          path: |
+            v12_status.json
+            v12_feature_report.csv
+            v12_recommended_weights.csv
+          if-no-files-found: warn
