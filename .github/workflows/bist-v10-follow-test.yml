@@ -1,0 +1,80 @@
+name: BIST V10 FOLLOW TEST
+
+on:
+  workflow_dispatch:
+    inputs:
+      symbol_limit:
+        description: "V8 ve V9 için taranacak hisse sayısı"
+        required: false
+        default: "50"
+
+      manual_leaders:
+        description: "Test liderleri; örnek THYAO,TUPRS. Boşsa V8 adayları kullanılır"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  follow-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+
+      V8_SYMBOL_LIMIT: ${{ github.event.inputs.symbol_limit || '50' }}
+      V9_SYMBOL_LIMIT: ${{ github.event.inputs.symbol_limit || '50' }}
+
+      V10_MANUAL_LEADERS: ${{ github.event.inputs.manual_leaders || '' }}
+
+    steps:
+      - name: Repoyu çek
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Kütüphaneleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: V9 lider takipçi hafızasını oluştur
+        run: |
+          python v9_leader_lag.py
+
+      - name: V8 canlı liderleri oluştur
+        run: |
+          python v8_main.py
+
+      - name: V10 takipçi adaylarını oluştur
+        run: |
+          python v10_follow_prediction.py
+
+      - name: V10 Telegram raporunu gönder
+        run: |
+          python v10_telegram.py
+
+      - name: V10 sonuçlarını göster
+        if: always()
+        run: |
+          echo "===== V10 TAKİPÇİ ADAYLARI ====="
+
+          if [ -f v10_follow_predictions.csv ]; then
+            cat v10_follow_predictions.csv
+          else
+            echo "v10_follow_predictions.csv oluşmadı."
+          fi
+
+      - name: V10 sonucunu artifact olarak kaydet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v10-follow-predictions
+          path: v10_follow_predictions.csv
+          if-no-files-found: warn
