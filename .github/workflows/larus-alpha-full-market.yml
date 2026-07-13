@@ -19,11 +19,8 @@ jobs:
       TOKEN: ${{ secrets.TOKEN }}
       CHAT_ID: ${{ secrets.CHAT_ID }}
 
-      # 0 = tum BIST hisselerini tara
       V8_SYMBOL_LIMIT: "0"
       V9_SYMBOL_LIMIT: "0"
-
-      # Bos birakilirsa V10, V8 adaylarini lider kabul eder
       V10_MANUAL_LEADERS: ""
 
     steps:
@@ -56,10 +53,7 @@ jobs:
 
           if [ -f v8_today_candidates.csv ]; then
             echo "v8_today_candidates.csv bulundu."
-            echo "Satir sayisi:"
             wc -l v8_today_candidates.csv
-
-            echo "Ilk kayitlar:"
             head -n 10 v8_today_candidates.csv
           else
             echo "HATA: v8_today_candidates.csv olusmadi."
@@ -86,96 +80,63 @@ jobs:
         run: |
           python v13_telegram.py
 
+      - name: V14 Adaptif Karar Motorunu calistir
+        run: |
+          python v14_adaptive_decision.py
+
+      - name: V14 karar dosyasini kontrol et
+        run: |
+          echo "===== V14 KARAR DOSYASI KONTROL ====="
+
+          if [ -f v14_adaptive_decisions.csv ]; then
+            echo "v14_adaptive_decisions.csv bulundu."
+            cat v14_adaptive_decisions.csv
+          else
+            echo "HATA: v14_adaptive_decisions.csv olusmadi."
+            exit 1
+          fi
+
+      - name: V14 Telegram raporunu gonder
+        run: |
+          python v14_telegram.py
+
       - name: Sonuclari goster
         if: always()
         run: |
           echo "===== V8 META ====="
-
-          if [ -f v8_fusion_meta.csv ]; then
-            cat v8_fusion_meta.csv
-          else
-            echo "v8_fusion_meta.csv olusmadi."
-          fi
+          cat v8_fusion_meta.csv 2>/dev/null || true
 
           echo ""
           echo "===== V8 NIHAI ADAYLAR ====="
-
-          if [ -f v8_today_candidates.csv ]; then
-            cat v8_today_candidates.csv
-          else
-            echo "v8_today_candidates.csv olusmadi."
-          fi
-
-          echo ""
-          echo "===== V9 LIDER TAKIPCI ILISKILERI ====="
-
-          if [ -f v9_leader_lag_results.csv ]; then
-            echo "Toplam satir:"
-            wc -l v9_leader_lag_results.csv
-
-            echo "En guclu iliskiler:"
-            head -n 21 v9_leader_lag_results.csv
-          else
-            echo "v9_leader_lag_results.csv olusmadi."
-          fi
+          cat v8_today_candidates.csv 2>/dev/null || true
 
           echo ""
           echo "===== V10 TAKIPCI ADAYLARI ====="
-
-          if [ -f v10_follow_predictions.csv ]; then
-            cat v10_follow_predictions.csv
-          else
-            echo "v10_follow_predictions.csv olusmadi."
-          fi
+          cat v10_follow_predictions.csv 2>/dev/null || true
 
           echo ""
           echo "===== V11 SINYAL HAFIZASI ====="
-
-          if [ -f v11_signal_history.csv ]; then
-            echo "Toplam satir:"
-            wc -l v11_signal_history.csv
-
-            echo "Son kayitlar:"
-            tail -n 20 v11_signal_history.csv
-          else
-            echo "v11_signal_history.csv olusmadi."
-          fi
+          tail -n 20 v11_signal_history.csv 2>/dev/null || true
 
           echo ""
           echo "===== V11 PERFORMANS OZETI ====="
-
-          if [ -f v11_learning_summary.csv ]; then
-            cat v11_learning_summary.csv
-          else
-            echo "v11_learning_summary.csv olusmadi."
-          fi
-
-          echo ""
-          echo "===== V11 OGRENILEN AGIRLIKLAR ====="
-
-          if [ -f v11_learned_weights.csv ]; then
-            cat v11_learned_weights.csv
-          else
-            echo "v11_learned_weights.csv olusmadi."
-          fi
+          cat v11_learning_summary.csv 2>/dev/null || true
 
           echo ""
           echo "===== V13 MARKET DNA STATUS ====="
-
-          if [ -f v13_market_dna_status.json ]; then
-            cat v13_market_dna_status.json
-          else
-            echo "v13_market_dna_status.json olusmadi."
-          fi
+          cat v13_market_dna_status.json 2>/dev/null || true
 
           echo ""
           echo "===== V13 MARKET DNA SONUCLARI ====="
+          cat v13_market_dna_results.csv 2>/dev/null || true
 
-          if [ -f v13_market_dna_results.csv ]; then
-            cat v13_market_dna_results.csv
-          else
-            echo "v13_market_dna_results.csv olusmadi."
-          fi
+          echo ""
+          echo "===== V14 STATUS ====="
+          cat v14_status.json 2>/dev/null || true
+
+          echo ""
+          echo "===== V14 ADAPTIF KARARLAR ====="
+          cat v14_adaptive_decisions.csv 2>/dev/null || true
 
       - name: Hafiza ve analiz sonuclarini repoya kaydet
         run: |
@@ -187,11 +148,13 @@ jobs:
           git add v11_learned_weights.csv || true
           git add v13_market_dna_status.json || true
           git add v13_market_dna_results.csv || true
+          git add v14_status.json || true
+          git add v14_adaptive_decisions.csv || true
 
           if git diff --cached --quiet; then
             echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS learning and Market DNA update"
+            git commit -m "LARUS V11 V13 V14 update"
             git push
           fi
 
@@ -211,4 +174,6 @@ jobs:
             v11_learned_weights.csv
             v13_market_dna_status.json
             v13_market_dna_results.csv
+            v14_status.json
+            v14_adaptive_decisions.csv
           if-no-files-found: warn
