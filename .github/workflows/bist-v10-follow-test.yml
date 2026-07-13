@@ -9,17 +9,21 @@ on:
         default: "50"
 
       manual_leaders:
-        description: "Test liderleri; örnek THYAO,TUPRS. Boşsa V8 adayları kullanılır"
+        description: "Test liderleri (örnek: TUPRS,THYAO). Boş bırakılırsa V8 adayları kullanılır."
         required: false
         default: ""
 
 permissions:
   contents: read
 
+concurrency:
+  group: bist-v10-follow-test
+  cancel-in-progress: false
+
 jobs:
   follow-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 90
 
     env:
       TOKEN: ${{ secrets.TOKEN }}
@@ -31,47 +35,65 @@ jobs:
       V10_MANUAL_LEADERS: ${{ github.event.inputs.manual_leaders || '' }}
 
     steps:
-      - name: Repoyu çek
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Python kur
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Kütüphaneleri kur
+      - name: Install requirements
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: V9 lider takipçi hafızasını oluştur
+      - name: Run V9 Leader-Lag Analysis
         run: |
           python v9_leader_lag.py
 
-      - name: V8 canlı liderleri oluştur
+      - name: Run V8 Live Leaders
         run: |
           python v8_main.py
 
-      - name: V10 takipçi adaylarını oluştur
+      - name: Run V10 Prediction Engine
         run: |
           python v10_follow_prediction.py
 
-      - name: V10 Telegram raporunu gönder
+      - name: Send Telegram Report
         run: |
           python v10_telegram.py
 
-      - name: V10 sonuçlarını göster
+      - name: Show Results
         if: always()
         run: |
-          echo "===== V10 TAKİPÇİ ADAYLARI ====="
+          echo "========== V10 FOLLOW PREDICTIONS =========="
 
           if [ -f v10_follow_predictions.csv ]; then
             cat v10_follow_predictions.csv
           else
-            echo "v10_follow_predictions.csv oluşmadı."
+            echo "v10_follow_predictions.csv bulunamadı."
           fi
 
-      - name: V10 sonucunu artifact olarak kaydet
+          echo ""
+          echo "========== V9 RELATIONS =========="
+
+          if [ -f v9_leader_lag_results.csv ]; then
+            head -20 v9_leader_lag_results.csv
+          else
+            echo "v9_leader_lag_results.csv bulunamadı."
+          fi
+
+          echo ""
+          echo "========== V8 LEADERS =========="
+
+          if [ -f v8_today_candidates.csv ]; then
+            cat v8_today_candidates.csv
+          else
+            echo "v8_today_candidates.csv bulunamadı."
+          fi
+
+      - name: Upload Prediction Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
