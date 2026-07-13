@@ -1,6 +1,6 @@
 {
-  "status": "history_missing",
+  "status": "waiting_for_data",
   "completed_5d": 0,
   "minimum_required": 30,
-  "message": "V11 sinyal hafizasi bulunamadi."
+  "message": "Ogrenme icin en az 30 tamamlanmis 5 gunluk sinyal gerekli. Mevcut: 0."
 }
