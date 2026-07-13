@@ -1,3 +1,6 @@
 {
-  "status": "v8_missing"
+  "status": "ready",
+  "weight_mode": "BASE",
+  "candidate_count": 1,
+  "selected_count": 0
 }
