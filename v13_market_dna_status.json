@@ -1,7 +1,7 @@
 {
-  "status": "current_candidates_missing",
-  "current_candidate_count": 0,
+  "status": "dna_ready",
+  "current_candidate_count": 3,
   "historical_memory_count": 143,
   "minimum_history_required": 30,
-  "message": "V8 bugunun aday dosyasi bulunamadi veya bos."
+  "message": "3 aday icin Market DNA analizi tamamlandi."
 }
