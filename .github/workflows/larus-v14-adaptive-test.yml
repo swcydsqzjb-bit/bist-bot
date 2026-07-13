@@ -1,0 +1,85 @@
+name: LARUS V14 ADAPTIVE TEST
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  v14-adaptive:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+
+    steps:
+
+      - name: Repoyu çek
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Kütüphaneleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: V14 Adaptive Decision çalıştır
+        run: |
+          python v14_adaptive_decision.py
+
+      - name: V14 Telegram raporu gönder
+        run: |
+          python v14_telegram.py
+
+      - name: Sonuçları göster
+        if: always()
+        run: |
+          echo "===== V14 STATUS ====="
+
+          if [ -f v14_status.json ]; then
+            cat v14_status.json
+          else
+            echo "v14_status.json bulunamadı."
+          fi
+
+          echo ""
+          echo "===== V14 DECISIONS ====="
+
+          if [ -f v14_adaptive_decisions.csv ]; then
+            cat v14_adaptive_decisions.csv
+          else
+            echo "v14_adaptive_decisions.csv bulunamadı."
+          fi
+
+      - name: Sonuçları GitHub'a kaydet
+        run: |
+          git config user.name "larus-alpha-bot"
+          git config user.email "larus-alpha-bot@users.noreply.github.com"
+
+          git add \
+            v14_status.json \
+            v14_adaptive_decisions.csv
+
+          git diff --cached --quiet || git commit -m "V14 adaptive decision update"
+
+          git push
+
+      - name: Artifact olarak kaydet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: larus-v14-adaptive-results
+          path: |
+            v14_status.json
+            v14_adaptive_decisions.csv
+          if-no-files-found: warn
