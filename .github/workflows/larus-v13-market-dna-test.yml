@@ -1,0 +1,80 @@
+name: LARUS V13 MARKET DNA TEST
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: larus-v13-market-dna-test
+  cancel-in-progress: false
+
+jobs:
+  v13-market-dna:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Repoyu cek
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Kutuphaneleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: V13 Market DNA Engine calistir
+        run: |
+          python v13_market_dna.py
+
+      - name: V13 sonuclarini goster
+        if: always()
+        run: |
+          echo "===== V13 STATUS ====="
+
+          if [ -f v13_market_dna_status.json ]; then
+            cat v13_market_dna_status.json
+          else
+            echo "v13_market_dna_status.json bulunamadi."
+          fi
+
+          echo ""
+          echo "===== V13 MARKET DNA RESULTS ====="
+
+          if [ -f v13_market_dna_results.csv ]; then
+            cat v13_market_dna_results.csv
+          else
+            echo "v13_market_dna_results.csv bulunamadi."
+          fi
+
+      - name: V13 sonuclarini GitHub'a kaydet
+        run: |
+          git config user.name "larus-alpha-bot"
+          git config user.email "larus-alpha-bot@users.noreply.github.com"
+
+          git add \
+            v13_market_dna_status.json \
+            v13_market_dna_results.csv
+
+          git diff --cached --quiet || \
+            git commit -m "V13 Market DNA update"
+
+          git push
+
+      - name: Artifact olarak kaydet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: larus-v13-market-dna-results
+          path: |
+            v13_market_dna_status.json
+            v13_market_dna_results.csv
+          if-no-files-found: warn
