@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       symbol_limit:
-        description: "İlk testte taranacak hisse sayısı"
+        description: "Taranacak hisse sayısı; tüm BIST için 0"
         required: false
         default: "50"
 
@@ -14,12 +14,16 @@ on:
         default: "10"
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: bist-v5-backfill
+  cancel-in-progress: false
 
 jobs:
   backfill-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     env:
       V5_SYMBOL_LIMIT: ${{ github.event.inputs.symbol_limit || '50' }}
@@ -28,6 +32,8 @@ jobs:
     steps:
       - name: Repoyu çek
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Python kur
         uses: actions/setup-python@v5
@@ -58,10 +64,31 @@ jobs:
             echo "v5_backfill_history.csv oluşmadı."
           fi
 
-      - name: Backfill dosyasını indirilebilir kaydet
+      - name: Backfill dosyasını artifact olarak kaydet
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: v5-backfill-history
           path: v5_backfill_history.csv
           if-no-files-found: warn
+
+      - name: Backfill hafızasını repoya kaydet
+        run: |
+          if [ ! -f v5_backfill_history.csv ]; then
+            echo "Backfill dosyası oluşmadı."
+            exit 0
+          fi
+
+          git config user.name "bist-v7-bot"
+          git config user.email "bist-v7-bot@users.noreply.github.com"
+
+          git add v5_backfill_history.csv
+
+          if git diff --cached --quiet; then
+            echo "Backfill geçmişinde değişiklik yok."
+            exit 0
+          fi
+
+          git commit -m "V5 tarihsel sinyal hafızasını güncelle"
+          git pull --rebase origin main
+          git push origin main
