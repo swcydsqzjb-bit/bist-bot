@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: larus-alpha-full-market
@@ -19,85 +19,150 @@ jobs:
       TOKEN: ${{ secrets.TOKEN }}
       CHAT_ID: ${{ secrets.CHAT_ID }}
 
-      # 0 değeri tüm BIST hisselerini tarar.
+      # 0 = bütün BIST hisselerini tara
       V8_SYMBOL_LIMIT: "0"
       V9_SYMBOL_LIMIT: "0"
 
-      # Boş olduğu için V10 manuel lider kullanmaz.
-      # V8'in gerçek seçtiği hisseleri lider kabul eder.
+      # Boş bırakılırsa V10, V8 adaylarını lider kabul eder
       V10_MANUAL_LEADERS: ""
 
     steps:
-      - name: Repoyu çek
+      - name: Repoyu cek
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Python kur
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Kütüphaneleri kur
+      - name: Kutuphaneleri kur
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Tüm BIST için V9 ilişkilerini oluştur
+      - name: Tum BIST icin V9 iliskilerini olustur
         run: |
           python v9_leader_lag.py
 
-      - name: Tüm BIST için V8 Fusion çalıştır
+      - name: Tum BIST icin V8 Fusion calistir
         run: |
           python v8_main.py
 
-      - name: V10 takipçi adaylarını oluştur
+      - name: V10 takipci adaylarini olustur
         run: |
           python v10_follow_prediction.py
 
-      - name: V10 Telegram raporunu gönder
+      - name: V10 Telegram raporunu gonder
         run: |
           python v10_telegram.py
 
-      - name: Sonuçları göster
+      - name: V11 performans hafizasini guncelle
+        run: |
+          python v11_learning.py
+
+      - name: Sonuclari goster
         if: always()
         run: |
-          echo "===== V8 NİHAİ ADAYLAR ====="
+          echo "===== V8 META ====="
+
+          if [ -f v8_fusion_meta.csv ]; then
+            cat v8_fusion_meta.csv
+          else
+            echo "v8_fusion_meta.csv olusmadi."
+          fi
+
+          echo ""
+          echo "===== V8 NIHAI ADAYLAR ====="
 
           if [ -f v8_today_candidates.csv ]; then
             cat v8_today_candidates.csv
           else
-            echo "v8_today_candidates.csv oluşmadı."
+            echo "v8_today_candidates.csv olusmadi."
           fi
 
           echo ""
-          echo "===== V9 LİDER TAKİPÇİ İLİŞKİLERİ ====="
+          echo "===== V9 LIDER TAKIPCI ILISKILERI ====="
 
           if [ -f v9_leader_lag_results.csv ]; then
-            echo "Toplam satır:"
+            echo "Toplam satir:"
             wc -l v9_leader_lag_results.csv
 
-            echo "En güçlü ilişkiler:"
+            echo "En guclu iliskiler:"
             head -n 21 v9_leader_lag_results.csv
           else
-            echo "v9_leader_lag_results.csv oluşmadı."
+            echo "v9_leader_lag_results.csv olusmadi."
           fi
 
           echo ""
-          echo "===== V10 TAKİPÇİ ADAYLARI ====="
+          echo "===== V10 TAKIPCI ADAYLARI ====="
 
           if [ -f v10_follow_predictions.csv ]; then
             cat v10_follow_predictions.csv
           else
-            echo "v10_follow_predictions.csv oluşmadı."
+            echo "v10_follow_predictions.csv olusmadi."
           fi
 
-      - name: Sonuçları artifact olarak kaydet
+          echo ""
+          echo "===== V11 SINYAL HAFIZASI ====="
+
+          if [ -f v11_signal_history.csv ]; then
+            echo "Toplam satir:"
+            wc -l v11_signal_history.csv
+
+            echo "Son kayitlar:"
+            tail -n 20 v11_signal_history.csv
+          else
+            echo "v11_signal_history.csv olusmadi."
+          fi
+
+          echo ""
+          echo "===== V11 PERFORMANS OZETI ====="
+
+          if [ -f v11_learning_summary.csv ]; then
+            cat v11_learning_summary.csv
+          else
+            echo "v11_learning_summary.csv olusmadi."
+          fi
+
+          echo ""
+          echo "===== V11 OGRENILEN AGIRLIKLAR ====="
+
+          if [ -f v11_learned_weights.csv ]; then
+            cat v11_learned_weights.csv
+          else
+            echo "v11_learned_weights.csv olusmadi."
+          fi
+
+      - name: V11 hafizasini repoya kaydet
+        run: |
+          git config user.name "larus-alpha-bot"
+          git config user.email "larus-alpha-bot@users.noreply.github.com"
+
+          git add v11_signal_history.csv
+          git add v11_learning_summary.csv
+          git add v11_learned_weights.csv
+
+          if git diff --cached --quiet; then
+            echo "V11 hafizasinda kaydedilecek yeni degisiklik yok."
+          else
+            git commit -m "V11 learning memory update"
+            git push
+          fi
+
+      - name: Tum sonuclari artifact olarak kaydet
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: larus-alpha-full-market-results
           path: |
+            v8_fusion_meta.csv
             v8_today_candidates.csv
             v8_fusion_results.csv
             v9_leader_lag_results.csv
             v10_follow_predictions.csv
+            v11_signal_history.csv
+            v11_learning_summary.csv
+            v11_learned_weights.csv
           if-no-files-found: warn
