@@ -1,1 +1,4 @@
 ﻿signal_id,signal_date,recorded_at,source,symbol,signal_price,rank,classification,v8_score,smart_money_score,institutional_score,historical_support_score,prediction_score,live_confirmation_score,relationship_score,rsi,volume_ratio,ema20_distance,return_1d_at_signal,return_5d_at_signal,result_1d,result_3d,result_5d,result_10d,max_result_5d,min_result_5d,hit_3pct_5d,hit_5pct_10d,status
+2026-07-13|V8|ALKLC,2026-07-13,2026-07-13T21:33:23+03:00,V8,ALKLC,381.75,1.0,V8 İZLEME,69.01,71.0,73.0,58.56,,,,66.59,0.61,7.23,0.99,10.73,,,,,,,,,bekliyor
+2026-07-13|V8|GATEG,2026-07-13,2026-07-13T21:33:23+03:00,V8,GATEG,302.0,2.0,V8 İZLEME,67.25,68.0,88.0,39.24,,,,59.28,1.07,3.93,-0.33,7.47,,,,,,,,,bekliyor
+2026-07-13|V8|ESCAR,2026-07-13,2026-07-13T21:33:23+03:00,V8,ESCAR,48.5,3.0,V8 İZLEME,65.8,68.0,83.0,38.23,,,,50.9,0.54,0.52,0.33,-0.41,,,,,,,,,bekliyor
