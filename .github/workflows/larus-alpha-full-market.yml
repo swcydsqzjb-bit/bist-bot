@@ -19,11 +19,11 @@ jobs:
       TOKEN: ${{ secrets.TOKEN }}
       CHAT_ID: ${{ secrets.CHAT_ID }}
 
-      # 0 = bütün BIST hisselerini tara
+      # 0 = tum BIST hisselerini tara
       V8_SYMBOL_LIMIT: "0"
       V9_SYMBOL_LIMIT: "0"
 
-      # Boş bırakılırsa V10, V8 adaylarını lider kabul eder
+      # Bos birakilirsa V10, V8 adaylarini lider kabul eder
       V10_MANUAL_LEADERS: ""
 
     steps:
@@ -50,6 +50,22 @@ jobs:
         run: |
           python v8_main.py
 
+      - name: V8 aday dosyasini kontrol et
+        run: |
+          echo "===== V8 ADAY DOSYASI KONTROL ====="
+
+          if [ -f v8_today_candidates.csv ]; then
+            echo "v8_today_candidates.csv bulundu."
+            echo "Satir sayisi:"
+            wc -l v8_today_candidates.csv
+
+            echo "Ilk kayitlar:"
+            head -n 10 v8_today_candidates.csv
+          else
+            echo "HATA: v8_today_candidates.csv olusmadi."
+            exit 1
+          fi
+
       - name: V10 takipci adaylarini olustur
         run: |
           python v10_follow_prediction.py
@@ -61,6 +77,10 @@ jobs:
       - name: V11 performans hafizasini guncelle
         run: |
           python v11_learning.py
+
+      - name: V13 Market DNA analizini calistir
+        run: |
+          python v13_market_dna.py
 
       - name: Sonuclari goster
         if: always()
@@ -135,19 +155,39 @@ jobs:
             echo "v11_learned_weights.csv olusmadi."
           fi
 
-      - name: V11 hafizasini repoya kaydet
+          echo ""
+          echo "===== V13 MARKET DNA STATUS ====="
+
+          if [ -f v13_market_dna_status.json ]; then
+            cat v13_market_dna_status.json
+          else
+            echo "v13_market_dna_status.json olusmadi."
+          fi
+
+          echo ""
+          echo "===== V13 MARKET DNA SONUCLARI ====="
+
+          if [ -f v13_market_dna_results.csv ]; then
+            cat v13_market_dna_results.csv
+          else
+            echo "v13_market_dna_results.csv olusmadi."
+          fi
+
+      - name: Hafiza ve analiz sonuclarini repoya kaydet
         run: |
           git config user.name "larus-alpha-bot"
           git config user.email "larus-alpha-bot@users.noreply.github.com"
 
-          git add v11_signal_history.csv
-          git add v11_learning_summary.csv
-          git add v11_learned_weights.csv
+          git add v11_signal_history.csv || true
+          git add v11_learning_summary.csv || true
+          git add v11_learned_weights.csv || true
+          git add v13_market_dna_status.json || true
+          git add v13_market_dna_results.csv || true
 
           if git diff --cached --quiet; then
-            echo "V11 hafizasinda kaydedilecek yeni degisiklik yok."
+            echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "V11 learning memory update"
+            git commit -m "LARUS learning and Market DNA update"
             git push
           fi
 
@@ -165,4 +205,6 @@ jobs:
             v11_signal_history.csv
             v11_learning_summary.csv
             v11_learned_weights.csv
+            v13_market_dna_status.json
+            v13_market_dna_results.csv
           if-no-files-found: warn
