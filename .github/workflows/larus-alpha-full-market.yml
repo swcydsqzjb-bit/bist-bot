@@ -82,6 +82,10 @@ jobs:
         run: |
           python v13_market_dna.py
 
+      - name: V13 Telegram raporunu gonder
+        run: |
+          python v13_telegram.py
+
       - name: Sonuclari goster
         if: always()
         run: |
