@@ -24,7 +24,8 @@ jobs:
       V10_MANUAL_LEADERS: ""
 
     steps:
-      - name: Repoyu cek
+
+      - name: Repoyu çek
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -34,146 +35,130 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Kutuphaneleri kur
+      - name: Kütüphaneleri kur
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Tum BIST icin V9 iliskilerini olustur
+      ######################################################################
+      # V9
+      ######################################################################
+
+      - name: Tüm BIST için V9 ilişkilerini oluştur
         run: |
           python v9_leader_lag.py
 
-      - name: Tum BIST icin V8 Fusion calistir
+      ######################################################################
+      # V8
+      ######################################################################
+
+      - name: Tüm BIST için V8 Fusion çalıştır
         run: |
           python v8_main.py
 
-      - name: V8 aday dosyasini kontrol et
+      - name: V8 aday dosyasını kontrol et
         run: |
-          echo "===== V8 ADAY DOSYASI KONTROL ====="
+          test -f v8_today_candidates.csv
+          wc -l v8_today_candidates.csv
+          head -20 v8_today_candidates.csv
 
-          if [ -f v8_today_candidates.csv ]; then
-            echo "v8_today_candidates.csv bulundu."
-            wc -l v8_today_candidates.csv
-            head -n 10 v8_today_candidates.csv
-          else
-            echo "HATA: v8_today_candidates.csv olusmadi."
-            exit 1
-          fi
+      ######################################################################
+      # V10
+      ######################################################################
 
-      - name: V10 takipci adaylarini olustur
+      - name: V10 Takipçi Motoru
         run: |
           python v10_follow_prediction.py
 
-      - name: V10 Telegram raporunu gonder
+      - name: V10 Telegram
         run: |
           python v10_telegram.py
 
-      - name: V11 performans hafizasini guncelle
+      ######################################################################
+      # V11
+      ######################################################################
+
+      - name: V11 Öğrenme
         run: |
           python v11_learning.py
 
-      - name: V13 Market DNA analizini calistir
+      ######################################################################
+      # V13
+      ######################################################################
+
+      - name: V13 Market DNA
         run: |
           python v13_market_dna.py
 
-      - name: V13 Telegram raporunu gonder
+      - name: V13 Telegram
         run: |
           python v13_telegram.py
 
-      - name: V14 Adaptif Karar Motorunu calistir
+      ######################################################################
+      # V14
+      ######################################################################
+
+      - name: V14 Adaptive Decision
         run: |
           python v14_adaptive_decision.py
 
-      - name: V14 karar dosyasini kontrol et
+      - name: V14 dosyasını kontrol et
         run: |
-          echo "===== V14 KARAR DOSYASI KONTROL ====="
+          test -f v14_adaptive_decisions.csv
+          cat v14_status.json
+          head -20 v14_adaptive_decisions.csv
 
-          if [ -f v14_adaptive_decisions.csv ]; then
-            echo "v14_adaptive_decisions.csv bulundu."
-            cat v14_adaptive_decisions.csv
-          else
-            echo "HATA: v14_adaptive_decisions.csv olusmadi."
-            exit 1
-          fi
-
-      - name: V14 Telegram raporunu gonder
+      - name: V14 Telegram
         run: |
           python v14_telegram.py
 
-      - name: Sonuclari goster
-        if: always()
+      ######################################################################
+      # V15
+      ######################################################################
+
+      - name: V15 Learning Engine
         run: |
-          echo "===== V8 META ====="
-          cat v8_fusion_meta.csv 2>/dev/null || true
+          python v15_learning.py
 
-          echo ""
-          echo "===== V8 NIHAI ADAYLAR ====="
-          cat v8_today_candidates.csv 2>/dev/null || true
+      - name: V15 dosyasını kontrol et
+        run: |
+          test -f v15_final_decisions.csv
+          cat v15_status.json
+          head -20 v15_final_decisions.csv
 
-          echo ""
-          echo "===== V10 TAKIPCI ADAYLARI ====="
-          cat v10_follow_predictions.csv 2>/dev/null || true
+      - name: V15 Telegram
+        run: |
+          python v15_telegram.py
 
-          echo ""
-          echo "===== V11 SINYAL HAFIZASI ====="
-          tail -n 20 v11_signal_history.csv 2>/dev/null || true
+      ######################################################################
+      # GITHUB SAVE
+      ######################################################################
 
-          echo ""
-          echo "===== V11 PERFORMANS OZETI ====="
-          cat v11_learning_summary.csv 2>/dev/null || true
-
-          echo ""
-          echo "===== V13 MARKET DNA STATUS ====="
-          cat v13_market_dna_status.json 2>/dev/null || true
-
-          echo ""
-          echo "===== V13 MARKET DNA SONUCLARI ====="
-          cat v13_market_dna_results.csv 2>/dev/null || true
-
-          echo ""
-          echo "===== V14 STATUS ====="
-          cat v14_status.json 2>/dev/null || true
-
-          echo ""
-          echo "===== V14 ADAPTIF KARARLAR ====="
-          cat v14_adaptive_decisions.csv 2>/dev/null || true
-
-      - name: Hafiza ve analiz sonuclarini repoya kaydet
+      - name: Sonuçları GitHub'a kaydet
         run: |
           git config user.name "larus-alpha-bot"
           git config user.email "larus-alpha-bot@users.noreply.github.com"
 
-          git add v11_signal_history.csv || true
-          git add v11_learning_summary.csv || true
-          git add v11_learned_weights.csv || true
-          git add v13_market_dna_status.json || true
-          git add v13_market_dna_results.csv || true
-          git add v14_status.json || true
-          git add v14_adaptive_decisions.csv || true
+          git add *.csv || true
+          git add *.json || true
 
           if git diff --cached --quiet; then
-            echo "Kaydedilecek yeni degisiklik yok."
+            echo "Kaydedilecek değişiklik yok."
           else
-            git commit -m "LARUS V11 V13 V14 update"
+            git commit -m "LARUS automatic update"
             git push
           fi
 
-      - name: Tum sonuclari artifact olarak kaydet
+      ######################################################################
+      # ARTIFACT
+      ######################################################################
+
+      - name: Sonuçları Artifact olarak kaydet
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-full-market-results
+          name: larus-alpha-results
           path: |
-            v8_fusion_meta.csv
-            v8_today_candidates.csv
-            v8_fusion_results.csv
-            v9_leader_lag_results.csv
-            v10_follow_predictions.csv
-            v11_signal_history.csv
-            v11_learning_summary.csv
-            v11_learned_weights.csv
-            v13_market_dna_status.json
-            v13_market_dna_results.csv
-            v14_status.json
-            v14_adaptive_decisions.csv
+            *.csv
+            *.json
           if-no-files-found: warn
