@@ -1,173 +1,137 @@
 from __future__ import annotations
-
+import json
 import os
-from typing import Any, List
-
+from typing import Any
 import numpy as np
 import pandas as pd
 import requests
 
-
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
+FILE = "v15_final_decisions.csv"
+STATUS = "v15_status.json"
 
-RESULT_FILE = "v15_final_decisions.csv"
-STATUS_FILE = "v15_status.json"
-LIMIT = 3900
-
-
-def safe_float(value: Any, default: float = 0.0) -> float:
+def f(v: Any, d: float = 0.0) -> float:
     try:
-        number = float(value)
-        if np.isnan(number) or np.isinf(number):
-            return default
-        return number
-    except (TypeError, ValueError):
-        return default
+        x = float(v)
+        return d if np.isnan(x) or np.isinf(x) else x
+    except Exception:
+        return d
 
-
-def clean_text(value: Any) -> str:
-    if value is None:
+def t(v: Any) -> str:
+    if v is None:
         return ""
     try:
-        if pd.isna(value):
+        if pd.isna(v):
             return ""
     except Exception:
         pass
-    return str(value).strip()
+    return str(v).strip()
 
+def load_status() -> dict:
+    if not os.path.exists(STATUS):
+        return {}
+    try:
+        with open(STATUS, "r", encoding="utf-8") as h:
+            return json.load(h)
+    except Exception:
+        return {}
 
-def split_message(text: str) -> List[str]:
-    if len(text) <= LIMIT:
-        return [text]
+def level(n: int) -> str:
+    if n < 10:
+        return "BA\u015eLANGI\u00c7"
+    if n < 30:
+        return "GEL\u0130\u015e\u0130YOR"
+    if n < 100:
+        return "OLGUNLA\u015eIYOR"
+    return "OLGUN"
 
-    parts: List[str] = []
-    current = ""
-
-    for paragraph in text.split("\n\n"):
-        candidate = (
-            paragraph
-            if not current
-            else current + "\n\n" + paragraph
-        )
-
-        if len(candidate) <= LIMIT:
-            current = candidate
-        else:
-            if current:
-                parts.append(current)
-            current = paragraph
-
-    if current:
-        parts.append(current)
-
-    return parts
-
+def emoji(decision: str) -> str:
+    if "G\u00dc\u00c7L\u00dc" in decision:
+        return "\U0001f7e2"
+    if "ONAYLI" in decision:
+        return "\U0001f535"
+    if "TEMK\u0130NL\u0130" in decision:
+        return "\U0001f7e1"
+    if "GER\u0130" in decision:
+        return "\U0001f7e0"
+    return "\U0001f534"
 
 def send(text: str) -> None:
     if not TOKEN or not CHAT_ID:
         print(text)
         return
-
-    for part in split_message(text):
-        response = requests.post(
-            f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-            data={
-                "chat_id": CHAT_ID,
-                "text": part,
-                "disable_web_page_preview": True,
-            },
+    parts, current = [], ""
+    for p in text.split("\n\n"):
+        c = p if not current else current + "\n\n" + p
+        if len(c) <= 3900:
+            current = c
+        else:
+            if current:
+                parts.append(current)
+            current = p
+    if current:
+        parts.append(current)
+    for part in parts:
+        r = requests.post(
+            "https://api.telegram.org/bot" + TOKEN + "/sendMessage",
+            data={"chat_id": CHAT_ID, "text": part, "disable_web_page_preview": True},
             timeout=30,
         )
-
-        print(response.status_code, response.text[:300])
-
-
-def emoji(decision: str) -> str:
-    if "GÃÃLÃ" in decision:
-        return "ð¢"
-    if "ONAYLI" in decision:
-        return "ðµ"
-    if "TEMKÄ°NLÄ°" in decision:
-        return "ð¡"
-    if "GERÄ°" in decision:
-        return "ð "
-    return "ð´"
-
+        print(r.status_code, r.text[:250])
 
 def main() -> None:
     try:
-        frame = pd.read_csv(
-            RESULT_FILE,
-            encoding="utf-8-sig",
-        )
+        df = pd.read_csv(FILE, encoding="utf-8-sig")
     except Exception as exc:
-        print(f"{RESULT_FILE} okunamadÄ±: {exc}")
+        print(FILE + " okunamadi:", exc)
+        return
+    if df.empty:
+        send("\U0001f985 LARUS V15 N\u0130HA\u0130 KARAR RAPORU\n\nBug\u00fcn degerlendirilecek aday bulunamadi.")
         return
 
-    if frame.empty:
-        send(
-            "ð¦ LARUS V15 NÄ°HAÄ° KARAR RAPORU\n\n"
-            "BugÃ¼n V15'in deÄerlendireceÄi aday bulunamadÄ±."
-        )
-        return
+    status = load_status()
+    mode = t(status.get("model_mode", df.iloc[0].get("model_mode")))
+    completed = int(f(status.get("completed_5d"), 0))
+    approved = int(df["v15_decision"].isin(["V15 G\u00dc\u00c7L\u00dc ONAY", "V15 ONAYLI \u0130ZLEME"]).sum())
 
-    mode = clean_text(frame.iloc[0].get("model_mode"))
-    approved = int(
-        frame["v15_decision"].isin(
-            ["V15 GÃÃLÃ ONAY", "V15 ONAYLI Ä°ZLEME"]
-        ).sum()
-    )
-
-    message = (
-        "ð¦ LARUS V15 NÄ°HAÄ° KARAR RAPORU\n\n"
-        f"Ä°ncelenen aday: {len(frame)}\n"
+    msg = (
+        "\U0001f985 LARUS V15 N\u0130HA\u0130 KARAR RAPORU\n\n"
+        f"\u0130ncelenen aday: {len(df)}\n"
         f"Onaylanan: {approved}\n"
-        f"Model modu: {mode}\n\n"
+        f"Model modu: {mode}\n"
+        f"Tamamlanmis 5 g\u00fcnl\u00fck sonu\u00e7: {completed}\n"
+        f"\u00d6grenme seviyesi: {level(completed)}\n\n"
     )
 
     if mode == "FALLBACK":
-        message += (
-            "V15 henÃ¼z 30 tamamlanmÄ±Å 5 gÃ¼nlÃ¼k sonuca ulaÅmadÄ±ÄÄ± iÃ§in "
-            "Ã¶ÄrenilmiÅ aÄÄ±rlÄ±klar yerine gÃ¼venli geÃ§iÅ modunu kullanÄ±yor.\n\n"
+        msg += (
+            "V15 hen\u00fcz 30 tamamlanmis sonuca ulasmadigi i\u00e7in "
+            "\u00f6grenilmis agirliklar yerine g\u00fcvenli ge\u00e7is modunu kullaniyor. "
+            "Bu asamada V15, V14 kararina ek bir dogrulama katmani olarak \u00e7alisir.\n\n"
         )
 
-    for _, row in frame.iterrows():
-        decision = clean_text(row.get("v15_decision"))
-
-        message += (
-            f"{emoji(decision)} "
-            f"{int(safe_float(row.get('rank')))}. "
-            f"{clean_text(row.get('symbol'))}\n"
-            f"V15 kararÄ±: {decision}\n"
-            f"Fiyat: {safe_float(row.get('close')):.2f}\n"
-            f"V15 skoru: {safe_float(row.get('v15_score')):.1f}/100\n"
-            f"V14 skoru: {safe_float(row.get('v14_score')):.1f}/100\n"
-            f"ÃÄrenme bileÅeni: "
-            f"{safe_float(row.get('learned_component_score')):.1f}/100\n"
-            f"V8 skoru: {safe_float(row.get('v8_score')):.1f}/100\n"
-            f"Smart Money: "
-            f"{safe_float(row.get('smart_money_score')):.1f}/100\n"
-            f"Kurumsal: "
-            f"{safe_float(row.get('institutional_score')):.1f}/100\n"
-            f"DNA: {clean_text(row.get('dna_classification'))} | "
-            f"{safe_float(row.get('dna_confidence')):.1f}/100\n"
-            f"5 gÃ¼nde pozitif: "
-            f"%{safe_float(row.get('positive_rate_5d')):.1f}\n"
-            f"Ortalama 5 gÃ¼nlÃ¼k sonuÃ§: "
-            f"{safe_float(row.get('average_result_5d')):+.2f}%\n"
-            f"Ãnceki V14 kararÄ±: "
-            f"{clean_text(row.get('v14_decision'))}\n"
+    for _, r in df.iterrows():
+        d = t(r.get("v15_decision"))
+        msg += (
+            f"{emoji(d)} {int(f(r.get('rank')))}. {t(r.get('symbol'))}\n"
+            f"V15 karari: {d}\n"
+            f"Fiyat: {f(r.get('close')):.2f}\n"
+            f"V15 skoru: {f(r.get('v15_score')):.1f}/100\n"
+            f"V14 skoru: {f(r.get('v14_score')):.1f}/100\n"
+            f"\u00d6grenme bileseni: {f(r.get('learned_component_score')):.1f}/100\n"
+            f"V8 skoru: {f(r.get('v8_score')):.1f}/100\n"
+            f"Smart Money: {f(r.get('smart_money_score')):.1f}/100\n"
+            f"Kurumsal: {f(r.get('institutional_score')):.1f}/100\n"
+            f"DNA: {t(r.get('dna_classification'))} | {f(r.get('dna_confidence')):.1f}/100\n"
+            f"5 g\u00fcnde pozitif: %{f(r.get('positive_rate_5d')):.1f}\n"
+            f"Ortalama 5 g\u00fcnl\u00fck sonu\u00e7: {f(r.get('average_result_5d')):+.2f}%\n"
+            f"\u00d6nceki V14 karari: {t(r.get('v14_decision'))}\n"
             "\n--------------------\n\n"
         )
 
-    message += (
-        "â ï¸ V15 geÃ§miÅ sinyallerden istatistiksel aÄÄ±rlÄ±k Ã¶Ärenir. "
-        "Bu sistem yatÄ±rÄ±m tavsiyesi veya getiri garantisi deÄildir."
-    )
-
-    send(message)
-
+    msg += "\u26a0\ufe0f V15 ge\u00e7mis sonu\u00e7lardan istatistiksel agirlik \u00f6grenir. Yatirim tavsiyesi veya getiri garantisi degildir."
+    send(msg)
 
 if __name__ == "__main__":
     main()
