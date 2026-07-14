@@ -1,2 +1,4 @@
-﻿rank,symbol,close,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,THYAO,0.0,0.0,87.0,78.0,GUCLU DNA,74.11,80.0,44.0,2.37,BASE,40.47,7,0,47.47,ELE,5 gun pozitif orani guclu | Ortalama 5g getiri guclu,
+﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
+1,ALKLC,381.75,V8 İZLEME,69.01,71.0,73.0,ORTA DNA,69.36,64.0,56.0,1.6,BASE,66.06,6.5,0.0,72.56,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,GATEG,302.0,V8 İZLEME,67.25,68.0,88.0,KARISIK DNA,70.19,56.0,28.0,0.14,BASE,61.59,0.0,6.0,55.59,ELE,,Market DNA karÄ±ÅÄ±k
+3,ESCAR,48.5,V8 İZLEME,65.8,68.0,83.0,ZAYIF DNA,62.63,32.0,20.0,-0.84,BASE,55.22,0.0,21.0,34.22,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

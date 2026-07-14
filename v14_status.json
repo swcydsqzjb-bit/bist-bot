@@ -1,6 +1,6 @@
 {
   "status": "ready",
   "weight_mode": "BASE",
-  "candidate_count": 1,
-  "selected_count": 0
+  "candidate_count": 3,
+  "approved_count": 1
 }
