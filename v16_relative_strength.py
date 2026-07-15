@@ -2,15 +2,23 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from typing import Any, Iterable
 
 import numpy as np
 import pandas as pd
+import requests
+import yfinance as yf
 
-MARKET_FILE = "v8_fusion_results.csv"
-V15_FILE = "v15_final_decisions.csv"
+
 RESULT_FILE = "v16_relative_strength.csv"
+MARKET_FILE = "v16_full_market_snapshot.csv"
 STATUS_FILE = "v16_status.json"
+V15_FILE = "v15_final_decisions.csv"
+
+SYMBOL_LIMIT = int(os.getenv("V16_SYMBOL_LIMIT", "0"))
+MIN_HISTORY = 70
+
 
 def safe_float(value: Any, default: float = 0.0) -> float:
     try:
@@ -20,6 +28,7 @@ def safe_float(value: Any, default: float = 0.0) -> float:
         return number
     except (TypeError, ValueError):
         return default
+
 
 def clean_text(value: Any) -> str:
     if value is None:
@@ -31,6 +40,11 @@ def clean_text(value: Any) -> str:
         pass
     return str(value).strip()
 
+
+def normalize_symbol(value: Any) -> str:
+    return clean_text(value).upper().replace(".IS", "")
+
+
 def load_csv(path: str) -> pd.DataFrame:
     if not os.path.exists(path):
         return pd.DataFrame()
@@ -38,82 +52,247 @@ def load_csv(path: str) -> pd.DataFrame:
         return pd.read_csv(path, encoding="utf-8-sig")
     except UnicodeDecodeError:
         return pd.read_csv(path, encoding="utf-8")
-    except (pd.errors.EmptyDataError, OSError):
+    except Exception:
         return pd.DataFrame()
 
-def first_existing(frame: pd.DataFrame, names: Iterable[str]) -> pd.Series:
-    for name in names:
-        if name in frame.columns:
-            return frame[name]
-    return pd.Series([np.nan] * len(frame), index=frame.index)
 
-def normalize_symbol(value: Any) -> str:
-    return clean_text(value).upper().replace(".IS", "")
+def discover_symbols() -> list[str]:
+    module_candidates = [
+        ("v3_data", "get_symbols"),
+        ("v3_scanner", "get_symbols"),
+        ("v8_main", "get_symbols"),
+        ("v8_fusion", "get_symbols"),
+    ]
 
-def percentile_rank(series: pd.Series) -> pd.Series:
-    numeric = pd.to_numeric(series, errors="coerce")
-    if numeric.notna().sum() <= 1:
-        return pd.Series([50.0] * len(series), index=series.index)
-    return numeric.rank(method="average", pct=True).fillna(0.5) * 100.0
+    for module_name, function_name in module_candidates:
+        try:
+            module = __import__(module_name, fromlist=[function_name])
+            function = getattr(module, function_name)
+            raw = function()
+            symbols = sorted({
+                normalize_symbol(item)
+                for item in raw
+                if normalize_symbol(item)
+            })
+            if len(symbols) >= 100:
+                print(f"Sembol listesi {module_name}.{function_name} Ã¼zerinden alÄ±ndÄ±: {len(symbols)}")
+                return symbols
+        except Exception as exc:
+            print(f"{module_name}.{function_name} kullanÄ±lamadÄ±: {exc}")
 
-def inverse_percentile_rank(series: pd.Series) -> pd.Series:
-    return 100.0 - percentile_rank(series)
+    urls = [
+        "https://stockanalysis.com/list/borsa-istanbul/",
+        "https://www.kap.org.tr/tr/bist-sirketler",
+    ]
 
-def prepare_market(frame: pd.DataFrame) -> pd.DataFrame:
-    market = pd.DataFrame(index=frame.index)
-    market["symbol"] = first_existing(frame, ["symbol", "ticker"]).map(normalize_symbol)
-    market["close"] = pd.to_numeric(first_existing(frame, ["close", "price", "current_price", "signal_price"]), errors="coerce")
-    market["v8_score"] = pd.to_numeric(first_existing(frame, ["v8_score", "final_v8_score", "final_score", "fusion_score"]), errors="coerce")
-    market["smart_money_score"] = pd.to_numeric(first_existing(frame, ["smart_money_score"]), errors="coerce")
-    market["institutional_score"] = pd.to_numeric(first_existing(frame, ["institutional_score", "institutional_accumulation_score"]), errors="coerce")
-    market["historical_support_score"] = pd.to_numeric(first_existing(frame, ["historical_support_score", "historical_score"]), errors="coerce")
-    market["rsi"] = pd.to_numeric(first_existing(frame, ["rsi"]), errors="coerce")
-    market["volume_ratio"] = pd.to_numeric(first_existing(frame, ["volume_ratio", "daily_volume_ratio"]), errors="coerce")
-    market["volume_accumulation_ratio"] = pd.to_numeric(first_existing(frame, ["volume_accumulation_ratio", "accumulation_ratio"]), errors="coerce")
-    market["ema20_distance"] = pd.to_numeric(first_existing(frame, ["ema20_distance", "ema20_dist", "ema20_distance_pct"]), errors="coerce")
-    market["return_1d"] = pd.to_numeric(first_existing(frame, ["return_1d", "change_1d", "daily_return"]), errors="coerce")
-    market["return_5d"] = pd.to_numeric(first_existing(frame, ["return_5d", "change_5d"]), errors="coerce")
-    market["return_20d"] = pd.to_numeric(first_existing(frame, ["return_20d", "change_20d"]), errors="coerce")
-    market["range_20_pct"] = pd.to_numeric(first_existing(frame, ["range_20_pct"]), errors="coerce")
-    market["upper_wick_ratio"] = pd.to_numeric(first_existing(frame, ["upper_wick_ratio"]), errors="coerce")
-    market["close_position"] = pd.to_numeric(first_existing(frame, ["close_position"]), errors="coerce")
-    market = market[market["symbol"].ne("")].drop_duplicates("symbol", keep="first")
-    return market.reset_index(drop=True)
+    for url in urls:
+        try:
+            tables = pd.read_html(url)
+            for table in tables:
+                for column in table.columns:
+                    values = table[column].astype(str).str.upper().str.strip()
+                    candidates = values[
+                        values.str.fullmatch(r"[A-Z0-9]{4,6}", na=False)
+                    ].tolist()
+                    symbols = sorted(set(candidates))
+                    if len(symbols) >= 100:
+                        print(f"Sembol listesi web tablosundan alÄ±ndÄ±: {len(symbols)}")
+                        return symbols
+        except Exception as exc:
+            print(f"{url} okunamadÄ±: {exc}")
 
-def calculate_relative_strength(market: pd.DataFrame) -> pd.DataFrame:
-    result = market.copy()
+    fallback_files = [
+        "v9_leader_lag_results.csv",
+        "v5_backfill_history.csv",
+        "v3_signals_history.csv",
+        "signals_history.csv",
+    ]
+
+    symbols: set[str] = set()
+    for path in fallback_files:
+        frame = load_csv(path)
+        for column in ["symbol", "leader", "follower"]:
+            if column in frame.columns:
+                symbols.update(
+                    normalize_symbol(item)
+                    for item in frame[column].dropna()
+                    if normalize_symbol(item)
+                )
+
+    if len(symbols) < 50:
+        raise RuntimeError("Yeterli BIST sembolÃ¼ bulunamadÄ±.")
+
+    print(f"Sembol listesi hafÄ±za dosyalarÄ±ndan oluÅturuldu: {len(symbols)}")
+    return sorted(symbols)
+
+
+def download_batch(symbols: list[str]) -> pd.DataFrame:
+    tickers = [f"{symbol}.IS" for symbol in symbols]
+    data = yf.download(
+        tickers=tickers,
+        period="8mo",
+        interval="1d",
+        group_by="ticker",
+        auto_adjust=False,
+        progress=False,
+        threads=True,
+        timeout=45,
+    )
+    return data
+
+
+def ticker_frame(data: pd.DataFrame, ticker: str, total_tickers: int) -> pd.DataFrame:
+    try:
+        if total_tickers == 1:
+            frame = data.copy()
+        else:
+            frame = data[ticker].copy()
+    except Exception:
+        return pd.DataFrame()
+
+    frame.columns = [str(column).lower() for column in frame.columns]
+    required = {"open", "high", "low", "close", "volume"}
+    if not required.issubset(frame.columns):
+        return pd.DataFrame()
+
+    frame = frame.dropna(subset=["close", "volume"])
+    return frame
+
+
+def percentile(series: pd.Series, inverse: bool = False) -> pd.Series:
+    values = pd.to_numeric(series, errors="coerce")
+    if values.notna().sum() <= 1:
+        result = pd.Series(50.0, index=series.index)
+    else:
+        result = values.rank(method="average", pct=True).fillna(0.5) * 100.0
+    return 100.0 - result if inverse else result
+
+
+def calculate_snapshot(symbols: list[str]) -> pd.DataFrame:
+    rows: list[dict[str, Any]] = []
+
+    chunk_size = 120
+    for chunk_start in range(0, len(symbols), chunk_size):
+        chunk = symbols[chunk_start:chunk_start + chunk_size]
+        print(f"V16 veri indiriliyor: {chunk_start + 1}-{chunk_start + len(chunk)}/{len(symbols)}")
+
+        try:
+            data = download_batch(chunk)
+        except Exception as exc:
+            print(f"Toplu indirme hatasÄ±: {exc}")
+            continue
+
+        for symbol in chunk:
+            frame = ticker_frame(data, f"{symbol}.IS", len(chunk))
+            if len(frame) < MIN_HISTORY:
+                continue
+
+            close = frame["close"].astype(float)
+            high = frame["high"].astype(float)
+            low = frame["low"].astype(float)
+            volume = frame["volume"].astype(float)
+
+            last_close = safe_float(close.iloc[-1])
+            ema20 = close.ewm(span=20, adjust=False).mean()
+            ema50 = close.ewm(span=50, adjust=False).mean()
+
+            delta = close.diff()
+            gain = delta.clip(lower=0).rolling(14).mean()
+            loss = (-delta.clip(upper=0)).rolling(14).mean()
+            rs = gain / loss.replace(0, np.nan)
+            rsi = 100 - (100 / (1 + rs))
+
+            volume_sma20 = volume.rolling(20).mean()
+            volume_ratio = safe_float(volume.iloc[-1] / volume_sma20.iloc[-1], 0.0)
+            volume_acc = safe_float(volume.tail(10).mean() / volume.tail(30).mean(), 0.0)
+
+            tr = pd.concat(
+                [
+                    high - low,
+                    (high - close.shift()).abs(),
+                    (low - close.shift()).abs(),
+                ],
+                axis=1,
+            ).max(axis=1)
+            atr_pct = safe_float(tr.rolling(14).mean().iloc[-1] / last_close * 100, 0.0)
+
+            return_1d = safe_float((last_close / close.iloc[-2] - 1) * 100)
+            return_5d = safe_float((last_close / close.iloc[-6] - 1) * 100)
+            return_20d = safe_float((last_close / close.iloc[-21] - 1) * 100)
+
+            range_20 = safe_float((high.tail(20).max() / low.tail(20).min() - 1) * 100)
+            candle_range = max(safe_float(high.iloc[-1] - low.iloc[-1]), 1e-9)
+            close_position = safe_float((last_close - low.iloc[-1]) / candle_range)
+            upper_wick = safe_float((high.iloc[-1] - max(last_close, frame["open"].iloc[-1])) / candle_range)
+
+            up_volume = volume[close.diff() > 0].tail(20).sum()
+            down_volume = volume[close.diff() < 0].tail(20).sum()
+            up_down_ratio = safe_float(up_volume / max(down_volume, 1.0))
+
+            rows.append({
+                "symbol": symbol,
+                "close": round(last_close, 4),
+                "return_1d": round(return_1d, 4),
+                "return_5d": round(return_5d, 4),
+                "return_20d": round(return_20d, 4),
+                "rsi": round(safe_float(rsi.iloc[-1], 50.0), 4),
+                "ema20_distance": round(safe_float((last_close / ema20.iloc[-1] - 1) * 100), 4),
+                "ema50_distance": round(safe_float((last_close / ema50.iloc[-1] - 1) * 100), 4),
+                "volume_ratio": round(volume_ratio, 4),
+                "volume_accumulation_ratio": round(volume_acc, 4),
+                "up_down_volume_ratio": round(up_down_ratio, 4),
+                "atr_pct": round(atr_pct, 4),
+                "range_20_pct": round(range_20, 4),
+                "close_position": round(close_position, 4),
+                "upper_wick_ratio": round(upper_wick, 4),
+            })
+
+        time.sleep(1)
+
+    return pd.DataFrame(rows)
+
+
+def score_market(snapshot: pd.DataFrame) -> pd.DataFrame:
+    result = snapshot.copy()
+
     result["momentum_percentile"] = (
-        percentile_rank(result["return_5d"]) * 0.45
-        + percentile_rank(result["return_20d"]) * 0.40
-        + percentile_rank(result["return_1d"]) * 0.15
+        percentile(result["return_5d"]) * 0.45
+        + percentile(result["return_20d"]) * 0.40
+        + percentile(result["return_1d"]) * 0.15
     )
-    healthy_rsi = (100.0 - (result["rsi"].fillna(50.0) - 60.0).abs() * 3.0).clip(0.0, 100.0)
-    ema_health = (100.0 - (result["ema20_distance"].fillna(0.0) - 3.0).abs() * 5.0).clip(0.0, 100.0)
+
+    rsi_health = (100 - (result["rsi"] - 60).abs() * 3).clip(0, 100)
+    ema_health = (
+        percentile(result["ema20_distance"]) * 0.55
+        + percentile(result["ema50_distance"]) * 0.45
+    )
+
     result["trend_percentile"] = (
-        percentile_rank(result["v8_score"]) * 0.35
-        + percentile_rank(result["smart_money_score"]) * 0.20
-        + percentile_rank(result["institutional_score"]) * 0.20
-        + healthy_rsi * 0.10
-        + ema_health * 0.15
+        ema_health * 0.70
+        + rsi_health * 0.30
     )
+
     result["volume_percentile"] = (
-        percentile_rank(result["volume_ratio"]) * 0.45
-        + percentile_rank(result["volume_accumulation_ratio"]) * 0.40
-        + percentile_rank(result["close_position"]) * 0.15
+        percentile(result["volume_ratio"]) * 0.40
+        + percentile(result["volume_accumulation_ratio"]) * 0.35
+        + percentile(result["up_down_volume_ratio"]) * 0.25
     )
+
     result["quality_percentile"] = (
-        percentile_rank(result["historical_support_score"]) * 0.35
-        + inverse_percentile_rank(result["upper_wick_ratio"]) * 0.20
-        + inverse_percentile_rank(result["range_20_pct"]) * 0.15
-        + percentile_rank(result["institutional_score"]) * 0.30
+        percentile(result["close_position"]) * 0.30
+        + percentile(result["upper_wick_ratio"], inverse=True) * 0.25
+        + percentile(result["atr_pct"], inverse=True) * 0.20
+        + percentile(result["range_20_pct"], inverse=True) * 0.25
     )
+
     result["relative_strength_score"] = (
-        result["momentum_percentile"] * 0.30
+        result["momentum_percentile"] * 0.32
         + result["trend_percentile"] * 0.30
         + result["volume_percentile"] * 0.20
-        + result["quality_percentile"] * 0.20
-    ).clip(0.0, 100.0)
-    result["market_percentile"] = percentile_rank(result["relative_strength_score"])
+        + result["quality_percentile"] * 0.18
+    ).clip(0, 100)
+
+    result["market_percentile"] = percentile(result["relative_strength_score"])
     result["relative_class"] = np.select(
         [
             result["market_percentile"] >= 90,
@@ -123,62 +302,93 @@ def calculate_relative_strength(market: pd.DataFrame) -> pd.DataFrame:
         ["PÄ°YASA LÄ°DERÄ°", "GÃÃLÃ", "ORTA"],
         default="ZAYIF",
     )
-    result = result.sort_values(["market_percentile", "relative_strength_score"], ascending=False).reset_index(drop=True)
+
+    result = result.sort_values(
+        ["market_percentile", "relative_strength_score"],
+        ascending=False,
+    ).reset_index(drop=True)
     result.insert(0, "market_rank", range(1, len(result) + 1))
     return result
 
-def attach_v15(relative: pd.DataFrame, v15: pd.DataFrame) -> pd.DataFrame:
+
+def merge_candidates(market: pd.DataFrame, v15: pd.DataFrame) -> pd.DataFrame:
     if v15.empty or "symbol" not in v15.columns:
         return pd.DataFrame()
-    selected = v15.copy()
-    selected["symbol"] = selected["symbol"].map(normalize_symbol)
-    available = [c for c in ["symbol", "rank", "close", "v15_score", "v15_decision", "v14_score", "v14_decision", "dna_classification", "dna_confidence"] if c in selected.columns]
-    selected = selected[available]
-    merged = selected.merge(relative, on="symbol", how="left", suffixes=("_v15", ""))
-    if "close_v15" in merged.columns:
-        merged["close"] = pd.to_numeric(merged["close_v15"], errors="coerce").fillna(pd.to_numeric(merged.get("close"), errors="coerce"))
-    final_columns = [
-        "rank", "symbol", "close", "v15_score", "v15_decision", "v14_score",
-        "v14_decision", "dna_classification", "dna_confidence", "market_rank",
-        "market_percentile", "relative_strength_score", "relative_class",
-        "momentum_percentile", "trend_percentile", "volume_percentile",
-        "quality_percentile", "return_1d", "return_5d", "return_20d",
-        "rsi", "volume_ratio", "volume_accumulation_ratio", "ema20_distance",
+
+    candidates = v15.copy()
+    candidates["symbol"] = candidates["symbol"].map(normalize_symbol)
+
+    columns = [
+        "symbol", "rank", "close", "v15_score", "v15_decision",
+        "v14_score", "v14_decision", "dna_classification", "dna_confidence",
     ]
-    for column in final_columns:
+    candidates = candidates[[column for column in columns if column in candidates.columns]]
+
+    merged = candidates.merge(
+        market,
+        on="symbol",
+        how="left",
+        suffixes=("_v15", ""),
+    )
+
+    if "close_v15" in merged.columns:
+        merged["close"] = pd.to_numeric(
+            merged["close_v15"], errors="coerce"
+        ).fillna(pd.to_numeric(merged.get("close"), errors="coerce"))
+
+    output_columns = [
+        "rank", "symbol", "close", "v15_score", "v15_decision",
+        "v14_score", "v14_decision", "dna_classification", "dna_confidence",
+        "market_rank", "market_percentile", "relative_strength_score",
+        "relative_class", "momentum_percentile", "trend_percentile",
+        "volume_percentile", "quality_percentile", "return_1d", "return_5d",
+        "return_20d", "rsi", "volume_ratio", "volume_accumulation_ratio",
+        "ema20_distance",
+    ]
+
+    for column in output_columns:
         if column not in merged.columns:
             merged[column] = np.nan
-    return merged[final_columns].sort_values(["market_percentile", "v15_score"], ascending=False).reset_index(drop=True)
+
+    return merged[output_columns].sort_values(
+        ["market_percentile", "v15_score"],
+        ascending=False,
+    ).reset_index(drop=True)
+
 
 def main() -> None:
-    print("V16 Relative Strength Engine baÅladÄ±.")
-    market_raw = load_csv(MARKET_FILE)
+    print("V16 Full Market Relative Strength Engine baÅladÄ±.")
+
+    symbols = discover_symbols()
+    if SYMBOL_LIMIT > 0:
+        symbols = symbols[:SYMBOL_LIMIT]
+
+    snapshot = calculate_snapshot(symbols)
+    if snapshot.empty:
+        raise RuntimeError("V16 tam piyasa verisi oluÅturulamadÄ±.")
+
+    market = score_market(snapshot)
+    market.to_csv(MARKET_FILE, index=False, encoding="utf-8-sig")
+
     v15 = load_csv(V15_FILE)
-    if market_raw.empty:
-        pd.DataFrame().to_csv(RESULT_FILE, index=False, encoding="utf-8-sig")
-        with open(STATUS_FILE, "w", encoding="utf-8") as file:
-            json.dump({"status": "market_file_missing", "market_count": 0, "candidate_count": 0}, file, ensure_ascii=False, indent=2)
-        return
-    market = prepare_market(market_raw)
-    relative = calculate_relative_strength(market)
-    final = attach_v15(relative, v15)
-    final.to_csv(RESULT_FILE, index=False, encoding="utf-8-sig")
+    candidates = merge_candidates(market, v15)
+    candidates.to_csv(RESULT_FILE, index=False, encoding="utf-8-sig")
+
+    status = {
+        "status": "ready",
+        "requested_symbol_count": len(symbols),
+        "market_count": len(market),
+        "candidate_count": len(candidates),
+        "leader_count": int((market["market_percentile"] >= 90).sum()),
+        "comparison_scope": "FULL_MARKET",
+    }
+
     with open(STATUS_FILE, "w", encoding="utf-8") as file:
-        json.dump(
-            {
-                "status": "ready",
-                "market_count": len(relative),
-                "candidate_count": len(final),
-                "leader_count": int((relative["market_percentile"] >= 90).sum()),
-            },
-            file,
-            ensure_ascii=False,
-            indent=2,
-        )
-    print("\n===== V16 TÃM PÄ°YASA Ä°LK 20 =====")
-    print(relative[["market_rank", "symbol", "market_percentile", "relative_strength_score", "relative_class"]].head(20).to_string(index=False))
-    print("\n===== V16 V15 ADAYLARI =====")
-    print(final.to_string(index=False))
+        json.dump(status, file, ensure_ascii=False, indent=2)
+
+    print(json.dumps(status, ensure_ascii=False, indent=2))
+    print(candidates.to_string(index=False))
+
 
 if __name__ == "__main__":
     main()
