@@ -1,0 +1,3 @@
+﻿monitor_rank,symbol,monitoring_state,model_weight_pct,close,review_horizon_days,review_rule,statistical_invalidation_pct,statistical_invalidation_price,first_objective_pct,first_objective_price,optimistic_objective_pct,optimistic_objective_price,consensus_score,risk_class,risk_score,conflict_note
+1,CATES,PASÄ°F,40.0,45.8,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-2.86,44.4901,5.13,48.1495,7.53,49.2487,77.0,ORTA,27.0,Risk seviyesi orta
+2,KRDMA,PASÄ°F,40.0,41.02,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-2.1,40.1586,2.75,42.1481,7.47,44.0842,51.22,ORTA,27.0,Motorlar arasında belirgin görüş ayrılığı var | Risk seviyesi orta

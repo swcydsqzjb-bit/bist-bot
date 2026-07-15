@@ -1,0 +1,13 @@
+{
+  "status": "ready",
+  "candidate_count": 3,
+  "timing_ready_count": 3,
+  "history_count": 195,
+  "history_files": [
+    "v5_backfill_history.csv",
+    "v11_signal_history.csv",
+    "signals_history.csv",
+    "v3_signals_history.csv"
+  ],
+  "minimum_neighbors": 8
+}
