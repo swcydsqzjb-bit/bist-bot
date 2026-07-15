@@ -1,112 +1,15 @@
-from __future__ import annotations
-import os
-from typing import Any
-import numpy as np
-import pandas as pd
-import requests
-
-TOKEN = os.getenv("TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-FILE = "v14_adaptive_decisions.csv"
-
-def f(v: Any, d: float = 0.0) -> float:
-    try:
-        x = float(v)
-        return d if np.isnan(x) or np.isinf(x) else x
-    except Exception:
-        return d
-
-def t(v: Any) -> str:
-    if v is None:
-        return ""
-    try:
-        if pd.isna(v):
-            return ""
-    except Exception:
-        pass
-    return str(v).strip()
-
-def send(text: str) -> None:
-    if not TOKEN or not CHAT_ID:
-        print(text)
-        return
-    parts, current = [], ""
-    for p in text.split("\n\n"):
-        c = p if not current else current + "\n\n" + p
-        if len(c) <= 3900:
-            current = c
-        else:
-            if current:
-                parts.append(current)
-            current = p
-    if current:
-        parts.append(current)
-    for part in parts:
-        r = requests.post(
-            "https://api.telegram.org/bot" + TOKEN + "/sendMessage",
-            data={"chat_id": CHAT_ID, "text": part, "disable_web_page_preview": True},
-            timeout=30,
-        )
-        print(r.status_code, r.text[:250])
-
-def reasons(value: Any, marker: str) -> str:
-    items = [x.strip() for x in t(value).split("|") if x.strip()]
-    return "\n".join(marker + " " + x for x in items)
-
-def emoji(decision: str) -> str:
-    if decision == "G\u00dc\u00c7L\u00dc ONAY":
-        return "\U0001f7e2"
-    if decision == "ONAYLI \u0130ZLEME":
-        return "\U0001f535"
-    if decision == "TEMK\u0130NL\u0130 \u0130ZLEME":
-        return "\U0001f7e1"
-    return "\U0001f534"
-
-def main() -> None:
-    try:
-        df = pd.read_csv(FILE, encoding="utf-8-sig")
-    except Exception as exc:
-        print(FILE + " okunamadi:", exc)
-        return
-    if df.empty:
-        send("\U0001f9e0 LARUS V14 ADAPT\u0130F KARAR RAPORU\n\nBug\u00fcn incelenecek aday bulunamadi.")
-        return
-
-    approved = int(df["v14_decision"].isin(["G\u00dc\u00c7L\u00dc ONAY", "ONAYLI \u0130ZLEME"]).sum())
-    msg = (
-        "\U0001f9e0 LARUS V14 ADAPT\u0130F KARAR RAPORU\n\n"
-        f"\u0130ncelenen aday: {len(df)}\n"
-        f"Onaylanan: {approved}\n"
-        f"Agirlik modu: {t(df.iloc[0].get('weight_mode'))}\n\n"
-    )
-
-    for _, r in df.iterrows():
-        d = t(r.get("v14_decision"))
-        msg += (
-            f"{emoji(d)} {int(f(r.get('rank')))}. {t(r.get('symbol'))}\n"
-            f"Karar: {d}\n"
-            f"Fiyat: {f(r.get('close')):.2f}\n"
-            f"V14 skoru: {f(r.get('v14_score')):.1f}/100\n"
-            f"V8 skoru: {f(r.get('v8_score')):.1f}/100\n"
-            f"Smart Money: {f(r.get('smart_money_score')):.1f}/100\n"
-            f"Kurumsal: {f(r.get('institutional_score')):.1f}/100\n"
-            f"DNA: {t(r.get('dna_classification'))} | {f(r.get('dna_confidence')):.1f}/100\n"
-            f"5 g\u00fcnde pozitif: %{f(r.get('positive_rate_5d')):.1f}\n"
-            f"5 g\u00fcnde en az %3: %{f(r.get('hit_3pct_5d_rate')):.1f}\n"
-            f"Ortalama 5 g\u00fcnl\u00fck sonu\u00e7: {f(r.get('average_result_5d')):+.2f}%\n"
-            f"Pozitif bonus: +{f(r.get('positive_bonus')):.1f}\n"
-            f"Risk kesintisi: -{f(r.get('risk_penalty')):.1f}\n"
-        )
-        p = reasons(r.get("positive_reasons"), "\u2713")
-        q = reasons(r.get("risk_reasons"), "\u2022")
-        if p:
-            msg += "\nOnay nedenleri:\n" + p + "\n"
-        if q:
-            msg += "\nRiskler:\n" + q + "\n"
-        msg += "\n--------------------\n\n"
-
-    msg += "\u26a0\ufe0f V14 istatistiksel bir karar katmanidir. Yatirim tavsiyesi veya getiri garantisi degildir."
-    send(msg)
-
-if __name__ == "__main__":
-    main()
+from tg_utf8_common import *
+F="v14_adaptive_decisions.csv"; S="v14_status.json"
+def main():
+    f=csv(F); s=js(S)
+    if f.empty: send("🧠 LARUS V14 ADAPTİF KARAR RAPORU\n\nBugün incelenecek aday bulunamadı."); return
+    m=f"🧠 LARUS V14 ADAPTİF KARAR RAPORU\n\nİncelenen aday: {len(f)}\nOnaylanan: {int(n(s.get('approved_count',0)))}\nAğırlık modu: {t(s.get('weight_mode','BASE'))}\n\n"
+    for i,r in f.iterrows():
+        m+=f"🎯 {i+1}. {t(first(r,'symbol'))}\nKarar: {t(first(r,'v14_decision','decision'))}\nFiyat: {n(first(r,'close','price')):.2f}\nV14 skoru: {n(first(r,'v14_score','final_score')):.1f}/100\nV8 skoru: {n(first(r,'v8_score')):.1f}/100\nSmart Money: {n(first(r,'smart_money_score')):.1f}/100\nKurumsal: {n(first(r,'institutional_score','institutional_accumulation_score')):.1f}/100\nDNA: {t(first(r,'dna_classification','dna_class'))} | {n(first(r,'dna_confidence')):.1f}/100\n5 günde pozitif: %{n(first(r,'positive_rate_5d')):.1f}\n5 günde en az %3: %{n(first(r,'hit_3pct_5d_rate','hit_3_rate')):.1f}\nOrtalama 5 günlük sonuç: {n(first(r,'average_result_5d','avg_result_5d')):+.2f}%\nPozitif bonus: {n(first(r,'positive_bonus')):+.1f}\nRisk kesintisi: {n(first(r,'risk_penalty')):+.1f}\n"
+        reasons=listed(first(r,'approval_reasons','positive_reasons','reasons'),"✓")
+        risks=listed(first(r,'risks','risk_reasons','risk_notes'))
+        if reasons: m+="\nOnay nedenleri:\n"+reasons+"\n"
+        if risks: m+="\nRiskler:\n"+risks+"\n"
+        m+="\n--------------------\n\n"
+    send(m+"⚠️ V14 istatistiksel bir karar katmanıdır. Yatırım tavsiyesi değildir.")
+if __name__=="__main__": main()
