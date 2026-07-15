@@ -13,7 +13,7 @@ concurrency:
 jobs:
   alpha-full-market:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 240
 
     env:
       TOKEN: ${{ secrets.TOKEN }}
@@ -22,6 +22,7 @@ jobs:
       V8_SYMBOL_LIMIT: "0"
       V9_SYMBOL_LIMIT: "0"
       V10_MANUAL_LEADERS: ""
+      V16_SYMBOL_LIMIT: "0"
 
     steps:
       - name: Repoyu cek
@@ -38,6 +39,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install yfinance pandas numpy requests lxml html5lib beautifulsoup4
 
       - name: Tum BIST icin V9 iliskilerini olustur
         run: |
@@ -77,12 +79,6 @@ jobs:
         run: |
           python v14_adaptive_decision.py
 
-      - name: V14 karar dosyasini kontrol et
-        run: |
-          test -f v14_adaptive_decisions.csv
-          cat v14_status.json
-          cat v14_adaptive_decisions.csv
-
       - name: V14 Telegram raporunu gonder
         run: |
           python v14_telegram.py
@@ -91,43 +87,55 @@ jobs:
         run: |
           python v15_learning.py
 
-      - name: V15 karar dosyasini kontrol et
-        run: |
-          test -f v15_final_decisions.csv
-          cat v15_status.json
-          cat v15_final_decisions.csv
-
       - name: V15 Telegram raporunu gonder
         run: |
           python v15_telegram.py
 
-      - name: V16 Relative Strength Engine
+      - name: V16 Tam Piyasa Goreli Guc Motorunu calistir
         run: |
           python v16_relative_strength.py
 
-      - name: V16 dosyasini kontrol et
+      - name: V16 sonucunu kontrol et
         run: |
+          test -f v16_full_market_snapshot.csv
           test -f v16_relative_strength.csv
           cat v16_status.json
+          head -n 10 v16_full_market_snapshot.csv
           cat v16_relative_strength.csv
 
       - name: V16 Telegram raporunu gonder
         run: |
           python v16_telegram.py
 
-      - name: V17 Market Regime Engine
+      - name: V17 Piyasa Rejim Motorunu calistir
         run: |
           python v17_market_regime.py
-
-      - name: V17 dosyasini kontrol et
-        run: |
-          test -f v17_regime_adjusted_decisions.csv
-          cat v17_market_regime_status.json
-          cat v17_regime_adjusted_decisions.csv
 
       - name: V17 Telegram raporunu gonder
         run: |
           python v17_telegram.py
+
+      - name: V18 Guven Motorunu calistir
+        run: |
+          python v18_confidence.py
+
+      - name: V18 Telegram raporunu gonder
+        run: |
+          python v18_telegram.py
+
+      - name: V19 Zamanlama Motorunu calistir
+        run: |
+          python v19_timing_forecast.py
+
+      - name: V19 sonucunu kontrol et
+        run: |
+          test -f v19_timing_forecasts.csv
+          cat v19_timing_status.json
+          cat v19_timing_forecasts.csv
+
+      - name: V19 Telegram raporunu gonder
+        run: |
+          python v19_telegram.py
 
       - name: Sonuclari GitHub'a kaydet
         run: |
@@ -149,15 +157,23 @@ jobs:
           git add v15_final_decisions.csv || true
 
           git add v16_status.json || true
+          git add v16_full_market_snapshot.csv || true
           git add v16_relative_strength.csv || true
 
           git add v17_market_regime_status.json || true
           git add v17_regime_adjusted_decisions.csv || true
 
+          git add v18_confidence_status.json || true
+          git add v18_confidence_decisions.csv || true
+
+          git add v19_timing_status.json || true
+          git add v19_timing_forecasts.csv || true
+
           if git diff --cached --quiet; then
             echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS V11-V17 automatic update"
+            git commit -m "LARUS V11-V19 automatic update"
+            git pull --rebase origin main
             git push
           fi
 
@@ -165,7 +181,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-full-market-results
+          name: larus-alpha-v19-results
           path: |
             v8_fusion_meta.csv
             v8_today_candidates.csv
@@ -183,7 +199,12 @@ jobs:
             v15_model_weights.csv
             v15_final_decisions.csv
             v16_status.json
+            v16_full_market_snapshot.csv
             v16_relative_strength.csv
             v17_market_regime_status.json
             v17_regime_adjusted_decisions.csv
+            v18_confidence_status.json
+            v18_confidence_decisions.csv
+            v19_timing_status.json
+            v19_timing_forecasts.csv
           if-no-files-found: warn
