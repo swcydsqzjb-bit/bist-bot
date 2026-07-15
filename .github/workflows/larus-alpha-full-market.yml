@@ -112,11 +112,11 @@ jobs:
         run: |
           python v18_telegram.py
 
-      - name: V19.1 Zamanlama Motorunu calistir
+      - name: V19 Zamanlama Motorunu calistir
         run: |
           python v19_timing_forecast.py
 
-      - name: V19.1 Telegram raporunu gonder
+      - name: V19 Telegram raporunu gonder
         run: |
           python v19_telegram.py
 
@@ -129,94 +129,71 @@ jobs:
           test -f v20_ai_final_decisions.csv
           test -f v20_ai_status.json
           cat v20_ai_status.json
-          cat v20_ai_final_decisions.csv
 
       - name: V20 Telegram raporunu gonder
         run: |
           python v20_telegram.py
 
-      - name: Sonuclari GitHub'a kaydet
+      - name: V20.2 Top Pick Engine
         run: |
-          git config user.name "larus-alpha-bot"
-          git config user.email "larus-alpha-bot@users.noreply.github.com"
+          python v20_top_pick.py
 
-          git add v11_signal_history.csv || true
-          git add v11_learning_summary.csv || true
-          git add v11_learned_weights.csv || true
+      - name: V20.2 sonucunu kontrol et
+        run: |
+          test -f v20_top_picks.csv
+          test -f v20_top_pick_status.json
+          cat v20_top_pick_status.json
 
-          git add v13_market_dna_status.json || true
-          git add v13_market_dna_results.csv || true
+      - name: V20.2 Top Picks Telegram raporunu gonder
+        run: |
+          python v20_top_pick_telegram.py
 
-          git add v14_status.json || true
-          git add v14_adaptive_decisions.csv || true
+      - name: V20.3 Model Portfolio Engine
+        run: |
+          python v20_portfolio.py
 
-          git add v15_status.json || true
-          git add v15_model_weights.csv || true
-          git add v15_final_decisions.csv || true
+      - name: V20.3 sonucunu kontrol et
+        run: |
+          test -f v20_model_portfolio.csv
+          test -f v20_portfolio_status.json
+          cat v20_portfolio_status.json
 
-          git add v16_status.json || true
-          git add v16_full_market_snapshot.csv || true
-          git add v16_relative_strength.csv || true
+      - name: V20.3 Portfolio Telegram raporunu gonder
+        run: |
+          python v20_portfolio_telegram.py
 
-          git add v17_market_regime_status.json || true
-          git add v17_regime_adjusted_decisions.csv || true
+      - name: V20.4 Monitoring Plan Engine
+        run: |
+          python v20_monitoring_plan.py
 
-          git add v18_confidence_status.json || true
-          git add v18_confidence_decisions.csv || true
+      - name: V20.4 sonucunu kontrol et
+        run: |
+          test -f v20_monitoring_plan.csv
+          test -f v20_monitoring_status.json
+          cat v20_monitoring_status.json
 
-          git add v19_timing_status.json || true
-          git add v19_timing_forecasts.csv || true
+      - name: V20.4 Monitoring Telegram raporunu gonder
+        run: |
+          python v20_monitoring_telegram.py
 
-          git add v20_ai_status.json || true
-          git add v20_ai_final_decisions.csv || true
+      - name: Commit yeni dosyalari
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
-          if git diff --cached --quiet; then
-            echo "Kaydedilecek yeni degisiklik yok."
-          else
-            git commit -m "LARUS V20.1 AI final decision update"
-            git pull --rebase origin main
-            git push
-          fi
+          git add .
 
-      - name: Tum sonuclari artifact olarak kaydet
-        if: always()
+          git diff --cached --quiet || git commit -m "Auto update Larus Alpha outputs"
+
+          git push
+
+      - name: Tum ciktilari sakla
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v20-1-results
+          name: larus-alpha-results
+          if-no-files-found: warn
           path: |
-            v8_today_candidates.csv
-            v8_fusion_results.csv
-            v9_leader_lag_results.csv
-            v10_follow_predictions.csv
+            *.csv
+            *.json
 
-            v11_signal_history.csv
-            v11_learning_summary.csv
-            v11_learned_weights.csv
-
-            v13_market_dna_status.json
-            v13_market_dna_results.csv
-
-            v14_status.json
-            v14_adaptive_decisions.csv
-
-            v15_status.json
-            v15_model_weights.csv
-            v15_final_decisions.csv
-
-            v16_status.json
-            v16_full_market_snapshot.csv
-            v16_relative_strength.csv
-
-            v17_market_regime_status.json
-            v17_regime_adjusted_decisions.csv
-
-            v18_confidence_status.json
-            v18_confidence_decisions.csv
-
-            v19_timing_status.json
-            v19_timing_forecasts.csv
-
-            v20_ai_status.json
-            v20_ai_final_decisions.csv
-
-            if-no-files-found: warn
+       if-no-files-found: warn
