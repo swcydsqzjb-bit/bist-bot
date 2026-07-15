@@ -49,12 +49,19 @@ jobs:
           pip install yfinance pandas numpy requests lxml html5lib beautifulsoup4
 
       # ============================================================
-      # V8 + V9
+      # V9 - LIDER TAKIPCI ILISKILERI
       # ============================================================
 
-      - name: V9 Lider Takipci ve V8 Fusion
+      - name: V9 Lider Takipci Iliskilerini Olustur
         run: |
           python v9_leader_lag.py
+
+      # ============================================================
+      # V8 - FUSION TARAMASI
+      # ============================================================
+
+      - name: V8 Fusion Taramasini Calistir
+        run: |
           python v8_main.py
 
           test -f v8_today_candidates.csv
@@ -64,66 +71,92 @@ jobs:
           cat v8_today_candidates.csv
 
       # ============================================================
-      # V10
+      # V10 - LIDER TAKIPCI RAPORU
       # ============================================================
 
-      - name: V10 Takipci Tahmin Motoru
+      - name: V10 Takipci Tahmin Motorunu Calistir
         run: |
           python v10_follow_prediction.py
+
+      - name: V10 Telegram Raporunu Gonder
+        run: |
           python v10_telegram.py
 
       # ============================================================
-      # V11
+      # V11 - PERFORMANS HAFIZASI
       # ============================================================
 
-      - name: V11 Performans Hafizasi
+      - name: V11 Performans Hafizasini Guncelle
         run: |
           python v11_learning.py
 
+          test -f v11_signal_history.csv
+          test -f v11_learning_summary.csv
+          test -f v11_learned_weights.csv
+
+          echo "===== V11 OGRENME DURUMU ====="
+          cat v11_learning_summary.csv
+
       # ============================================================
-      # V13
+      # V13 - MARKET DNA
       # ============================================================
 
-      - name: V13 Market DNA
+      - name: V13 Market DNA Analizini Calistir
         run: |
           python v13_market_dna.py
 
           test -f v13_market_dna_status.json
           test -f v13_market_dna_results.csv
 
+          echo "===== V13 STATUS ====="
+          cat v13_market_dna_status.json
+
+      - name: V13 Telegram Raporunu Gonder
+        run: |
           python v13_telegram.py
 
       # ============================================================
-      # V14
+      # V14 - ADAPTIF KARAR
       # ============================================================
 
-      - name: V14 Adaptif Karar Motoru
+      - name: V14 Adaptif Karar Motorunu Calistir
         run: |
           python v14_adaptive_decision.py
 
           test -f v14_status.json
           test -f v14_adaptive_decisions.csv
 
+          echo "===== V14 STATUS ====="
+          cat v14_status.json
+
+      - name: V14 Telegram Raporunu Gonder
+        run: |
           python v14_telegram.py
 
       # ============================================================
-      # V15
+      # V15 - OGRENME VE NIHAI KARAR
       # ============================================================
 
-      - name: V15 Ogrenme ve Nihai Karar
+      - name: V15 Ogrenme ve Nihai Karar Motorunu Calistir
         run: |
           python v15_learning.py
 
           test -f v15_status.json
+          test -f v15_model_weights.csv
           test -f v15_final_decisions.csv
 
+          echo "===== V15 STATUS ====="
+          cat v15_status.json
+
+      - name: V15 Telegram Raporunu Gonder
+        run: |
           python v15_telegram.py
 
       # ============================================================
-      # V16
+      # V16 - TAM PIYASA GORELI GUC
       # ============================================================
 
-      - name: V16 Tam Piyasa Goreli Guc
+      - name: V16 Tam Piyasa Goreli Guc Motorunu Calistir
         run: |
           python v16_relative_strength.py
 
@@ -134,13 +167,15 @@ jobs:
           echo "===== V16 STATUS ====="
           cat v16_status.json
 
+      - name: V16 Telegram Raporunu Gonder
+        run: |
           python v16_telegram.py
 
       # ============================================================
-      # V17
+      # V17 - PIYASA REJIMI
       # ============================================================
 
-      - name: V17 Tam Piyasa Rejim Motoru
+      - name: V17 Piyasa Rejim Motorunu Calistir
         run: |
           python v17_market_regime.py
 
@@ -150,13 +185,15 @@ jobs:
           echo "===== V17 STATUS ====="
           cat v17_market_regime_status.json
 
+      - name: V17 Telegram Raporunu Gonder
+        run: |
           python v17_telegram.py
 
       # ============================================================
-      # V18
+      # V18 - GUVEN MOTORU
       # ============================================================
 
-      - name: V18 Guven Motoru
+      - name: V18 Guven Motorunu Calistir
         run: |
           python v18_confidence.py
 
@@ -166,13 +203,15 @@ jobs:
           echo "===== V18 STATUS ====="
           cat v18_confidence_status.json
 
+      - name: V18 Telegram Raporunu Gonder
+        run: |
           python v18_telegram.py
 
       # ============================================================
-      # V19
+      # V19 - ZAMANLAMA MOTORU
       # ============================================================
 
-      - name: V19 Zamanlama Motoru
+      - name: V19 Zamanlama Motorunu Calistir
         run: |
           python v19_timing_forecast.py
 
@@ -182,29 +221,33 @@ jobs:
           echo "===== V19 STATUS ====="
           cat v19_timing_status.json
 
+      - name: V19 Telegram Raporunu Gonder
+        run: |
           python v19_telegram.py
 
       # ============================================================
-      # V20.1
+      # V20.1 - AI FINAL KARAR
       # ============================================================
 
-      - name: V20.1 AI Final Decision
+      - name: V20 AI Final Karar Motorunu Calistir
         run: |
           python v20_ai_engine.py
 
           test -f v20_ai_status.json
           test -f v20_ai_final_decisions.csv
 
-          echo "===== V20.1 STATUS ====="
+          echo "===== V20 STATUS ====="
           cat v20_ai_status.json
 
+      - name: V20 Telegram Raporunu Gonder
+        run: |
           python v20_telegram.py
 
       # ============================================================
-      # V20.2
+      # V20.2 - TOP PICKS
       # ============================================================
 
-      - name: V20.2 Top Pick
+      - name: V20.2 Top Pick Motorunu Calistir
         run: |
           python v20_top_pick.py
 
@@ -214,13 +257,15 @@ jobs:
           echo "===== V20.2 STATUS ====="
           cat v20_top_pick_status.json
 
+      - name: V20.2 Telegram Raporunu Gonder
+        run: |
           python v20_top_pick_telegram.py
 
       # ============================================================
-      # V20.3
+      # V20.3 - MODEL PORTFOYU
       # ============================================================
 
-      - name: V20.3 Model Portfoyu
+      - name: V20.3 Model Portfoy Motorunu Calistir
         run: |
           python v20_portfolio.py
 
@@ -230,13 +275,15 @@ jobs:
           echo "===== V20.3 STATUS ====="
           cat v20_portfolio_status.json
 
+      - name: V20.3 Telegram Raporunu Gonder
+        run: |
           python v20_portfolio_telegram.py
 
       # ============================================================
-      # V20.4
+      # V20.4 - IZLEME PLANI
       # ============================================================
 
-      - name: V20.4 Izleme Plani
+      - name: V20.4 Izleme Plani Motorunu Calistir
         run: |
           python v20_monitoring_plan.py
 
@@ -246,15 +293,57 @@ jobs:
           echo "===== V20.4 STATUS ====="
           cat v20_monitoring_status.json
 
+      - name: V20.4 Telegram Raporunu Gonder
+        run: |
           python v20_monitoring_telegram.py
 
       # ============================================================
-      # SON KONTROL
+      # V21 - SELF LEARNING
       # ============================================================
 
-      - name: Nihai durumlari goster
+      - name: V21 Self Learning Motorunu Calistir
+        run: |
+          python v21_self_learning.py
+
+          test -f v21_status.json
+          test -f v21_learning_report.csv
+          test -f v21_learned_weights.csv
+
+          echo "===== V21 STATUS ====="
+          cat v21_status.json
+
+      - name: V21 Telegram Raporunu Gonder
+        run: |
+          python v21_telegram.py
+
+      # ============================================================
+      # V22 - SINYAL DURUM MOTORU
+      # ============================================================
+
+      - name: V22 Sinyal Durum Motorunu Calistir
+        run: |
+          python v22_signal_engine.py
+
+          test -f v22_status.json
+          test -f v22_signal_states.csv
+
+          echo "===== V22 STATUS ====="
+          cat v22_status.json
+
+      - name: V22 Telegram Raporunu Gonder
+        run: |
+          python v22_telegram.py
+
+      # ============================================================
+      # NIHAI DURUM KONTROLU
+      # ============================================================
+
+      - name: Tum Motor Durumlarini Goster
         if: always()
         run: |
+          echo "===== V13 ====="
+          cat v13_market_dna_status.json 2>/dev/null || true
+
           echo "===== V14 ====="
           cat v14_status.json 2>/dev/null || true
 
@@ -273,7 +362,7 @@ jobs:
           echo "===== V19 ====="
           cat v19_timing_status.json 2>/dev/null || true
 
-          echo "===== V20.1 ====="
+          echo "===== V20 ====="
           cat v20_ai_status.json 2>/dev/null || true
 
           echo "===== V20.2 ====="
@@ -285,11 +374,17 @@ jobs:
           echo "===== V20.4 ====="
           cat v20_monitoring_status.json 2>/dev/null || true
 
+          echo "===== V21 ====="
+          cat v21_status.json 2>/dev/null || true
+
+          echo "===== V22 ====="
+          cat v22_status.json 2>/dev/null || true
+
       # ============================================================
       # GITHUB KAYIT
       # ============================================================
 
-      - name: Sonuclari GitHub'a kaydet
+      - name: Sonuclari GitHuba Kaydet
         run: |
           git config user.name "larus-alpha-bot"
           git config user.email "larus-alpha-bot@users.noreply.github.com"
@@ -301,7 +396,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS V20.4 automatic results update"
+            git commit -m "LARUS V22 automatic results update"
             git pull --rebase origin main
             git push
           fi
@@ -310,11 +405,11 @@ jobs:
       # ARTIFACT
       # ============================================================
 
-      - name: Tum sonuclari artifact olarak kaydet
+      - name: Tum Sonuclari Artifact Olarak Kaydet
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v20-4-results
+          name: larus-alpha-v22-results
           path: |
             *.csv
             *.json
