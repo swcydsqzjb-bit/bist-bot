@@ -1,152 +1,16 @@
-from __future__ import annotations
-
-import json
-import os
-from typing import Any, List
-
-import numpy as np
-import pandas as pd
-import requests
-
-
-TOKEN = os.getenv("TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-RESULT_FILE = "v19_timing_forecasts.csv"
-STATUS_FILE = "v19_timing_status.json"
-LIMIT = 3900
-
-
-def safe_float(value: Any, default: float = 0.0) -> float:
-    try:
-        number = float(value)
-        if np.isnan(number) or np.isinf(number):
-            return default
-        return number
-    except (TypeError, ValueError):
-        return default
-
-
-def clean_text(value: Any) -> str:
-    if value is None:
-        return ""
-    try:
-        if pd.isna(value):
-            return ""
-    except Exception:
-        pass
-    return str(value).strip()
-
-
-def load_status() -> dict:
-    try:
-        with open(STATUS_FILE, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except Exception:
-        return {}
-
-
-def split_message(text: str) -> List[str]:
-    if len(text) <= LIMIT:
-        return [text]
-
-    parts, current = [], ""
-    for paragraph in text.split("\n\n"):
-        candidate = paragraph if not current else current + "\n\n" + paragraph
-        if len(candidate) <= LIMIT:
-            current = candidate
-        else:
-            if current:
-                parts.append(current)
-            current = paragraph
-    if current:
-        parts.append(current)
-    return parts
-
-
-def send_message(text: str) -> None:
-    if not TOKEN or not CHAT_ID:
-        print(text)
-        return
-
-    for part in split_message(text):
-        response = requests.post(
-            f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-            data={
-                "chat_id": CHAT_ID,
-                "text": part,
-                "disable_web_page_preview": True,
-            },
-            timeout=30,
-        )
-        print(response.status_code, response.text[:300])
-
-
-def main() -> None:
-    try:
-        frame = pd.read_csv(RESULT_FILE, encoding="utf-8-sig")
-    except Exception as exc:
-        print(f"{RESULT_FILE} okunamadÄ±: {exc}")
-        return
-
-    status = load_status()
-
-    if frame.empty:
-        send_message(
-            "â±ï¸ LARUS V19 ZAMANLAMA RAPORU\n\n"
-            "BugÃ¼n zamanlama tahmini yapÄ±lacak aday bulunamadÄ±."
-        )
-        return
-
-    message = (
-        "â±ï¸ LARUS V19 ZAMANLAMA RAPORU\n\n"
-        f"Ä°ncelenen aday: {len(frame)}\n"
-        f"ZamanlamasÄ± hesaplanan: {int(safe_float(status.get('timing_ready_count')))}\n"
-        f"Tarihsel hafÄ±za: {int(safe_float(status.get('history_count')))} Ã¶rnek\n\n"
-        "V19, geÃ§miÅteki benzer sinyallerin 1, 3, 5 ve 10 iÅlem gÃ¼nlÃ¼k "
-        "sonuÃ§larÄ±nÄ± karÅÄ±laÅtÄ±rarak en uygun izleme ufkunu tahmin eder.\n\n"
-    )
-
-    for _, row in frame.iterrows():
-        symbol = clean_text(row.get("symbol"))
-        ready = str(row.get("timing_ready")).lower() in {"true", "1"}
-
-        message += f"ð¯ {int(safe_float(row.get('rank')))}. {symbol}\n"
-
+from tg_utf8_common import *
+F="v19_timing_forecasts.csv"; S="v19_timing_status.json"
+def main():
+    f=csv(F); s=js(S)
+    if f.empty: send("⏱️ LARUS V19 ZAMANLAMA RAPORU\n\nBugün zamanlama tahmini yapılacak aday bulunamadı."); return
+    files=s.get("history_files",[])
+    files=", ".join(t(x) for x in files) if isinstance(files,list) else t(files)
+    m=f"⏱️ LARUS V19 ZAMANLAMA RAPORU\n\nİncelenen aday: {len(f)}\nZamanlaması hesaplanan: {int(n(s.get('timing_ready_count')))}\nTarihsel hafıza: {int(n(s.get('history_count')))} örnek\nKullanılan hafıza: {files or 'bulunamadı'}\n\nV19, geçmiş benzer sinyallerin 1, 3, 5 ve 10 işlem günlük sonuçlarını karşılaştırır.\n\n"
+    for i,r in f.iterrows():
+        ready=str(first(r,'timing_ready')).lower() in {"true","1","evet"}
+        m+=f"🎯 {i+1}. {t(first(r,'symbol'))}\n"
         if not ready:
-            message += (
-                "Durum: VERÄ° YETERSÄ°Z\n"
-                f"Benzer Ã¶rnek: {int(safe_float(row.get('neighbor_count')))}\n"
-                f"AÃ§Ä±klama: {clean_text(row.get('timing_message'))}\n"
-                "\n--------------------\n\n"
-            )
-            continue
-
-        message += (
-            f"Zamanlama sÄ±nÄ±fÄ±: {clean_text(row.get('timing_class'))}\n"
-            f"Ãnerilen izleme ufku: {int(safe_float(row.get('best_horizon_days')))} iÅlem gÃ¼nÃ¼\n"
-            f"Zamanlama gÃ¼veni: {safe_float(row.get('timing_confidence')):.1f}/100\n"
-            f"Benzer tarihsel Ã¶rnek: {int(safe_float(row.get('neighbor_count')))}\n"
-            f"Beklenen ortalama sonuÃ§: {safe_float(row.get('expected_return')):+.2f}%\n"
-            f"Medyan sonuÃ§: {safe_float(row.get('median_return')):+.2f}%\n"
-            f"Pozitif sonuÃ§ oranÄ±: %{safe_float(row.get('positive_rate')):.1f}\n"
-            f"En az %3 oranÄ±: %{safe_float(row.get('hit_3_rate')):.1f}\n"
-            f"Temkinli senaryo: {safe_float(row.get('downside_20pct')):+.2f}%\n"
-            f"Olumlu senaryo: {safe_float(row.get('upside_80pct')):+.2f}%\n\n"
-            "Ufuk karÅÄ±laÅtÄ±rmasÄ±:\n"
-            f"â¢ 1 gÃ¼n: {safe_float(row.get('result_1d_mean')):+.2f}%\n"
-            f"â¢ 3 gÃ¼n: {safe_float(row.get('result_3d_mean')):+.2f}%\n"
-            f"â¢ 5 gÃ¼n: {safe_float(row.get('result_5d_mean')):+.2f}%\n"
-            f"â¢ 10 gÃ¼n: {safe_float(row.get('result_10d_mean')):+.2f}%\n"
-            "\n--------------------\n\n"
-        )
-
-    message += (
-        "â ï¸ V19 zamanlama Ã§Ä±ktÄ±sÄ± geÃ§miÅ benzer Ã¶rneklerin istatistiksel "
-        "Ã¶zetidir; alÄ±m-satÄ±m talimatÄ± veya getiri garantisi deÄildir."
-    )
-
-    send_message(message)
-
-
-if __name__ == "__main__":
-    main()
+            m+=f"Durum: VERİ YETERSİZ\nBenzer örnek: {int(n(first(r,'neighbor_count')))}\nAçıklama: {t(first(r,'timing_message'))}\n\n--------------------\n\n"; continue
+        m+=f"Zamanlama sınıfı: {t(first(r,'timing_class'))}\nÖnerilen izleme ufku: {int(n(first(r,'best_horizon_days')))} işlem günü\nZamanlama güveni: {n(first(r,'timing_confidence')):.1f}/100\nBenzer tarihsel örnek: {int(n(first(r,'neighbor_count')))}\nBeklenen ortalama sonuç: {n(first(r,'expected_return')):+.2f}%\nMedyan sonuç: {n(first(r,'median_return')):+.2f}%\nPozitif sonuç oranı: %{n(first(r,'positive_rate')):.1f}\nEn az %3 oranı: %{n(first(r,'hit_3_rate')):.1f}\nTemkinli senaryo: {n(first(r,'downside_20pct')):+.2f}%\nOlumlu senaryo: {n(first(r,'upside_80pct')):+.2f}%\n\nUfuk karşılaştırması:\n• 1 gün: {n(first(r,'result_1d_mean')):+.2f}%\n• 3 gün: {n(first(r,'result_3d_mean')):+.2f}%\n• 5 gün: {n(first(r,'result_5d_mean')):+.2f}%\n• 10 gün: {n(first(r,'result_10d_mean')):+.2f}%\n\n--------------------\n\n"
+    send(m+"⚠️ V19 zamanlama çıktısı geçmiş benzer örneklerin istatistiksel özetidir; alım-satım talimatı değildir.")
+if __name__=="__main__": main()
