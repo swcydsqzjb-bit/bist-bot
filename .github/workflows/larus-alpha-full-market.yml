@@ -100,13 +100,6 @@ jobs:
         run: |
           python v17_market_regime.py
 
-      - name: V17 sonucunu kontrol et
-        run: |
-          test -f v17_regime_adjusted_decisions.csv
-          test -f v17_market_regime_status.json
-          cat v17_market_regime_status.json
-          cat v17_regime_adjusted_decisions.csv
-
       - name: V17 Telegram raporunu gonder
         run: |
           python v17_telegram.py
@@ -114,13 +107,6 @@ jobs:
       - name: V18 Guven Motorunu calistir
         run: |
           python v18_confidence.py
-
-      - name: V18 sonucunu kontrol et
-        run: |
-          test -f v18_confidence_decisions.csv
-          test -f v18_confidence_status.json
-          cat v18_confidence_status.json
-          cat v18_confidence_decisions.csv
 
       - name: V18 Telegram raporunu gonder
         run: |
@@ -130,16 +116,24 @@ jobs:
         run: |
           python v19_timing_forecast.py
 
-      - name: V19.1 sonucunu kontrol et
-        run: |
-          test -f v19_timing_forecasts.csv
-          test -f v19_timing_status.json
-          cat v19_timing_status.json
-          cat v19_timing_forecasts.csv
-
       - name: V19.1 Telegram raporunu gonder
         run: |
           python v19_telegram.py
+
+      - name: V20.1 AI Final Decision Engine
+        run: |
+          python v20_ai_engine.py
+
+      - name: V20.1 sonucunu kontrol et
+        run: |
+          test -f v20_ai_final_decisions.csv
+          test -f v20_ai_status.json
+          cat v20_ai_status.json
+          cat v20_ai_final_decisions.csv
+
+      - name: V20 Telegram raporunu gonder
+        run: |
+          python v20_telegram.py
 
       - name: Sonuclari GitHub'a kaydet
         run: |
@@ -173,10 +167,13 @@ jobs:
           git add v19_timing_status.json || true
           git add v19_timing_forecasts.csv || true
 
+          git add v20_ai_status.json || true
+          git add v20_ai_final_decisions.csv || true
+
           if git diff --cached --quiet; then
             echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS V17 full market and V19.1 update"
+            git commit -m "LARUS V20.1 AI final decision update"
             git pull --rebase origin main
             git push
           fi
@@ -185,7 +182,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v19-1-results
+          name: larus-alpha-v20-1-results
           path: |
             v8_today_candidates.csv
             v8_fusion_results.csv
@@ -219,4 +216,7 @@ jobs:
             v19_timing_status.json
             v19_timing_forecasts.csv
 
-          if-no-files-found: warn
+            v20_ai_status.json
+            v20_ai_final_decisions.csv
+
+            if-no-files-found: warn
