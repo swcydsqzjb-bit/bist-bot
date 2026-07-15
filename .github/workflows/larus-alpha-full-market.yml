@@ -24,8 +24,7 @@ jobs:
       V10_MANUAL_LEADERS: ""
 
     steps:
-
-      - name: Repoyu çek
+      - name: Repoyu cek
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -35,130 +34,156 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Kütüphaneleri kur
+      - name: Kutuphaneleri kur
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      ######################################################################
-      # V9
-      ######################################################################
-
-      - name: Tüm BIST için V9 ilişkilerini oluştur
+      - name: Tum BIST icin V9 iliskilerini olustur
         run: |
           python v9_leader_lag.py
 
-      ######################################################################
-      # V8
-      ######################################################################
-
-      - name: Tüm BIST için V8 Fusion çalıştır
+      - name: Tum BIST icin V8 Fusion calistir
         run: |
           python v8_main.py
 
-      - name: V8 aday dosyasını kontrol et
+      - name: V8 aday dosyasini kontrol et
         run: |
           test -f v8_today_candidates.csv
           wc -l v8_today_candidates.csv
-          head -20 v8_today_candidates.csv
+          head -n 10 v8_today_candidates.csv
 
-      ######################################################################
-      # V10
-      ######################################################################
-
-      - name: V10 Takipçi Motoru
+      - name: V10 takipci adaylarini olustur
         run: |
           python v10_follow_prediction.py
 
-      - name: V10 Telegram
+      - name: V10 Telegram raporunu gonder
         run: |
           python v10_telegram.py
 
-      ######################################################################
-      # V11
-      ######################################################################
-
-      - name: V11 Öğrenme
+      - name: V11 performans hafizasini guncelle
         run: |
           python v11_learning.py
 
-      ######################################################################
-      # V13
-      ######################################################################
-
-      - name: V13 Market DNA
+      - name: V13 Market DNA analizini calistir
         run: |
           python v13_market_dna.py
 
-      - name: V13 Telegram
+      - name: V13 Telegram raporunu gonder
         run: |
           python v13_telegram.py
 
-      ######################################################################
-      # V14
-      ######################################################################
-
-      - name: V14 Adaptive Decision
+      - name: V14 Adaptif Karar Motorunu calistir
         run: |
           python v14_adaptive_decision.py
 
-      - name: V14 dosyasını kontrol et
+      - name: V14 karar dosyasini kontrol et
         run: |
           test -f v14_adaptive_decisions.csv
           cat v14_status.json
-          head -20 v14_adaptive_decisions.csv
+          cat v14_adaptive_decisions.csv
 
-      - name: V14 Telegram
+      - name: V14 Telegram raporunu gonder
         run: |
           python v14_telegram.py
 
-      ######################################################################
-      # V15
-      ######################################################################
-
-      - name: V15 Learning Engine
+      - name: V15 Ogrenme ve Nihai Karar Motorunu calistir
         run: |
           python v15_learning.py
 
-      - name: V15 dosyasını kontrol et
+      - name: V15 karar dosyasini kontrol et
         run: |
           test -f v15_final_decisions.csv
           cat v15_status.json
-          head -20 v15_final_decisions.csv
+          cat v15_final_decisions.csv
 
-      - name: V15 Telegram
+      - name: V15 Telegram raporunu gonder
         run: |
           python v15_telegram.py
 
-      ######################################################################
-      # GITHUB SAVE
-      ######################################################################
+      - name: V16 Relative Strength Engine
+        run: |
+          python v16_relative_strength.py
 
-      - name: Sonuçları GitHub'a kaydet
+      - name: V16 dosyasini kontrol et
+        run: |
+          test -f v16_relative_strength.csv
+          cat v16_status.json
+          cat v16_relative_strength.csv
+
+      - name: V16 Telegram raporunu gonder
+        run: |
+          python v16_telegram.py
+
+      - name: V17 Market Regime Engine
+        run: |
+          python v17_market_regime.py
+
+      - name: V17 dosyasini kontrol et
+        run: |
+          test -f v17_regime_adjusted_decisions.csv
+          cat v17_market_regime_status.json
+          cat v17_regime_adjusted_decisions.csv
+
+      - name: V17 Telegram raporunu gonder
+        run: |
+          python v17_telegram.py
+
+      - name: Sonuclari GitHub'a kaydet
         run: |
           git config user.name "larus-alpha-bot"
           git config user.email "larus-alpha-bot@users.noreply.github.com"
 
-          git add *.csv || true
-          git add *.json || true
+          git add v11_signal_history.csv || true
+          git add v11_learning_summary.csv || true
+          git add v11_learned_weights.csv || true
+
+          git add v13_market_dna_status.json || true
+          git add v13_market_dna_results.csv || true
+
+          git add v14_status.json || true
+          git add v14_adaptive_decisions.csv || true
+
+          git add v15_status.json || true
+          git add v15_model_weights.csv || true
+          git add v15_final_decisions.csv || true
+
+          git add v16_status.json || true
+          git add v16_relative_strength.csv || true
+
+          git add v17_market_regime_status.json || true
+          git add v17_regime_adjusted_decisions.csv || true
 
           if git diff --cached --quiet; then
-            echo "Kaydedilecek değişiklik yok."
+            echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS automatic update"
+            git commit -m "LARUS V11-V17 automatic update"
             git push
           fi
 
-      ######################################################################
-      # ARTIFACT
-      ######################################################################
-
-      - name: Sonuçları Artifact olarak kaydet
+      - name: Tum sonuclari artifact olarak kaydet
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-results
+          name: larus-alpha-full-market-results
           path: |
-            *.csv
-            *.json
+            v8_fusion_meta.csv
+            v8_today_candidates.csv
+            v8_fusion_results.csv
+            v9_leader_lag_results.csv
+            v10_follow_predictions.csv
+            v11_signal_history.csv
+            v11_learning_summary.csv
+            v11_learned_weights.csv
+            v13_market_dna_status.json
+            v13_market_dna_results.csv
+            v14_status.json
+            v14_adaptive_decisions.csv
+            v15_status.json
+            v15_model_weights.csv
+            v15_final_decisions.csv
+            v16_status.json
+            v16_relative_strength.csv
+            v17_market_regime_status.json
+            v17_regime_adjusted_decisions.csv
           if-no-files-found: warn
