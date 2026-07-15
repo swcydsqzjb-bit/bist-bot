@@ -24,6 +24,9 @@ jobs:
       V10_MANUAL_LEADERS: ""
       V16_SYMBOL_LIMIT: "0"
 
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
+
     steps:
       - name: Repoyu cek
         uses: actions/checkout@v4
@@ -48,12 +51,6 @@ jobs:
       - name: Tum BIST icin V8 Fusion calistir
         run: |
           python v8_main.py
-
-      - name: V8 aday dosyasini kontrol et
-        run: |
-          test -f v8_today_candidates.csv
-          wc -l v8_today_candidates.csv
-          head -n 10 v8_today_candidates.csv
 
       - name: V10 takipci adaylarini olustur
         run: |
@@ -95,21 +92,20 @@ jobs:
         run: |
           python v16_relative_strength.py
 
-      - name: V16 sonucunu kontrol et
-        run: |
-          test -f v16_full_market_snapshot.csv
-          test -f v16_relative_strength.csv
-          cat v16_status.json
-          head -n 10 v16_full_market_snapshot.csv
-          cat v16_relative_strength.csv
-
       - name: V16 Telegram raporunu gonder
         run: |
           python v16_telegram.py
 
-      - name: V17 Piyasa Rejim Motorunu calistir
+      - name: V17 Tam Piyasa Rejim Motorunu calistir
         run: |
           python v17_market_regime.py
+
+      - name: V17 sonucunu kontrol et
+        run: |
+          test -f v17_regime_adjusted_decisions.csv
+          test -f v17_market_regime_status.json
+          cat v17_market_regime_status.json
+          cat v17_regime_adjusted_decisions.csv
 
       - name: V17 Telegram raporunu gonder
         run: |
@@ -119,21 +115,29 @@ jobs:
         run: |
           python v18_confidence.py
 
+      - name: V18 sonucunu kontrol et
+        run: |
+          test -f v18_confidence_decisions.csv
+          test -f v18_confidence_status.json
+          cat v18_confidence_status.json
+          cat v18_confidence_decisions.csv
+
       - name: V18 Telegram raporunu gonder
         run: |
           python v18_telegram.py
 
-      - name: V19 Zamanlama Motorunu calistir
+      - name: V19.1 Zamanlama Motorunu calistir
         run: |
           python v19_timing_forecast.py
 
-      - name: V19 sonucunu kontrol et
+      - name: V19.1 sonucunu kontrol et
         run: |
           test -f v19_timing_forecasts.csv
+          test -f v19_timing_status.json
           cat v19_timing_status.json
           cat v19_timing_forecasts.csv
 
-      - name: V19 Telegram raporunu gonder
+      - name: V19.1 Telegram raporunu gonder
         run: |
           python v19_telegram.py
 
@@ -172,7 +176,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS V11-V19 automatic update"
+            git commit -m "LARUS V17 full market and V19.1 update"
             git pull --rebase origin main
             git push
           fi
@@ -181,30 +185,38 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v19-results
+          name: larus-alpha-v19-1-results
           path: |
-            v8_fusion_meta.csv
             v8_today_candidates.csv
             v8_fusion_results.csv
             v9_leader_lag_results.csv
             v10_follow_predictions.csv
+
             v11_signal_history.csv
             v11_learning_summary.csv
             v11_learned_weights.csv
+
             v13_market_dna_status.json
             v13_market_dna_results.csv
+
             v14_status.json
             v14_adaptive_decisions.csv
+
             v15_status.json
             v15_model_weights.csv
             v15_final_decisions.csv
+
             v16_status.json
             v16_full_market_snapshot.csv
             v16_relative_strength.csv
+
             v17_market_regime_status.json
             v17_regime_adjusted_decisions.csv
+
             v18_confidence_status.json
             v18_confidence_decisions.csv
+
             v19_timing_status.json
             v19_timing_forecasts.csv
+
           if-no-files-found: warn
