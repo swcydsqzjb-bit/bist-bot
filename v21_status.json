@@ -1,0 +1,10 @@
+{
+  "status": "learning_active",
+  "history_sources": "signals_history.csv,v11_signal_history.csv,v3_signals_history.csv,v5_backfill_history.csv",
+  "completed_5d": 143,
+  "minimum_required": 30,
+  "reliability_factor": 0.8,
+  "strongest_feature": "v8_score",
+  "weakest_feature": "rsi",
+  "version": "V21.0"
+}

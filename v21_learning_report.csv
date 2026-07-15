@@ -1,0 +1,11 @@
+﻿feature,base_weight,recommended_weight,change,sample_count,correlation_5d,spread_5d,direction
+v8_score,20.0,20.0,0.0,0,,,VERÄ° YETERSÄ°Z
+smart_money_score,18.0,17.574,-0.426,143,-0.04987,-0.667,AZALT
+institutional_score,16.0,16.0,0.0,0,,,VERÄ° YETERSÄ°Z
+historical_support_score,12.0,12.0,0.0,0,,,VERÄ° YETERSÄ°Z
+prediction_score,10.0,10.0,0.0,0,,,VERÄ° YETERSÄ°Z
+live_confirmation_score,8.0,8.0,0.0,0,,,VERÄ° YETERSÄ°Z
+relationship_score,6.0,6.0,0.0,0,,,VERÄ° YETERSÄ°Z
+rsi,4.0,3.402,-0.598,143,-0.13484,-0.416,AZALT
+volume_ratio,4.0,3.797,-0.203,143,-0.02296,-0.324,KORU
+ema20_distance,2.0,2.0,0.0,143,-0.09343,-1.017,AZALT
