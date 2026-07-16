@@ -71,12 +71,14 @@ jobs:
           cat v8_today_candidates.csv
 
       # ============================================================
-      # V10 - LIDER TAKIPCI RAPORU
+      # V10 - TAKIPCI TAHMINI
       # ============================================================
 
       - name: V10 Takipci Tahmin Motorunu Calistir
         run: |
           python v10_follow_prediction.py
+
+          test -f v10_follow_predictions.csv
 
       - name: V10 Telegram Raporunu Gonder
         run: |
@@ -354,71 +356,126 @@ jobs:
           python v23_telegram.py
 
       # ============================================================
-      # NIHAI DURUM KONTROLU
+      # V24 - CANLI TEYIT
+      # ============================================================
+
+      - name: V24 Canli Teyit Motorunu Calistir
+        run: |
+          python v24_live_confirmation.py
+
+          test -f v24_status.json
+          test -f v24_live_confirmations.csv
+
+          echo "===== V24 STATUS ====="
+          cat v24_status.json
+
+      - name: V24 Telegram Raporunu Gonder
+        run: |
+          python v24_telegram.py
+
+      # ============================================================
+      # V25 - PERFORMANS DEGERLENDIRME
+      # ============================================================
+
+      - name: V25 Performans Degerlendirme Motoru
+        run: |
+          python v25_performance_evaluator.py
+
+          test -f v25_status.json
+          test -f v25_performance_evaluations.csv
+          test -f v25_performance_memory.csv
+
+          echo "===== V25 STATUS ====="
+          cat v25_status.json
+
+      - name: V25 Telegram Raporunu Gonder
+        run: |
+          python v25_telegram.py
+
+      # ============================================================
+      # V26 - PORTFOY OPTIMIZASYONU
+      # ============================================================
+
+      - name: V26 Portfoy Optimizasyon Motoru
+        run: |
+          python v26_portfolio_optimizer.py
+
+          test -f v26_status.json
+          test -f v26_optimized_portfolio.csv
+
+          echo "===== V26 STATUS ====="
+          cat v26_status.json
+
+      - name: V26 Telegram Raporunu Gonder
+        run: |
+          python v26_telegram.py
+
+      # ============================================================
+      # V27 - ANA KARAR SISTEMI
+      # ============================================================
+
+      - name: V27 Ana Karar Motoru
+        run: |
+          python v27_master_decision.py
+
+          test -f v27_status.json
+          test -f v27_master_decisions.csv
+
+          echo "===== V27 STATUS ====="
+          cat v27_status.json
+
+      - name: V27 Telegram Raporunu Gonder
+        run: |
+          python v27_telegram.py
+
+      # ============================================================
+      # TUM MOTOR DURUMLARI
       # ============================================================
 
       - name: Tum Motor Durumlarini Goster
         if: always()
         run: |
-          echo "===== V13 ====="
-          cat v13_market_dna_status.json 2>/dev/null || true
-
-          echo "===== V14 ====="
-          cat v14_status.json 2>/dev/null || true
-
-          echo "===== V15 ====="
-          cat v15_status.json 2>/dev/null || true
-
-          echo "===== V16 ====="
-          cat v16_status.json 2>/dev/null || true
-
-          echo "===== V17 ====="
-          cat v17_market_regime_status.json 2>/dev/null || true
-
-          echo "===== V18 ====="
-          cat v18_confidence_status.json 2>/dev/null || true
-
-          echo "===== V19 ====="
-          cat v19_timing_status.json 2>/dev/null || true
-
-          echo "===== V20 ====="
-          cat v20_ai_status.json 2>/dev/null || true
-
-          echo "===== V20.2 ====="
-          cat v20_top_pick_status.json 2>/dev/null || true
-
-          echo "===== V20.3 ====="
-          cat v20_portfolio_status.json 2>/dev/null || true
-
-          echo "===== V20.4 ====="
-          cat v20_monitoring_status.json 2>/dev/null || true
-
-          echo "===== V21 ====="
-          cat v21_status.json 2>/dev/null || true
-
-          echo "===== V22 ====="
-          cat v22_status.json 2>/dev/null || true
-
-          echo "===== V23 ====="
-          cat v23_status.json 2>/dev/null || true
+          for file in \
+            v13_market_dna_status.json \
+            v14_status.json \
+            v15_status.json \
+            v16_status.json \
+            v17_market_regime_status.json \
+            v18_confidence_status.json \
+            v19_timing_status.json \
+            v20_ai_status.json \
+            v20_top_pick_status.json \
+            v20_portfolio_status.json \
+            v20_monitoring_status.json \
+            v21_status.json \
+            v22_status.json \
+            v23_status.json \
+            v24_status.json \
+            v25_status.json \
+            v26_status.json \
+            v27_status.json
+          do
+            if [ -f "$file" ]; then
+              echo "===== $file ====="
+              cat "$file"
+            fi
+          done
 
       # ============================================================
-      # GITHUB KAYIT
+      # GITHUB COMMIT
       # ============================================================
 
-      - name: Sonuclari GitHuba Kaydet
+      - name: Sonuclari GitHub'a Kaydet
         run: |
           git config user.name "larus-alpha-bot"
           git config user.email "larus-alpha-bot@users.noreply.github.com"
 
-          find . -maxdepth 1 -type f \
-            \( -name "*.csv" -o -name "*.json" \) \
-            -print0 | xargs -0 -r git add --
+          find . -maxdepth 1 -type f \( -name "*.csv" -o -name "*.json" \) -print0 | xargs -0 -r git add
 
           if git diff --cached --quiet; then
-            echo "Kaydedilecek yeni degisiklik yok."
+            echo "Kaydedilecek degisiklik yok."
           else
-            git commit -m "LARUS V23 automatic results update"
+            git commit -m "LARUS V27 automatic update"
             git pull --rebase origin main
             git push
           fi
@@ -427,11 +484,11 @@ jobs:
       # ARTIFACT
       # ============================================================
 
-      - name: Tum Sonuclari Artifact Olarak Kaydet
+      - name: Sonuclari Artifact Olarak Yukle
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v23-results
+          name: larus-alpha-v27-results
           path: |
             *.csv
             *.json
