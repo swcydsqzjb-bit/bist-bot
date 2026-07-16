@@ -1,0 +1,14 @@
+{
+  "status": "no_positions",
+  "evaluated_count": 0,
+  "positive_count": 0,
+  "negative_count": 0,
+  "first_objective_count": 0,
+  "optimistic_objective_count": 0,
+  "invalidation_count": 0,
+  "average_quality_score": 0.0,
+  "top_symbol": "",
+  "top_quality_score": 0.0,
+  "evaluated_at_utc": "2026-07-16T18:23:34+00:00",
+  "version": "V25.1"
+}

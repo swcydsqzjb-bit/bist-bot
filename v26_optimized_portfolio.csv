@@ -1,0 +1,4 @@
+﻿v26_rank,symbol,portfolio_role,optimized_weight_pct,optimizer_score,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,risk_class,risk_score,expected_return,downside_20pct,upside_80pct,best_horizon_days,close
+1,BIMAS,ANA ADAY,28.62,66.399,TEYÄ°T BEKLE,78.81,TEYÄ°T BEKLE,37.58,50.0,YENÄ°,DÜŞÜK,0.0,3.72,-0.41,7.47,5,396.25
+2,THYAO,DESTEK ADAY,25.81,56.3585,TEYÄ°T BEKLE,63.62,TEYÄ°T BEKLE,44.27,50.0,YENÄ°,DÜŞÜK,21.0,2.13,-1.64,6.49,5,330.0
+3,ESCAR,DESTEK ADAY,25.56,55.8165,TEYÄ°T BEKLE,57.16,TEYÄ°T BEKLE,59.01,50.0,YENÄ°,DÜŞÜK,17.0,2.18,-1.93,6.49,5,49.98

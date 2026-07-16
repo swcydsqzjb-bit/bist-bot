@@ -1,4 +1,4 @@
 ﻿monitor_rank,symbol,monitoring_state,model_weight_pct,close,review_horizon_days,review_rule,statistical_invalidation_pct,statistical_invalidation_price,first_objective_pct,first_objective_price,optimistic_objective_pct,optimistic_objective_price,consensus_score,risk_class,risk_score,conflict_note
-1,BIMAS,PASÄ°F,30.89,393.5,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.0,389.565,4.04,409.3974,6.54,419.2349,78.09,DÜŞÜK,5.0,Belirgin motor çelişkisi yok
-2,ODINE,PASÄ°F,25.69,2070.0,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.0,2049.3,3.85,2149.695,7.31,2221.317,57.0,ORTA,43.0,Motor uyumu orta seviyede | Risk seviyesi orta
-3,THYAO,PASÄ°F,23.42,332.0,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.64,326.5552,1.67,337.5444,7.47,356.8004,76.52,ORTA,31.0,Risk seviyesi orta
+1,BIMAS,PASÄ°F,32.09,396.25,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.0,392.2875,3.72,410.9905,7.47,425.8499,82.19,DÜŞÜK,0.0,Belirgin motor çelişkisi yok
+2,THYAO,PASÄ°F,25.47,330.0,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.64,324.588,2.13,337.029,6.49,351.417,82.92,DÜŞÜK,21.0,Belirgin motor çelişkisi yok
+3,ESCAR,PASÄ°F,22.44,49.98,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.93,49.0154,2.18,51.0696,6.49,53.2237,51.56,DÜŞÜK,17.0,Motorlar arasında belirgin görüş ayrılığı var

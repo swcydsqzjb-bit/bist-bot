@@ -1,17 +1,17 @@
 {
   "regime": "RALLÄ°",
-  "regime_confidence": 89.44,
+  "regime_confidence": 86.79,
   "market_count": 490,
-  "breadth_1d_positive_pct": 83.88,
-  "breadth_5d_positive_pct": 66.12,
-  "breadth_20d_positive_pct": 30.61,
-  "above_ema20_pct": 37.35,
-  "median_return_1d": 1.23,
-  "median_return_5d": 1.7,
-  "median_return_20d": -3.98,
-  "median_rsi": 45.09,
+  "breadth_1d_positive_pct": 80.61,
+  "breadth_5d_positive_pct": 67.35,
+  "breadth_20d_positive_pct": 31.84,
+  "above_ema20_pct": 38.78,
+  "median_return_1d": 1.41,
+  "median_return_5d": 2.01,
+  "median_return_20d": -3.88,
+  "median_rsi": 45.91,
   "comparison_scope": "FULL_MARKET",
   "status": "ready",
   "candidate_count": 3,
-  "approved_count": 2
+  "approved_count": 1
 }

@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,BIMAS,393.5,FALLBACK,73.19,ONAYLI Ä°ZLEME,39.83,74.31,68.0,1.91,72.54,V15 ONAYLI Ä°ZLEME,68.14,68.0,66.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
-2,ODINE,2070.0,FALLBACK,62.09,TEMKÄ°NLÄ° Ä°ZLEME,43.05,60.03,60.0,1.25,61.43,V15 TEMKÄ°NLÄ° Ä°ZLEME,68.69,68.0,88.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,RSI yÃ¼ksek | EMA20 mesafesi yÃ¼ksek
-3,THYAO,332.0,FALLBACK,50.29,ELE,45.02,70.51,48.0,0.87,51.56,V15 ELE,73.4,82.0,78.0,ZAYIF DNA,,Market DNA zayÄ±f
+1,BIMAS,396.25,FALLBACK,75.55,ONAYLI Ä°ZLEME,48.02,75.57,64.0,1.47,74.36,V15 ONAYLI Ä°ZLEME,80.16,88.0,81.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,THYAO,330.0,FALLBACK,63.95,TEMKÄ°NLÄ° Ä°ZLEME,42.7,71.58,56.0,0.61,63.61,V15 TEMKÄ°NLÄ° Ä°ZLEME,71.1,78.0,70.0,ORTA DNA,,
+3,ESCAR,49.98,FALLBACK,41.01,ELE,45.26,65.85,44.0,-0.69,42.79,V15 ELE,72.34,79.0,85.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
