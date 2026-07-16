@@ -335,6 +335,25 @@ jobs:
           python v22_telegram.py
 
       # ============================================================
+      # V23 - POZISYON YONETIMI
+      # ============================================================
+
+      - name: V23 Pozisyon Yonetim Motorunu Calistir
+        run: |
+          python v23_position_manager.py
+
+          test -f v23_status.json
+          test -f v23_positions.csv
+          test -f v23_position_history.csv
+
+          echo "===== V23 STATUS ====="
+          cat v23_status.json
+
+      - name: V23 Telegram Raporunu Gonder
+        run: |
+          python v23_telegram.py
+
+      # ============================================================
       # NIHAI DURUM KONTROLU
       # ============================================================
 
@@ -380,6 +399,9 @@ jobs:
           echo "===== V22 ====="
           cat v22_status.json 2>/dev/null || true
 
+          echo "===== V23 ====="
+          cat v23_status.json 2>/dev/null || true
+
       # ============================================================
       # GITHUB KAYIT
       # ============================================================
@@ -396,7 +418,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Kaydedilecek yeni degisiklik yok."
           else
-            git commit -m "LARUS V22 automatic results update"
+            git commit -m "LARUS V23 automatic results update"
             git pull --rebase origin main
             git push
           fi
@@ -409,7 +431,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v22-results
+          name: larus-alpha-v23-results
           path: |
             *.csv
             *.json
