@@ -1,17 +1,17 @@
 {
-  "regime": "YATAY",
-  "regime_confidence": 68.51,
+  "regime": "RALLÄ°",
+  "regime_confidence": 89.44,
   "market_count": 490,
-  "breadth_1d_positive_pct": 58.37,
-  "breadth_5d_positive_pct": 26.73,
-  "breadth_20d_positive_pct": 25.71,
-  "above_ema20_pct": 28.37,
-  "median_return_1d": 0.38,
-  "median_return_5d": -2.23,
-  "median_return_20d": -6.55,
-  "median_rsi": 40.61,
+  "breadth_1d_positive_pct": 83.88,
+  "breadth_5d_positive_pct": 66.12,
+  "breadth_20d_positive_pct": 30.61,
+  "above_ema20_pct": 37.35,
+  "median_return_1d": 1.23,
+  "median_return_5d": 1.7,
+  "median_return_20d": -3.98,
+  "median_rsi": 45.09,
   "comparison_scope": "FULL_MARKET",
   "status": "ready",
   "candidate_count": 3,
-  "approved_count": 1
+  "approved_count": 2
 }

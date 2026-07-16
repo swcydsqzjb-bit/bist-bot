@@ -1,3 +1,4 @@
 ﻿monitor_rank,symbol,monitoring_state,model_weight_pct,close,review_horizon_days,review_rule,statistical_invalidation_pct,statistical_invalidation_price,first_objective_pct,first_objective_price,optimistic_objective_pct,optimistic_objective_price,consensus_score,risk_class,risk_score,conflict_note
-1,CATES,PASÄ°F,40.0,45.8,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-2.86,44.4901,5.13,48.1495,7.53,49.2487,77.0,ORTA,27.0,Risk seviyesi orta
-2,KRDMA,PASÄ°F,40.0,41.02,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-2.1,40.1586,2.75,42.1481,7.47,44.0842,51.22,ORTA,27.0,Motorlar arasında belirgin görüş ayrılığı var | Risk seviyesi orta
+1,BIMAS,PASÄ°F,30.89,393.5,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.0,389.565,4.04,409.3974,6.54,419.2349,78.09,DÜŞÜK,5.0,Belirgin motor çelişkisi yok
+2,ODINE,PASÄ°F,25.69,2070.0,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.0,2049.3,3.85,2149.695,7.31,2221.317,57.0,ORTA,43.0,Motor uyumu orta seviyede | Risk seviyesi orta
+3,THYAO,PASÄ°F,23.42,332.0,5,5 iÅlem gÃ¼nÃ¼ iÃ§inde sonuÃ§ ve risk gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ yenile,-1.64,326.5552,1.67,337.5444,7.47,356.8004,76.52,ORTA,31.0,Risk seviyesi orta
