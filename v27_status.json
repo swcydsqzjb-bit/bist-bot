@@ -1,10 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 3,
+  "candidate_count": 2,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
-  "top_symbol": "BIMAS",
-  "top_decision": "TEYÄ°T BEKLE",
-  "top_score": 64.82232,
-  "version": "V27.0"
+  "active_tracking_count": 0,
+  "waiting_count": 0,
+  "passive_count": 2,
+  "eliminated_count": 0,
+  "top_symbol": "CATES",
+  "top_decision": "PASİF İZLEME",
+  "top_score": 42.04,
+  "version": "V27.1"
 }

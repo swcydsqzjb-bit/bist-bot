@@ -1,10 +1,14 @@
 {
-  "status": "ready",
-  "position_count": 3,
-  "invested_pct": 79.99,
-  "cash_pct": 20.01,
-  "top_symbol": "BIMAS",
-  "top_weight_pct": 28.62,
-  "average_optimizer_score": 59.52,
-  "version": "V26.0"
+  "status": "no_eligible_candidate",
+  "position_count": 0,
+  "invested_pct": 0.0,
+  "cash_pct": 100.0,
+  "investment_limit_pct": 0.0,
+  "live_confirmed_count": 0,
+  "early_confirmed_count": 0,
+  "waiting_count": 0,
+  "top_symbol": "",
+  "top_weight_pct": 0.0,
+  "average_optimizer_score": 0.0,
+  "version": "V26.1"
 }

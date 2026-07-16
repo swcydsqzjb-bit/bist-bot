@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 3,
+  "position_count": 2,
   "cash_reserve_pct": 20.0,
   "invested_pct": 80.0,
-  "top_symbol": "BIMAS",
-  "top_weight_pct": 32.09,
+  "top_symbol": "CATES",
+  "top_weight_pct": 40.53,
   "version": "V20.3"
 }

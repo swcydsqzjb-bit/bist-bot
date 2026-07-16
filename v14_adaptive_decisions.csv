@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,BIMAS,396.25,V8 GÜÇLÜ,80.16,88.0,81.0,ORTA DNA,75.57,64.0,44.0,1.47,BASE,72.05,3.5,0.0,75.55,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
-2,THYAO,330.0,V8 İZLEME,71.1,78.0,70.0,ORTA DNA,71.58,56.0,32.0,0.61,BASE,63.95,0.0,0.0,63.95,TEMKÄ°NLÄ° Ä°ZLEME,,
-3,ESCAR,49.98,V8 GÜÇLÜ,72.34,79.0,85.0,ZAYIF DNA,65.85,44.0,36.0,-0.69,BASE,62.01,0.0,21.0,41.01,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,CATES,45.8,V8 İZLEME,66.69,75.0,68.0,ORTA DNA,66.77,64.0,68.0,2.03,BASE,65.47,8.0,0.0,73.47,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
+2,KRDMA,41.02,V8 İZLEME,66.21,79.0,58.0,ZAYIF DNA,68.04,44.0,44.0,0.25,BASE,59.76,0.0,15.0,44.76,ELE,,Market DNA zayÄ±f
+3,ESCAR,48.86,V8 İZLEME,65.88,69.0,80.0,ZAYIF DNA,63.32,36.0,20.0,-0.52,BASE,55.99,0.0,21.0,34.99,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
