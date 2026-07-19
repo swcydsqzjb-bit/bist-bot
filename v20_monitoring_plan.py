@@ -8,66 +8,82 @@ import numpy as np
 import pandas as pd
 
 
-# ---------------------------------------------------------
-# DOSYALAR
-# ---------------------------------------------------------
+# =========================================================
+# V20.3 GERÇEK GİRİŞ DOSYASI
+# =========================================================
 
-INPUT_CANDIDATES = [
-    Path("v20_3_model_portfolio.csv"),
-    Path("v20_model_portfolio.csv"),
-    Path("v20_3_portfolio.csv"),
-]
-
-OUTPUT_FILE = Path("v20_4_monitoring_plan.csv")
-STATUS_FILE = Path("v20_4_status.json")
+INPUT_FILE = Path("v20_portfolio_model.csv")
 
 
-# ---------------------------------------------------------
-# ÇIKTI SÜTUNLARI
-# ---------------------------------------------------------
+# =========================================================
+# ANA ÇIKTILAR
+# Sonraki motorların kullandığı gerçek dosya adları
+# =========================================================
+
+OUTPUT_FILE = Path("v20_monitoring_plan.csv")
+STATUS_FILE = Path("v20_monitoring_status.json")
+
+
+# =========================================================
+# YEDEK / UYUMLULUK ÇIKTILARI
+# Telegram veya eski workflow adımları için
+# =========================================================
+
+MIRROR_OUTPUT_FILE = Path("v20_4_monitoring_plan.csv")
+MIRROR_STATUS_FILE = Path("v20_4_status.json")
+
 
 OUTPUT_COLUMNS = [
+    "plan_rank",
     "rank",
+    "portfolio_rank",
     "symbol",
+
     "monitoring_state",
     "status",
+    "confirmation_state",
+    "allocation_label",
+
     "model_weight_pct",
+
     "reference_price",
+    "close",
+
     "review_horizon_days",
+    "best_horizon_days",
     "review_rule",
+
     "invalidation_price",
     "first_observation_price",
     "optimistic_price",
+
     "expected_return",
-    "downside_scenario",
-    "upside_scenario",
+    "downside_20pct",
+    "upside_80pct",
+
     "risk_class",
     "risk_score",
+
     "top_pick_score",
     "ai_final_score",
     "consensus_score",
+
+    "regime",
+    "why_now",
+    "conflict_note",
     "motor_note",
 ]
 
 
-# ---------------------------------------------------------
-# YARDIMCI FONKSİYONLAR
-# ---------------------------------------------------------
-
-def sf(
+def number(
     value: Any,
     default: float = 0.0,
 ) -> float:
-    """
-    Değeri güvenli biçimde float yapar.
-    NaN, sonsuz veya geçersiz değerlerde default döner.
-    """
-
     try:
-        number = float(value)
+        result = float(value)
 
-        if np.isfinite(number):
-            return number
+        if np.isfinite(result):
+            return result
 
         return default
 
@@ -75,11 +91,7 @@ def sf(
         return default
 
 
-def tx(value: Any) -> str:
-    """
-    Değeri güvenli biçimde temiz metne dönüştürür.
-    """
-
+def text(value: Any) -> str:
     if value is None:
         return ""
 
@@ -92,45 +104,8 @@ def tx(value: Any) -> str:
     return str(value).strip()
 
 
-def first_value(
-    row: pd.Series,
-    names: list[str],
-    default: Any = None,
-) -> Any:
-    """
-    Birden fazla olası sütun isminden ilk dolu değeri bulur.
-    """
-
-    for name in names:
-        if name not in row.index:
-            continue
-
-        value = row.get(name)
-
-        if value is None:
-            continue
-
-        try:
-            if pd.isna(value):
-                continue
-        except Exception:
-            pass
-
-        if isinstance(value, str) and not value.strip():
-            continue
-
-        return value
-
-    return default
-
-
 def normalize_symbol(value: Any) -> str:
-    """
-    BIST sembolünü temizler.
-    Örnek: BIMAS.IS -> BIMAS
-    """
-
-    symbol = tx(value).upper()
+    symbol = text(value).upper()
 
     if symbol.endswith(".IS"):
         symbol = symbol[:-3]
@@ -139,18 +114,6 @@ def normalize_symbol(value: Any) -> str:
 
 
 def load_csv(path: Path) -> pd.DataFrame:
-    """
-    CSV dosyasını güvenli biçimde okur.
-
-    Dosya:
-    - yoksa,
-    - sıfır baytsa,
-    - tamamen boşsa,
-    - kodlama sorunu varsa
-
-    boş DataFrame döndürür ve workflow'u durdurmaz.
-    """
-
     if not path.exists():
         return pd.DataFrame()
 
@@ -175,14 +138,11 @@ def load_csv(path: Path) -> pd.DataFrame:
                 path,
                 encoding="utf-8",
             )
-
         except pd.errors.EmptyDataError:
             return pd.DataFrame()
-
         except Exception as exc:
             print(
-                f"Uyarı: {path} UTF-8 olarak "
-                f"okunamadı: {exc}"
+                f"Uyarı: {path} okunamadı: {exc}"
             )
             return pd.DataFrame()
 
@@ -193,123 +153,24 @@ def load_csv(path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
 
-def locate_input_file() -> Path | None:
-    """
-    Olası V20.3 giriş dosyalarından mevcut olanı bulur.
-    """
-
-    for path in INPUT_CANDIDATES:
-        if path.exists():
-            return path
-
-    return None
-
-
-def empty_output() -> pd.DataFrame:
-    """
-    Başlıklı boş çıktı üretir.
-    """
-
-    return pd.DataFrame(
-        columns=OUTPUT_COLUMNS
-    )
-
-
-def write_status(
-    status_name: str,
-    planned_count: int = 0,
-    active_count: int = 0,
-    waiting_count: int = 0,
-    passive_count: int = 0,
-    top_symbol: str = "",
-) -> None:
-    """
-    V20.4 durum JSON dosyasını yazar.
-    """
-
-    status = {
-        "status": status_name,
-        "planned_candidate_count": int(
-            planned_count
-        ),
-        "active_confirmation_count": int(
-            active_count
-        ),
-        "waiting_confirmation_count": int(
-            waiting_count
-        ),
-        "passive_count": int(
-            passive_count
-        ),
-        "top_symbol": top_symbol,
-        "version": "V20.4.1",
-    }
-
-    STATUS_FILE.write_text(
-        json.dumps(
-            status,
-            ensure_ascii=False,
-            indent=2,
-        ),
-        encoding="utf-8",
-    )
-
-    print(
-        json.dumps(
-            status,
-            ensure_ascii=False,
-            indent=2,
-        )
-    )
-
-
-def save_empty_result(
-    status_name: str,
-) -> None:
-    """
-    Aday olmadığında hata vermeden gerekli dosyaları oluşturur.
-    """
-
-    empty_output().to_csv(
-        OUTPUT_FILE,
-        index=False,
-        encoding="utf-8-sig",
-    )
-
-    write_status(
-        status_name=status_name,
-    )
-
-    print(
-        "V20.4: İzleme planına alınacak "
-        "aday bulunamadı."
-    )
-
-
-# ---------------------------------------------------------
-# KARAR MANTIĞI
-# ---------------------------------------------------------
-
-def determine_monitoring_state(
-    portfolio_status: str,
-    model_weight: float,
+def monitoring_decision(
+    confirmation_state: str,
+    risk_score: float,
     top_pick_score: float,
     ai_final_score: float,
-    risk_score: float,
+    consensus_score: float,
 ) -> tuple[str, str]:
-    """
-    İzleme durumunu ve motor açıklamasını belirler.
-    """
-
-    normalized_status = portfolio_status.upper()
+    state = text(
+        confirmation_state
+    ).upper()
 
     if risk_score >= 65:
         return (
             "PASİF",
-            "Risk seviyesi yüksek",
+            "Risk puanı yüksek",
         )
 
-    if normalized_status in {
+    if state in {
         "TEYİT GELDİ",
         "GÜÇLÜ TEYİT",
         "AKTİF İZLEME",
@@ -317,10 +178,10 @@ def determine_monitoring_state(
     }:
         return (
             "AKTİF",
-            "Ana model tarafından teyit edilen aday",
+            "Ana model teyidi oluştu",
         )
 
-    if normalized_status in {
+    if state in {
         "İZLEMEDE TUT",
         "TEMKİNLİ İZLE",
         "TEYİT BEKLE",
@@ -331,403 +192,358 @@ def determine_monitoring_state(
             "Canlı teknik teyit bekleniyor",
         )
 
+    combined_score = (
+        top_pick_score * 0.35
+        + ai_final_score * 0.35
+        + consensus_score * 0.30
+    )
+
     if (
-        model_weight >= 20
-        and top_pick_score >= 65
-        and ai_final_score >= 65
+        combined_score >= 65
         and risk_score <= 45
     ):
         return (
             "TEYİT BEKLE",
-            "Model görünümü olumlu, giriş teyidi bekleniyor",
+            "Model görünümü olumlu, canlı teyit bekleniyor",
         )
 
     return (
         "PASİF",
-        "Aktif takip için yeterli ortak güç oluşmadı",
+        "Aktif izleme için yeterli ortak güç oluşmadı",
     )
 
 
-def calculate_monitoring_row(
-    row: pd.Series,
-    rank: int,
-) -> dict[str, Any] | None:
-    """
-    V20.3 satırından V20.4 izleme planı üretir.
-    """
-
-    symbol = normalize_symbol(
-        first_value(
-            row,
-            [
-                "symbol",
-                "ticker",
-                "hisse",
-            ],
-            "",
-        )
+def create_empty_output() -> pd.DataFrame:
+    return pd.DataFrame(
+        columns=OUTPUT_COLUMNS
     )
 
-    if not symbol:
-        return None
 
-    model_weight = sf(
-        first_value(
-            row,
-            [
-                "model_weight_pct",
-                "optimized_weight_pct",
-                "weight_pct",
-                "portfolio_weight_pct",
-                "model_weight",
-            ],
-            0.0,
-        )
+def save_outputs(
+    frame: pd.DataFrame,
+) -> None:
+    frame.to_csv(
+        OUTPUT_FILE,
+        index=False,
+        encoding="utf-8-sig",
     )
 
-    reference_price = sf(
-        first_value(
-            row,
-            [
-                "reference_price",
-                "close",
-                "price",
-                "last_price",
-                "entry_reference",
-            ],
-            0.0,
-        )
+    frame.to_csv(
+        MIRROR_OUTPUT_FILE,
+        index=False,
+        encoding="utf-8-sig",
     )
 
-    horizon = int(
-        max(
-            1,
-            sf(
-                first_value(
-                    row,
-                    [
-                        "best_horizon_days",
-                        "review_horizon_days",
-                        "monitoring_days",
-                        "horizon_days",
-                    ],
-                    5,
-                ),
-                5,
-            ),
-        )
+
+def save_status(
+    status: dict[str, Any],
+) -> None:
+    encoded = json.dumps(
+        status,
+        ensure_ascii=False,
+        indent=2,
     )
 
-    expected_return = sf(
-        first_value(
-            row,
-            [
-                "expected_return",
-                "expected_average_return",
-                "expected_avg_return",
-                "mean_return",
-            ],
-            0.0,
-        )
+    STATUS_FILE.write_text(
+        encoded,
+        encoding="utf-8",
     )
 
-    downside = sf(
-        first_value(
-            row,
-            [
-                "downside_20pct",
-                "downside_scenario",
-                "cautious_scenario",
-                "temkinli_senaryo",
-            ],
-            0.0,
-        )
+    MIRROR_STATUS_FILE.write_text(
+        encoded,
+        encoding="utf-8",
     )
 
-    upside = sf(
-        first_value(
-            row,
-            [
-                "upside_80pct",
-                "upside_scenario",
-                "optimistic_scenario",
-                "olumlu_senaryo",
-            ],
-            0.0,
-        )
-    )
+    print(encoded)
 
-    risk_score = sf(
-        first_value(
-            row,
-            [
-                "risk_score",
-                "risk_point",
-            ],
-            50.0,
-        ),
-        50.0,
-    )
 
-    risk_class = tx(
-        first_value(
-            row,
-            [
-                "risk_class",
-                "risk_level",
-            ],
-            "",
-        )
-    )
+def save_empty(
+    status_name: str,
+) -> None:
+    empty = create_empty_output()
 
-    if not risk_class:
-        if risk_score <= 25:
-            risk_class = "DÜŞÜK"
-        elif risk_score <= 55:
-            risk_class = "ORTA"
-        else:
-            risk_class = "YÜKSEK"
+    save_outputs(empty)
 
-    top_pick_score = sf(
-        first_value(
-            row,
-            [
-                "top_pick_score",
-                "top_pick",
-            ],
-            0.0,
-        )
-    )
-
-    ai_final_score = sf(
-        first_value(
-            row,
-            [
-                "ai_final_score",
-                "final_score",
-                "v20_score",
-            ],
-            0.0,
-        )
-    )
-
-    consensus_score = sf(
-        first_value(
-            row,
-            [
-                "consensus_score",
-                "consensus",
-            ],
-            0.0,
-        )
-    )
-
-    portfolio_status = tx(
-        first_value(
-            row,
-            [
-                "status",
-                "portfolio_status",
-                "decision",
-                "top_pick_status",
-                "v20_decision",
-            ],
-            "",
-        )
-    )
-
-    monitoring_state, motor_note = (
-        determine_monitoring_state(
-            portfolio_status=portfolio_status,
-            model_weight=model_weight,
-            top_pick_score=top_pick_score,
-            ai_final_score=ai_final_score,
-            risk_score=risk_score,
-        )
-    )
-
-    if reference_price > 0:
-        invalidation_price = (
-            reference_price
-            * (
-                1
-                + downside / 100
-            )
-        )
-
-        first_observation_price = (
-            reference_price
-            * (
-                1
-                + expected_return / 100
-            )
-        )
-
-        optimistic_price = (
-            reference_price
-            * (
-                1
-                + upside / 100
-            )
-        )
-
-    else:
-        invalidation_price = 0.0
-        first_observation_price = 0.0
-        optimistic_price = 0.0
-
-    review_rule = (
-        f"{horizon} işlem günü içinde "
-        "sonuç ve risk görünümünü yenile"
-    )
-
-    return {
-        "rank": rank,
-        "symbol": symbol,
-        "monitoring_state": monitoring_state,
-        "status": monitoring_state,
-        "model_weight_pct": round(
-            model_weight,
-            2,
-        ),
-        "reference_price": round(
-            reference_price,
-            4,
-        ),
-        "review_horizon_days": horizon,
-        "review_rule": review_rule,
-        "invalidation_price": round(
-            invalidation_price,
-            4,
-        ),
-        "first_observation_price": round(
-            first_observation_price,
-            4,
-        ),
-        "optimistic_price": round(
-            optimistic_price,
-            4,
-        ),
-        "expected_return": round(
-            expected_return,
-            2,
-        ),
-        "downside_scenario": round(
-            downside,
-            2,
-        ),
-        "upside_scenario": round(
-            upside,
-            2,
-        ),
-        "risk_class": risk_class,
-        "risk_score": round(
-            risk_score,
-            2,
-        ),
-        "top_pick_score": round(
-            top_pick_score,
-            2,
-        ),
-        "ai_final_score": round(
-            ai_final_score,
-            2,
-        ),
-        "consensus_score": round(
-            consensus_score,
-            2,
-        ),
-        "motor_note": motor_note,
+    status = {
+        "status": status_name,
+        "plan_count": 0,
+        "planned_candidate_count": 0,
+        "active_confirmation_count": 0,
+        "waiting_confirmation_count": 0,
+        "passive_count": 0,
+        "top_symbol": "",
+        "version": "V20.4.2",
     }
 
-
-# ---------------------------------------------------------
-# ANA ÇALIŞMA
-# ---------------------------------------------------------
-
-def main() -> None:
-    input_file = locate_input_file()
-
-    if input_file is None:
-        save_empty_result(
-            "input_file_missing"
-        )
-        return
+    save_status(status)
 
     print(
-        f"V20.4 giriş dosyası: {input_file}"
+        "V20.4: İzleme planına alınacak aday bulunamadı."
+    )
+
+
+def main() -> None:
+    print(
+        f"V20.4 giriş dosyası: {INPUT_FILE}"
     )
 
     frame = load_csv(
-        input_file
+        INPUT_FILE
     )
 
     if frame.empty:
-        save_empty_result(
+        save_empty(
             "no_candidates"
         )
         return
 
     if "symbol" not in frame.columns:
-        alternative_symbol_columns = [
-            "ticker",
-            "hisse",
-        ]
+        save_empty(
+            "symbol_column_missing"
+        )
+        return
 
-        found_symbol_column = None
+    rows: list[dict[str, Any]] = []
 
-        for column in alternative_symbol_columns:
-            if column in frame.columns:
-                found_symbol_column = column
-                break
+    for index, source in frame.iterrows():
+        symbol = normalize_symbol(
+            source.get("symbol")
+        )
 
-        if found_symbol_column is None:
-            save_empty_result(
-                "symbol_column_missing"
+        if not symbol:
+            continue
+
+        portfolio_rank = int(
+            max(
+                1,
+                number(
+                    source.get(
+                        "portfolio_rank"
+                    ),
+                    index + 1,
+                ),
             )
-            return
+        )
 
-    rows: list[
-        dict[str, Any]
-    ] = []
+        model_weight = number(
+            source.get(
+                "model_weight_pct"
+            )
+        )
 
-    for index, (_, source_row) in enumerate(
-        frame.iterrows(),
-        start=1,
-    ):
-        try:
-            monitoring_row = (
-                calculate_monitoring_row(
-                    row=source_row,
-                    rank=index,
+        allocation_label = text(
+            source.get(
+                "allocation_label"
+            )
+        )
+
+        confirmation_state = text(
+            source.get(
+                "confirmation_state"
+            )
+        )
+
+        top_pick_score = number(
+            source.get(
+                "top_pick_score"
+            )
+        )
+
+        ai_final_score = number(
+            source.get(
+                "ai_final_score"
+            )
+        )
+
+        consensus_score = number(
+            source.get(
+                "consensus_score"
+            )
+        )
+
+        risk_class = text(
+            source.get(
+                "risk_class"
+            )
+        )
+
+        risk_score = number(
+            source.get(
+                "risk_score"
+            ),
+            50.0,
+        )
+
+        reference_price = number(
+            source.get("close")
+        )
+
+        horizon = int(
+            max(
+                1,
+                number(
+                    source.get(
+                        "best_horizon_days"
+                    ),
+                    5,
+                ),
+            )
+        )
+
+        expected_return = number(
+            source.get(
+                "expected_return"
+            )
+        )
+
+        downside = number(
+            source.get(
+                "downside_20pct"
+            )
+        )
+
+        upside = number(
+            source.get(
+                "upside_80pct"
+            )
+        )
+
+        why_now = text(
+            source.get("why_now")
+        )
+
+        conflict_note = text(
+            source.get(
+                "conflict_note"
+            )
+        )
+
+        regime = text(
+            source.get("regime")
+        )
+
+        monitoring_state, motor_note = (
+            monitoring_decision(
+                confirmation_state=confirmation_state,
+                risk_score=risk_score,
+                top_pick_score=top_pick_score,
+                ai_final_score=ai_final_score,
+                consensus_score=consensus_score,
+            )
+        )
+
+        if reference_price > 0:
+            invalidation_price = (
+                reference_price
+                * (1 + downside / 100)
+            )
+
+            first_observation_price = (
+                reference_price
+                * (
+                    1
+                    + expected_return / 100
                 )
             )
 
-            if monitoring_row is not None:
-                rows.append(
-                    monitoring_row
-                )
-
-        except Exception as exc:
-            symbol = normalize_symbol(
-                first_value(
-                    source_row,
-                    [
-                        "symbol",
-                        "ticker",
-                        "hisse",
-                    ],
-                    "",
-                )
+            optimistic_price = (
+                reference_price
+                * (1 + upside / 100)
             )
+        else:
+            invalidation_price = 0.0
+            first_observation_price = 0.0
+            optimistic_price = 0.0
 
-            print(
-                f"Uyarı: {symbol or index} "
-                f"izleme planına çevrilemedi: {exc}"
-            )
+        review_rule = (
+            f"{horizon} işlem günü içinde "
+            "sonuç ve risk görünümünü yenile"
+        )
+
+        rows.append(
+            {
+                "plan_rank": portfolio_rank,
+                "rank": portfolio_rank,
+                "portfolio_rank": portfolio_rank,
+                "symbol": symbol,
+
+                "monitoring_state": monitoring_state,
+                "status": monitoring_state,
+                "confirmation_state": confirmation_state,
+                "allocation_label": allocation_label,
+
+                "model_weight_pct": round(
+                    model_weight,
+                    2,
+                ),
+
+                "reference_price": round(
+                    reference_price,
+                    4,
+                ),
+                "close": round(
+                    reference_price,
+                    4,
+                ),
+
+                "review_horizon_days": horizon,
+                "best_horizon_days": horizon,
+                "review_rule": review_rule,
+
+                "invalidation_price": round(
+                    invalidation_price,
+                    4,
+                ),
+                "first_observation_price": round(
+                    first_observation_price,
+                    4,
+                ),
+                "optimistic_price": round(
+                    optimistic_price,
+                    4,
+                ),
+
+                "expected_return": round(
+                    expected_return,
+                    2,
+                ),
+                "downside_20pct": round(
+                    downside,
+                    2,
+                ),
+                "upside_80pct": round(
+                    upside,
+                    2,
+                ),
+
+                "risk_class": risk_class,
+                "risk_score": round(
+                    risk_score,
+                    2,
+                ),
+
+                "top_pick_score": round(
+                    top_pick_score,
+                    2,
+                ),
+                "ai_final_score": round(
+                    ai_final_score,
+                    2,
+                ),
+                "consensus_score": round(
+                    consensus_score,
+                    2,
+                ),
+
+                "regime": regime,
+                "why_now": why_now,
+                "conflict_note": conflict_note,
+                "motor_note": motor_note,
+            }
+        )
 
     if not rows:
-        save_empty_result(
+        save_empty(
             "no_valid_candidates"
         )
         return
@@ -744,7 +560,7 @@ def main() -> None:
         OUTPUT_COLUMNS
     ].copy()
 
-    state_priority = {
+    priority = {
         "AKTİF": 3,
         "TEYİT BEKLE": 2,
         "PASİF": 1,
@@ -752,7 +568,7 @@ def main() -> None:
 
     result["_priority"] = (
         result["monitoring_state"]
-        .map(state_priority)
+        .map(priority)
         .fillna(0)
     )
 
@@ -761,7 +577,6 @@ def main() -> None:
             "_priority",
             "model_weight_pct",
             "top_pick_score",
-            "ai_final_score",
         ],
         ascending=False,
     ).drop(
@@ -770,58 +585,66 @@ def main() -> None:
         drop=True
     )
 
-    result["rank"] = range(
+    result["plan_rank"] = range(
         1,
         len(result) + 1,
     )
 
-    result.to_csv(
-        OUTPUT_FILE,
-        index=False,
-        encoding="utf-8-sig",
-    )
+    result["rank"] = result[
+        "plan_rank"
+    ]
+
+    save_outputs(result)
 
     active_count = int(
         (
-            result[
-                "monitoring_state"
-            ]
+            result["monitoring_state"]
             == "AKTİF"
         ).sum()
     )
 
     waiting_count = int(
         (
-            result[
-                "monitoring_state"
-            ]
+            result["monitoring_state"]
             == "TEYİT BEKLE"
         ).sum()
     )
 
     passive_count = int(
         (
-            result[
-                "monitoring_state"
-            ]
+            result["monitoring_state"]
             == "PASİF"
         ).sum()
     )
 
-    top_symbol = tx(
-        result.iloc[0].get(
-            "symbol"
-        )
-    )
+    status = {
+        "status": "ready",
+        "plan_count": int(
+            len(result)
+        ),
+        "planned_candidate_count": int(
+            len(result)
+        ),
+        "active_confirmation_count": (
+            active_count
+        ),
+        "waiting_confirmation_count": (
+            waiting_count
+        ),
+        "passive_count": passive_count,
+        "top_symbol": text(
+            result.iloc[0]["symbol"]
+        ),
+        "input_file": str(
+            INPUT_FILE
+        ),
+        "output_file": str(
+            OUTPUT_FILE
+        ),
+        "version": "V20.4.2",
+    }
 
-    write_status(
-        status_name="ready",
-        planned_count=len(result),
-        active_count=active_count,
-        waiting_count=waiting_count,
-        passive_count=passive_count,
-        top_symbol=top_symbol,
-    )
+    save_status(status)
 
     print(
         result.to_string(
