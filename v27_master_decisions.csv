@@ -1,4 +1,4 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close
-1,AKSA,PASİF İZLEME,38.52876666666667,Canlı teyit yok ve toplam skor aktif takip için yeterli değil,0.0,0.0,PASÄ°F Ä°ZLEME,71.79,TEYİT BEKLE,0.0,50.0,YENİ,77.76,DÜŞÜK,17.0,PANÄ°K,96.11,5,96.02,3.93,-0.49,7.53,12.37
-2,BSOKE,PASİF İZLEME,36.3278,Canlı teyit yok ve toplam skor aktif takip için yeterli değil,0.0,0.0,PASÄ°F Ä°ZLEME,68.96,TEYİT BEKLE,0.0,50.0,YENİ,74.53,DÜŞÜK,25.0,PANÄ°K,93.66,5,100.0,4.09,-0.41,7.47,37.24
+1,AKSA,PASİF İZLEME,38.52876666666667,Canlı teyit yok ve toplam skor aktif takip için yeterli değil,0.0,0.0,TEYİT BEKLE,71.79,TEYİT BEKLE,0.0,50.0,YENİ,77.76,DÜŞÜK,17.0,PANÄ°K,96.11,5,96.02,3.93,-0.49,7.53,12.37
+2,BSOKE,PASİF İZLEME,36.3278,Canlı teyit yok ve toplam skor aktif takip için yeterli değil,0.0,0.0,TEYİT BEKLE,68.96,TEYİT BEKLE,0.0,50.0,YENİ,74.53,DÜŞÜK,25.0,PANÄ°K,93.66,5,100.0,4.09,-0.41,7.47,37.24
 3,EGEPO,PASİF İZLEME,26.3109,Canlı teyit yok ve toplam skor aktif takip için yeterli değil,0.0,0.0,ELE,53.23,TEYİT BEKLE,0.0,50.0,YENİ,49.03,ORTA,36.0,PANÄ°K,99.59,5,84.34,2.41,-2.2,6.01,19.77
