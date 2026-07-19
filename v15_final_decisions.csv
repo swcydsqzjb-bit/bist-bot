@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,CATES,45.8,FALLBACK,73.47,ONAYLI Ä°ZLEME,40.89,66.77,64.0,2.03,72.0,V15 ONAYLI Ä°ZLEME,66.69,75.0,68.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
-2,KRDMA,41.02,FALLBACK,44.76,ELE,40.01,68.04,44.0,0.25,46.34,V15 ELE,66.21,79.0,58.0,ZAYIF DNA,,Market DNA zayÄ±f
-3,ESCAR,48.86,FALLBACK,34.99,ELE,41.41,63.32,36.0,-0.52,37.1,V15 ELE,65.88,69.0,80.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,BSOKE,37.24,FALLBACK,74.03,ONAYLI Ä°ZLEME,46.05,65.69,60.0,1.11,72.0,V15 ONAYLI Ä°ZLEME,75.46,81.0,83.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,AKSA,12.37,FALLBACK,72.45,ONAYLI Ä°ZLEME,40.06,74.36,60.0,1.89,71.51,V15 ONAYLI Ä°ZLEME,69.58,83.0,48.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+3,EGEPO,19.77,FALLBACK,47.48,ELE,44.76,66.36,44.0,0.2,48.51,V15 ELE,71.77,89.0,71.0,ZAYIF DNA,,Market DNA zayÄ±f

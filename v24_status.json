@@ -1,12 +1,12 @@
 {
   "status": "ready",
-  "candidate_count": 2,
-  "analyzed_count": 2,
+  "candidate_count": 0,
+  "analyzed_count": 0,
   "confirmed_count": 0,
   "early_confirmation_count": 0,
   "failed_symbols": [],
-  "top_symbol": "KRDMA",
-  "top_state": "TEYÄ°T BEKLE",
-  "top_score": 41.84,
+  "top_symbol": "",
+  "top_state": "",
+  "top_score": 0.0,
   "version": "V24.0"
 }

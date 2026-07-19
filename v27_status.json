@@ -5,10 +5,10 @@
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 2,
-  "eliminated_count": 0,
+  "passive_count": 0,
+  "eliminated_count": 2,
   "top_symbol": "CATES",
-  "top_decision": "PASİF İZLEME",
-  "top_score": 42.04,
+  "top_decision": "ELE",
+  "top_score": 0.0,
   "version": "V27.1"
 }
