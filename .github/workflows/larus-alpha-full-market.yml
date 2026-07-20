@@ -428,19 +428,20 @@ jobs:
         run: |
           python v27_telegram.py
 
-                - name: V28 Gozlem Havuzunu Guncelle
+      # ============================================================
+      # V28 - GOZLEM HAVUZU
+      # ============================================================
+
+      - name: V28 Gozlem Havuzunu Guncelle
         run: |
           python v28_observation_pool.py
 
-      - name: V28 Durumunu Goster
-        if: always()
-        run: |
+          test -f v28_status.json
+          test -f v28_observation_history.csv
+          test -f v28_latest_observations.csv
+
           echo "===== V28 STATUS ====="
-          if [ -f v28_status.json ]; then
-            cat v28_status.json
-          else
-            echo "v28_status.json bulunamadi"
-          fi
+          cat v28_status.json
 
       # ============================================================
       # TUM MOTOR DURUMLARI
@@ -467,7 +468,8 @@ jobs:
             v24_status.json \
             v25_status.json \
             v26_status.json \
-            v27_status.json
+            v27_status.json \
+            v28_status.json
           do
             if [ -f "$file" ]; then
               echo "===== $file ====="
@@ -489,7 +491,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Kaydedilecek degisiklik yok."
           else
-            git commit -m "LARUS V27 automatic update"
+            git commit -m "LARUS V28 automatic update"
             git pull --rebase origin main
             git push
           fi
@@ -502,7 +504,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v27-results
+          name: larus-alpha-v28-results
           path: |
             *.csv
             *.json
