@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 3,
+  "candidate_count": 2,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
-  "waiting_count": 0,
-  "passive_count": 3,
+  "waiting_count": 1,
+  "passive_count": 1,
   "eliminated_count": 0,
-  "top_symbol": "POLHO",
-  "top_decision": "PASİF İZLEME",
-  "top_score": 52.2,
-  "version": "V27.1"
+  "top_symbol": "RGYAS",
+  "top_decision": "TEYİT BEKLE",
+  "top_score": 44.9,
+  "version": "V27.2"
 }

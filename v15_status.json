@@ -3,7 +3,7 @@
   "model_mode": "FALLBACK",
   "completed_5d": 0,
   "minimum_required": 30,
-  "candidate_count": 3,
+  "candidate_count": 2,
   "approved_count": 1,
   "message": "V15 veri biriktirirken guvenli FALLBACK modunda."
 }

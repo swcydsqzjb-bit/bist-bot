@@ -1,4 +1,3 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,POLHO,22.32,FALLBACK,76.26,ONAYLI Ä°ZLEME,43.63,73.14,68.0,2.03,75.08,V15 ONAYLI Ä°ZLEME,71.61,83.0,70.0,GUCLU DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
-2,BSOKE,37.4,FALLBACK,67.92,TEMKÄ°NLÄ° Ä°ZLEME,47.58,66.74,56.0,0.71,66.61,V15 TEMKÄ°NLÄ° Ä°ZLEME,78.51,86.0,83.0,ORTA DNA,,
-3,TCELL,109.9,FALLBACK,48.71,ELE,42.92,72.08,48.0,0.96,50.36,V15 ELE,70.4,76.0,75.0,ZAYIF DNA,,Market DNA zayÄ±f
+1,RGYAS,205.6,FALLBACK,70.14,ONAYLI Ä°ZLEME,38.68,75.28,68.0,2.1,70.06,V15 ONAYLI Ä°ZLEME,66.4,73.0,55.0,GUCLU DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
+2,CIMSA,49.84,FALLBACK,47.41,ELE,42.11,74.18,48.0,0.67,49.37,V15 ELE,67.96,72.0,78.0,ZAYIF DNA,,Market DNA zayÄ±f

@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "candidate_count": 3,
-  "selected_count": 3,
+  "candidate_count": 2,
+  "selected_count": 2,
   "confirmed_count": 0,
-  "top_symbol": "POLHO",
-  "top_score": 79.54,
+  "top_symbol": "RGYAS",
+  "top_score": 63.68,
   "version": "V20.2"
 }
