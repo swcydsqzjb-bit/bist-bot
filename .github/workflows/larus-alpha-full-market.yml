@@ -428,6 +428,20 @@ jobs:
         run: |
           python v27_telegram.py
 
+                - name: V28 Gozlem Havuzunu Guncelle
+        run: |
+          python v28_observation_pool.py
+
+      - name: V28 Durumunu Goster
+        if: always()
+        run: |
+          echo "===== V28 STATUS ====="
+          if [ -f v28_status.json ]; then
+            cat v28_status.json
+          else
+            echo "v28_status.json bulunamadi"
+          fi
+
       # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
