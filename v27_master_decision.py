@@ -8,6 +8,10 @@ import numpy as np
 import pandas as pd
 
 
+# =========================================================
+# GİRDİ VE ÇIKTI DOSYALARI
+# =========================================================
+
 V22_FILE = Path("v22_signal_states.csv")
 V24_FILE = Path("v24_live_confirmations.csv")
 V25_FILE = Path("v25_performance_evaluations.csv")
@@ -17,38 +21,61 @@ OUTPUT_FILE = Path("v27_master_decisions.csv")
 STATUS_FILE = Path("v27_status.json")
 
 
+# =========================================================
+# ÇIKTI SÜTUNLARI
+# =========================================================
+
 OUTPUT_COLUMNS = [
     "v27_rank",
     "symbol",
     "v27_decision",
     "v27_master_score",
     "v27_reason",
+
     "optimized_weight_pct",
     "optimizer_score",
+    "portfolio_role",
+
     "v22_signal_state",
     "v22_signal_score",
+
     "v24_state",
     "v24_score",
+
     "quality_score",
     "reliability_class",
+
     "consensus_score",
     "risk_class",
     "risk_score",
+
     "regime",
     "market_percentile",
+
     "best_horizon_days",
     "timing_confidence",
+
     "expected_return",
     "downside_20pct",
     "upside_80pct",
+
     "close",
+    "reference_price",
 ]
 
+
+# =========================================================
+# YARDIMCI FONKSİYONLAR
+# =========================================================
 
 def sf(
     value: Any,
     default: float = 0.0,
 ) -> float:
+    """
+    Değeri güvenli biçimde float yapar.
+    """
+
     try:
         number = float(value)
 
@@ -62,6 +89,10 @@ def sf(
 
 
 def tx(value: Any) -> str:
+    """
+    Değeri güvenli biçimde metne dönüştürür.
+    """
+
     if value is None:
         return ""
 
@@ -74,7 +105,32 @@ def tx(value: Any) -> str:
     return str(value).strip()
 
 
-def load_csv(path: Path) -> pd.DataFrame:
+def normalize_symbol(
+    value: Any,
+) -> str:
+    """
+    BIST sembolünü temizler.
+    Örnek: POLHO.IS -> POLHO
+    """
+
+    symbol = tx(value).upper()
+
+    if symbol.endswith(".IS"):
+        symbol = symbol[:-3]
+
+    return symbol
+
+
+def load_csv(
+    path: Path,
+) -> pd.DataFrame:
+    """
+    CSV dosyasını güvenli biçimde okur.
+
+    Dosya yoksa, boşsa veya okunamıyorsa
+    boş DataFrame döndürür.
+    """
+
     if not path.exists():
         return pd.DataFrame()
 
@@ -119,6 +175,10 @@ def load_csv(path: Path) -> pd.DataFrame:
 def normalize_symbol_column(
     frame: pd.DataFrame,
 ) -> pd.DataFrame:
+    """
+    DataFrame içindeki sembolleri temizler.
+    """
+
     if frame.empty:
         return frame
 
@@ -127,16 +187,8 @@ def normalize_symbol_column(
     if "symbol" not in result.columns:
         return pd.DataFrame()
 
-    result["symbol"] = (
-        result["symbol"]
-        .astype(str)
-        .str.strip()
-        .str.upper()
-        .str.replace(
-            ".IS",
-            "",
-            regex=False,
-        )
+    result["symbol"] = result["symbol"].apply(
+        normalize_symbol
     )
 
     result = result[
@@ -156,48 +208,75 @@ def ensure_column(
     column: str,
     default: Any,
 ) -> None:
+    """
+    Eksik sütunu varsayılan değerle oluşturur.
+    """
+
     if column not in frame.columns:
         frame[column] = default
 
 
+# =========================================================
+# CANLI DURUM ETKİSİ
+# =========================================================
+
 def live_state_bonus(
     state: str,
 ) -> float:
-    state = tx(state)
+    """
+    V24 canlı teyit durumunun ana skora etkisi.
+    """
+
+    normalized = tx(state).upper()
 
     bonuses = {
-        "CANLI TEYİT GELDİ": 12.0,
         "GÜÇLÜ CANLI TEYİT": 12.0,
-        "ERKEN TEYİT": 6.0,
-        "TEYİT BEKLE": -4.0,
-        "PASİF": -8.0,
+        "CANLI TEYİT GELDİ": 10.0,
+        "ERKEN TEYİT": 5.0,
+
+        # Canlı teyit beklenmesi doğrudan büyük ceza değildir.
+        "TEYİT BEKLE": -2.0,
+
+        "PASİF": -7.0,
+        "PASİF İZLEME": -7.0,
+
         "ŞİŞKİN / RİSKLİ": -18.0,
+        "RİSKLİ - ELE": -20.0,
         "ELE": -20.0,
     }
 
     return bonuses.get(
-        state,
-        -6.0,
+        normalized,
+        -3.0,
     )
 
+
+# =========================================================
+# V27 KARAR MOTORU
+# =========================================================
 
 def determine_decision(
     row: pd.Series,
 ) -> tuple[str, str]:
+    """
+    Bütün katmanları birlikte değerlendirerek
+    nihai V27 kararını üretir.
+    """
+
     master_score = sf(
-        row.get(
-            "v27_master_score"
-        )
+        row.get("v27_master_score")
     )
 
     live_state = tx(
         row.get("v24_state")
-    )
+    ).upper()
 
     v22_state = tx(
-        row.get(
-            "v22_signal_state"
-        )
+        row.get("v22_signal_state")
+    ).upper()
+
+    v22_score = sf(
+        row.get("v22_signal_score")
     )
 
     risk_score = sf(
@@ -206,9 +285,11 @@ def determine_decision(
     )
 
     optimized_weight = sf(
-        row.get(
-            "optimized_weight_pct"
-        )
+        row.get("optimized_weight_pct")
+    )
+
+    optimizer_score = sf(
+        row.get("optimizer_score")
     )
 
     quality_score = sf(
@@ -216,16 +297,36 @@ def determine_decision(
         50.0,
     )
 
+    consensus_score = sf(
+        row.get("consensus_score")
+    )
+
+    timing_confidence = sf(
+        row.get("timing_confidence")
+    )
+
+    expected_return = sf(
+        row.get("expected_return")
+    )
+
+    downside = sf(
+        row.get("downside_20pct")
+    )
+
+    # -----------------------------------------------------
+    # 1. KESİN ELEME ŞARTLARI
+    # -----------------------------------------------------
+
     if live_state in {
         "ŞİŞKİN / RİSKLİ",
+        "RİSKLİ - ELE",
         "ELE",
     }:
         return (
             "ELE",
             (
-                "Canlı teknik görünümde "
-                "şişkinlik veya belirgin "
-                "risk tespit edildi"
+                "Canlı teknik görünümde şişkinlik "
+                "veya belirgin risk tespit edildi"
             ),
         )
 
@@ -235,15 +336,40 @@ def determine_decision(
             "Risk puanı kabul edilebilir seviyenin üzerinde",
         )
 
-    if quality_score < 35:
+    if downside <= -6:
+        return (
+            "ELE",
+            "Temkinli senaryoda aşağı yönlü risk yüksek",
+        )
+
+    if expected_return <= 0:
+        return (
+            "ELE",
+            "Beklenen istatistiksel sonuç pozitif değil",
+        )
+
+    if quality_score < 30:
         return (
             "ELE",
             "Performans kalite görünümü yetersiz",
         )
 
+    if v22_state in {
+        "ELE",
+        "RİSKLİ - ELE",
+    }:
+        return (
+            "ELE",
+            "V22 sinyal motoru adayı elemiş durumda",
+        )
+
+    # -----------------------------------------------------
+    # 2. ÜST DÜZEY TEYİT
+    # Gerçek canlı teyit şarttır.
+    # -----------------------------------------------------
+
     if (
-        master_score >= 80
-        and live_state
+        live_state
         in {
             "CANLI TEYİT GELDİ",
             "GÜÇLÜ CANLI TEYİT",
@@ -252,86 +378,191 @@ def determine_decision(
         in {
             "GÜÇLÜ TEYİT",
             "İZLEMEYE AL",
+            "TEYİT BEKLE",
         }
+        and master_score >= 78
+        and v22_score >= 72
+        and consensus_score >= 72
         and risk_score <= 35
-        and optimized_weight >= 10
+        and optimized_weight >= 8
     ):
         return (
             "ÜST DÜZEY TEYİT",
             (
-                "Ana analiz katmanları "
-                "ve canlı teknik teyit "
-                "aynı yönde güçlü"
+                "Ana analiz katmanları, portföy motoru "
+                "ve canlı teknik teyit aynı yönde güçlü"
             ),
         )
 
+    # -----------------------------------------------------
+    # 3. AKTİF İZLEME
+    # Canlı teyit veya erken teyit oluşmuşsa.
+    # -----------------------------------------------------
+
     if (
-        master_score >= 70
-        and live_state
+        live_state
         in {
             "CANLI TEYİT GELDİ",
             "GÜÇLÜ CANLI TEYİT",
             "ERKEN TEYİT",
         }
+        and v22_state
+        in {
+            "GÜÇLÜ TEYİT",
+            "İZLEMEYE AL",
+            "TEYİT BEKLE",
+        }
+        and master_score >= 65
+        and v22_score >= 62
         and risk_score <= 45
         and optimized_weight >= 8
     ):
         return (
             "AKTİF İZLEME",
             (
-                "Canlı teyit ve portföy "
+                "Canlı teknik teyit ile portföy "
                 "uygunluğu birlikte oluştu"
             ),
         )
 
+    # -----------------------------------------------------
+    # 4. PORTFÖY MOTORUNUN SEÇTİĞİ GÜÇLÜ ADAY
+    #
+    # Canlı teyit henüz yoktur fakat:
+    # - V22 çok güçlüdür,
+    # - V26 anlamlı ağırlık ayırmıştır,
+    # - risk düşüktür,
+    # - motor uyumu yüksektir.
+    #
+    # Bu durumda aday pasife düşürülmez.
+    # -----------------------------------------------------
+
+    if (
+        live_state == "TEYİT BEKLE"
+        and v22_state
+        in {
+            "TEYİT BEKLE",
+            "İZLEMEYE AL",
+            "GÜÇLÜ TEYİT",
+        }
+        and optimized_weight >= 15
+        and v22_score >= 75
+        and consensus_score >= 75
+        and risk_score <= 25
+        and expected_return >= 2
+    ):
+        return (
+            "AKTİF İZLEME",
+            (
+                "Portföy motoru güçlü ağırlık ayırdı; "
+                "istatistiksel görünüm güçlü, canlı giriş "
+                "teyidi bekleniyor"
+            ),
+        )
+
+    # Biraz daha esnek aktif izleme şartı.
+    if (
+        live_state == "TEYİT BEKLE"
+        and v22_state
+        in {
+            "TEYİT BEKLE",
+            "İZLEMEYE AL",
+        }
+        and optimized_weight >= 12
+        and optimizer_score >= 50
+        and v22_score >= 70
+        and consensus_score >= 70
+        and risk_score <= 30
+        and timing_confidence >= 70
+        and expected_return >= 2
+    ):
+        return (
+            "AKTİF İZLEME",
+            (
+                "Sinyal, zamanlama ve portföy motoru "
+                "adayı birlikte destekliyor; canlı teyit "
+                "tamamlanmadan kontrollü aktif izleme"
+            ),
+        )
+
+    # -----------------------------------------------------
+    # 5. TEYİT BEKLE
+    # -----------------------------------------------------
+
     if live_state == "TEYİT BEKLE":
         if (
-            master_score >= 58
+            v22_state
+            in {
+                "TEYİT BEKLE",
+                "İZLEMEYE AL",
+                "GÜÇLÜ TEYİT",
+            }
+            and v22_score >= 58
+            and consensus_score >= 55
             and risk_score <= 55
+            and expected_return > 0
         ):
             return (
                 "TEYİT BEKLE",
                 (
-                    "Genel görünüm olumlu "
-                    "fakat canlı giriş "
-                    "teyidi oluşmadı"
+                    "Genel görünüm olumlu fakat canlı "
+                    "teknik giriş teyidi henüz oluşmadı"
                 ),
             )
 
         return (
             "PASİF İZLEME",
             (
-                "Canlı teyit yok ve toplam "
-                "skor aktif takip için "
-                "yeterli değil"
+                "Canlı teyit yok ve toplam görünüm "
+                "aktif takip için yeterli değil"
             ),
         )
 
+    # V24 farklı veya boş bir durum üretmiş olsa da
+    # diğer katmanlar yeterince güçlüyse teyit beklenir.
     if (
-        master_score >= 58
+        v22_state
+        in {
+            "TEYİT BEKLE",
+            "İZLEMEYE AL",
+        }
+        and master_score >= 55
+        and v22_score >= 58
         and risk_score <= 55
+        and expected_return > 0
     ):
         return (
             "TEYİT BEKLE",
             (
-                "Toplam görünüm olumlu "
-                "fakat bütün şartlar "
-                "tamamlanmadı"
+                "Toplam görünüm olumlu fakat bütün "
+                "teyit şartları tamamlanmadı"
             ),
         )
+
+    # -----------------------------------------------------
+    # 6. PASİF İZLEME
+    # -----------------------------------------------------
 
     return (
         "PASİF İZLEME",
         (
-            "Analiz katmanları ortak "
-            "güçlü karar üretmedi"
+            "Analiz katmanları ortak güçlü karar üretmedi"
         ),
     )
 
 
+# =========================================================
+# BOŞ SONUÇ YÖNETİMİ
+# =========================================================
+
 def save_empty_status(
     status_name: str,
 ) -> None:
+    """
+    Girdi olmadığında workflow'u durdurmadan
+    başlıklı boş çıktı oluşturur.
+    """
+
     pd.DataFrame(
         columns=OUTPUT_COLUMNS
     ).to_csv(
@@ -352,7 +583,7 @@ def save_empty_status(
         "top_symbol": "",
         "top_decision": "",
         "top_score": 0.0,
-        "version": "V27.1",
+        "version": "V27.2",
     }
 
     STATUS_FILE.write_text(
@@ -372,6 +603,10 @@ def save_empty_status(
         )
     )
 
+
+# =========================================================
+# ANA ÇALIŞMA
+# =========================================================
 
 def main() -> None:
     signals = normalize_symbol_column(
@@ -398,6 +633,10 @@ def main() -> None:
 
     merged = signals.copy()
 
+    # -----------------------------------------------------
+    # V24 CANLI TEYİT VERİLERİ
+    # -----------------------------------------------------
+
     if not live.empty:
         live_columns = [
             column
@@ -416,8 +655,7 @@ def main() -> None:
         ].copy()
 
         if (
-            "v24_score"
-            not in live_data.columns
+            "v24_score" not in live_data.columns
             and "live_confirmation_score"
             in live_data.columns
         ):
@@ -432,6 +670,10 @@ def main() -> None:
             on="symbol",
             how="left",
         )
+
+    # -----------------------------------------------------
+    # V25 PERFORMANS VERİLERİ
+    # -----------------------------------------------------
 
     if not performance.empty:
         performance_columns = [
@@ -451,6 +693,10 @@ def main() -> None:
             on="symbol",
             how="left",
         )
+
+    # -----------------------------------------------------
+    # V26 PORTFÖY OPTİMİZASYON VERİLERİ
+    # -----------------------------------------------------
 
     if not portfolio.empty:
         portfolio_columns = [
@@ -472,6 +718,10 @@ def main() -> None:
             how="left",
         )
 
+    # -----------------------------------------------------
+    # METİN SÜTUNLARI
+    # -----------------------------------------------------
+
     text_defaults = {
         "v22_signal_state": "TEYİT BEKLE",
         "v24_state": "TEYİT BEKLE",
@@ -481,9 +731,7 @@ def main() -> None:
         "portfolio_role": "",
     }
 
-    for column, default in (
-        text_defaults.items()
-    ):
+    for column, default in text_defaults.items():
         ensure_column(
             merged,
             column,
@@ -497,26 +745,38 @@ def main() -> None:
             .str.strip()
         )
 
+    # -----------------------------------------------------
+    # SAYISAL SÜTUNLAR
+    #
+    # V24 skoru veri yokken 0 değil 50 kabul edilir.
+    # Böylece canlı teyit bekleyen aday gereksiz yere
+    # aşırı cezalandırılmaz.
+    # -----------------------------------------------------
+
     numeric_defaults = {
         "v22_signal_score": 0.0,
-        "v24_score": 0.0,
+        "v24_score": 50.0,
         "quality_score": 50.0,
+
         "optimized_weight_pct": 0.0,
         "optimizer_score": 0.0,
+
         "consensus_score": 0.0,
         "risk_score": 100.0,
+
         "market_percentile": 0.0,
         "best_horizon_days": 1.0,
         "timing_confidence": 0.0,
+
         "expected_return": 0.0,
         "downside_20pct": 0.0,
         "upside_80pct": 0.0,
+
         "close": 0.0,
+        "reference_price": 0.0,
     }
 
-    for column, default in (
-        numeric_defaults.items()
-    ):
+    for column, default in numeric_defaults.items():
         ensure_column(
             merged,
             column,
@@ -527,6 +787,40 @@ def main() -> None:
             merged[column],
             errors="coerce",
         ).fillna(default)
+
+    # V24 satırı var fakat v24_score boş veya sıfırsa,
+    # TEYİT BEKLE için nötr skor kullan.
+    waiting_mask = (
+        merged["v24_state"]
+        .str.upper()
+        .eq("TEYİT BEKLE")
+    )
+
+    merged.loc[
+        waiting_mask
+        & (
+            merged["v24_score"]
+            <= 0
+        ),
+        "v24_score",
+    ] = 50.0
+
+    # Referans fiyat uyumluluğu.
+    merged["close"] = np.where(
+        merged["close"] > 0,
+        merged["close"],
+        merged["reference_price"],
+    )
+
+    merged["reference_price"] = np.where(
+        merged["reference_price"] > 0,
+        merged["reference_price"],
+        merged["close"],
+    )
+
+    # -----------------------------------------------------
+    # BEKLENEN GETİRİ BİLEŞENİ
+    # -----------------------------------------------------
 
     expected_return_component = (
         np.clip(
@@ -544,35 +838,40 @@ def main() -> None:
         )
     )
 
-    merged[
-        "v27_master_score"
-    ] = (
-        merged["v22_signal_score"]
-        * 0.22
-        + merged["v24_score"]
-        * 0.22
-        + merged["optimizer_score"]
-        * 0.16
-        + merged["quality_score"]
-        * 0.10
-        + merged["consensus_score"]
-        * 0.12
-        + merged["timing_confidence"]
-        * 0.08
-        + merged["market_percentile"]
-        * 0.05
-        + expected_return_component
-        * 0.05
-        - merged["risk_score"]
-        * 0.18
-        + merged["v24_state"]
-        .apply(
+    # -----------------------------------------------------
+    # V27 ANA SKOR
+    #
+    # V22 ve V26 etkisi artırıldı.
+    # Canlı teyit yokken V24 nötr tutuldu.
+    # Risk cezası aşırı olmayacak şekilde azaltıldı.
+    # -----------------------------------------------------
+
+    merged["v27_master_score"] = (
+        merged["v22_signal_score"] * 0.28
+        + merged["v24_score"] * 0.12
+        + merged["optimizer_score"] * 0.20
+        + merged["quality_score"] * 0.08
+        + merged["consensus_score"] * 0.12
+        + merged["timing_confidence"] * 0.08
+        + merged["market_percentile"] * 0.05
+        + expected_return_component * 0.05
+        - merged["risk_score"] * 0.10
+        + merged["v24_state"].apply(
             live_state_bonus
         )
     ).clip(
         0,
         100,
     )
+
+    merged["v27_master_score"] = (
+        merged["v27_master_score"]
+        .round(2)
+    )
+
+    # -----------------------------------------------------
+    # KARARLARI ÜRET
+    # -----------------------------------------------------
 
     decisions = merged.apply(
         determine_decision,
@@ -588,6 +887,10 @@ def main() -> None:
         item[1]
         for item in decisions
     ]
+
+    # -----------------------------------------------------
+    # SIRALAMA
+    # -----------------------------------------------------
 
     priority = {
         "ÜST DÜZEY TEYİT": 5,
@@ -625,13 +928,15 @@ def main() -> None:
         ),
     )
 
+    # -----------------------------------------------------
+    # ÇIKTI DOSYASI
+    # -----------------------------------------------------
+
     result = pd.DataFrame()
 
     for column in OUTPUT_COLUMNS:
         if column in merged.columns:
-            result[column] = (
-                merged[column]
-            )
+            result[column] = merged[column]
         else:
             result[column] = np.nan
 
@@ -641,6 +946,10 @@ def main() -> None:
         encoding="utf-8-sig",
     )
 
+    # -----------------------------------------------------
+    # DURUM DOSYASI
+    # -----------------------------------------------------
+
     approved_states = {
         "ÜST DÜZEY TEYİT",
         "AKTİF İZLEME",
@@ -648,74 +957,68 @@ def main() -> None:
 
     status = {
         "status": "ready",
+
         "candidate_count": int(
             len(result)
         ),
+
         "approved_count": int(
             result["v27_decision"]
-            .isin(
-                approved_states
-            )
+            .isin(approved_states)
             .sum()
         ),
+
         "top_level_confirmation_count": int(
             (
-                result[
-                    "v27_decision"
-                ]
+                result["v27_decision"]
                 == "ÜST DÜZEY TEYİT"
             ).sum()
         ),
+
         "active_tracking_count": int(
             (
-                result[
-                    "v27_decision"
-                ]
+                result["v27_decision"]
                 == "AKTİF İZLEME"
             ).sum()
         ),
+
         "waiting_count": int(
             (
-                result[
-                    "v27_decision"
-                ]
+                result["v27_decision"]
                 == "TEYİT BEKLE"
             ).sum()
         ),
+
         "passive_count": int(
             (
-                result[
-                    "v27_decision"
-                ]
+                result["v27_decision"]
                 == "PASİF İZLEME"
             ).sum()
         ),
+
         "eliminated_count": int(
             (
-                result[
-                    "v27_decision"
-                ]
+                result["v27_decision"]
                 == "ELE"
             ).sum()
         ),
+
         "top_symbol": (
             tx(
-                result.iloc[0][
-                    "symbol"
-                ]
+                result.iloc[0]["symbol"]
             )
             if len(result)
             else ""
         ),
+
         "top_decision": (
             tx(
-                result.iloc[0][
-                    "v27_decision"
-                ]
+                result.iloc[0]["v27_decision"]
             )
             if len(result)
             else ""
         ),
+
         "top_score": (
             round(
                 sf(
@@ -728,7 +1031,8 @@ def main() -> None:
             if len(result)
             else 0.0
         ),
-        "version": "V27.1",
+
+        "version": "V27.2",
     }
 
     STATUS_FILE.write_text(
