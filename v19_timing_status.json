@@ -1,8 +1,8 @@
 {
   "status": "ready",
-  "candidate_count": 2,
-  "timing_ready_count": 2,
-  "history_count": 323,
+  "candidate_count": 3,
+  "timing_ready_count": 3,
+  "history_count": 327,
   "history_files": [
     "v5_backfill_history.csv",
     "v11_signal_history.csv",

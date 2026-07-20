@@ -1,3 +1,4 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,RGYAS,TEYİT BEKLE,44.9,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,62.45,TEYİT BEKLE,50.0,50.0,YENİ,65.42,ORTA,37.0,YATAY,84.66,5,99.84,4.14,-0.08,7.47,205.6,205.6
-2,CIMSA,PASİF İZLEME,44.89,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,61.89,TEYİT BEKLE,50.0,50.0,YENİ,50.64,DÜŞÜK,23.0,YATAY,93.66,5,100.0,4.31,-0.03,7.47,49.84,49.84
+1,AKSA,TEYİT BEKLE,50.57,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,71.05,TEYİT BEKLE,50.0,50.0,YENİ,70.28,DÜŞÜK,17.0,PANÄ°K,95.9,5,99.42,4.57,-0.1,7.93,12.37,12.37
+2,BSOKE,TEYİT BEKLE,48.85,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,68.23,TEYİT BEKLE,50.0,50.0,YENİ,69.78,DÜŞÜK,25.0,PANÄ°K,93.44,5,100.0,4.6,-0.03,6.51,37.24,37.24
+3,EGEPO,ELE,39.01,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,52.88,TEYİT BEKLE,50.0,50.0,YENİ,48.76,ORTA,36.0,PANÄ°K,99.39,5,80.5,2.64,-2.2,5.98,19.77,19.77

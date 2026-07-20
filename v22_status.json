@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 2,
+  "candidate_count": 3,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
-  "waiting_count": 1,
-  "passive_count": 1,
-  "eliminated_count": 0,
-  "top_symbol": "RGYAS",
+  "waiting_count": 2,
+  "passive_count": 0,
+  "eliminated_count": 1,
+  "top_symbol": "AKSA",
   "top_state": "TEYİT BEKLE",
-  "top_score": 62.45,
+  "top_score": 71.05,
   "learning_bonus": 1.0,
   "version": "V22.1"
 }

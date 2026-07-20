@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "plan_count": 2,
-  "planned_candidate_count": 2,
+  "plan_count": 3,
+  "planned_candidate_count": 3,
   "active_confirmation_count": 0,
-  "waiting_confirmation_count": 2,
+  "waiting_confirmation_count": 3,
   "passive_count": 0,
-  "top_symbol": "RGYAS",
+  "top_symbol": "AKSA",
   "input_file": "v20_portfolio_model.csv",
   "output_file": "v20_monitoring_plan.csv",
   "version": "V20.4.2"

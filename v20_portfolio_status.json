@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 2,
-  "cash_reserve_pct": 38.0,
-  "invested_pct": 62.0,
-  "top_symbol": "RGYAS",
-  "top_weight_pct": 32.17,
+  "position_count": 3,
+  "cash_reserve_pct": 20.0,
+  "invested_pct": 80.0,
+  "top_symbol": "AKSA",
+  "top_weight_pct": 29.14,
   "version": "V20.3"
 }
