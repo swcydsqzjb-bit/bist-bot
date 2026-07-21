@@ -460,6 +460,35 @@ jobs:
           cat v29_status.json
 
       # ============================================================
+      # V30 - ORUNTU OGRENME VE BONUS MOTORU
+      # ============================================================
+
+      - name: V30 Oruntu Ogrenme Motorunu Calistir
+        run: |
+          python v30_pattern_learning.py
+
+          test -f v30_status.json
+          test -f v30_learned_patterns.csv
+          test -f v30_feature_adjustments.csv
+
+          echo "===== V30 STATUS ====="
+          cat v30_status.json
+
+          echo "===== V30 OGRENILEN ORUNTULER ====="
+          if [ -s v30_learned_patterns.csv ]; then
+            cat v30_learned_patterns.csv
+          else
+            echo "V30 henuz aktif oruntu uretmedi."
+          fi
+
+          echo "===== V30 OZELLIK BONUSLARI ====="
+          if [ -s v30_feature_adjustments.csv ]; then
+            cat v30_feature_adjustments.csv
+          else
+            echo "V30 henuz uygulanabilir bonus uretmedi."
+          fi
+
+      # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
 
@@ -486,11 +515,14 @@ jobs:
             v26_status.json \
             v27_status.json \
             v28_status.json \
-            v29_status.json
+            v29_status.json \
+            v30_status.json
           do
             if [ -f "$file" ]; then
               echo "===== $file ====="
               cat "$file"
+            else
+              echo "===== $file BULUNAMADI ====="
             fi
           done
 
@@ -513,7 +545,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "LARUS V29 automatic update"
+          git commit -m "LARUS V30 automatic update"
 
           PUSH_SUCCESS="false"
 
@@ -535,8 +567,8 @@ jobs:
               break
             fi
 
-            echo "Push sirasinda repo yeniden degisti."
-            echo "Yeni denemeden once bekleniyor."
+            echo "Push sirasinda uzak repo yeniden degisti."
+            echo "Tekrar denemeden once bekleniyor."
 
             sleep $((ATTEMPT * 5))
           done
@@ -554,7 +586,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v29-results
+          name: larus-alpha-v30-results
           path: |
             *.csv
             *.json
