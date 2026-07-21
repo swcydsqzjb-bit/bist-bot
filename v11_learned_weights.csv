@@ -1,2 +1,2 @@
 ﻿feature,sample_count,correlation_with_5d,normalized_weight,message
-VERI_YETERSIZ,0,,,Ogrenme icin en az 30 tamamlanmis 5 gunluk sinyal gerekli.
+VERI_YETERSIZ,3,,,Ogrenme icin en az 30 tamamlanmis 5 gunluk sinyal gerekli.

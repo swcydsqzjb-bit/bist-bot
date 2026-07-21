@@ -2,10 +2,10 @@
   "status": "ready",
   "new_observation_count": 3,
   "latest_candidate_count": 3,
-  "history_count": 3,
-  "tracked_count": 2,
-  "analysis_only_count": 1,
-  "top_symbol": "AKSA",
-  "top_decision": "TEYİT BEKLE",
+  "history_count": 6,
+  "tracked_count": 3,
+  "analysis_only_count": 0,
+  "top_symbol": "CIMSA",
+  "top_decision": "AKTİF İZLEME",
   "version": "V28.0"
 }
