@@ -1,0 +1,11 @@
+{
+  "status": "insufficient_completed_observations",
+  "learning_active": false,
+  "completed_observation_count": 0,
+  "minimum_required": 20,
+  "pattern_count": 0,
+  "active_pattern_count": 0,
+  "total_available_bonus": 0.0,
+  "max_total_bonus": 12.0,
+  "version": "V30.0"
+}
