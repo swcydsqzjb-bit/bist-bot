@@ -5,7 +5,7 @@
   "active_confirmation_count": 0,
   "waiting_confirmation_count": 3,
   "passive_count": 0,
-  "top_symbol": "CIMSA",
+  "top_symbol": "RGYAS",
   "input_file": "v20_portfolio_model.csv",
   "output_file": "v20_monitoring_plan.csv",
   "version": "V20.4.2"

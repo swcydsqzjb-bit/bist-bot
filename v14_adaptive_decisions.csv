@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,CIMSA,50.65,V8 GÜÇLÜ,72.85,80.0,83.0,ORTA DNA,73.61,68.0,48.0,1.85,BASE,69.02,6.5,0.0,75.52,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
-2,TCELL,111.5,V8 GÜÇLÜ,75.05,84.0,80.0,ZAYIF DNA,74.72,48.0,36.0,1.2,BASE,66.51,1.5,15.0,53.01,ELE,Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA zayÄ±f
-3,DEVA,76.9,V8 İZLEME,67.05,80.0,58.0,ZAYIF DNA,70.11,48.0,56.0,0.18,BASE,61.96,3.0,15.0,49.96,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f
+1,RGYAS,206.3,V8 GÜÇLÜ,75.16,87.0,63.0,ORTA DNA,73.39,68.0,44.0,1.6,BASE,69.18,3.5,0.0,72.68,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,EGEPO,19.92,V8 GÜÇLÜ,73.41,85.0,77.0,ZAYIF DNA,69.82,48.0,48.0,1.13,BASE,65.81,4.5,15.0,55.31,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA zayÄ±f
+3,ENJSA,106.8,V8 İZLEME,68.86,78.0,78.0,ZAYIF DNA,67.85,40.0,36.0,0.12,BASE,60.41,0.0,15.0,45.41,ELE,,Market DNA zayÄ±f

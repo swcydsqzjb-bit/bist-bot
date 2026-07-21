@@ -1,14 +1,14 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "approved_count": 1,
+  "approved_count": 0,
   "top_level_confirmation_count": 0,
-  "active_tracking_count": 1,
+  "active_tracking_count": 0,
   "waiting_count": 1,
   "passive_count": 1,
-  "eliminated_count": 0,
-  "top_symbol": "CIMSA",
-  "top_decision": "AKTİF İZLEME",
-  "top_score": 64.42,
+  "eliminated_count": 1,
+  "top_symbol": "RGYAS",
+  "top_decision": "TEYİT BEKLE",
+  "top_score": 49.24,
   "version": "V27.2"
 }

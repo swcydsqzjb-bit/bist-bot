@@ -1,8 +1,8 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "approved_count": 1,
-  "top_pick": "CIMSA",
-  "top_pick_score": 80.22,
+  "approved_count": 0,
+  "top_pick": "RGYAS",
+  "top_pick_score": 74.65,
   "version": "V20.1"
 }
