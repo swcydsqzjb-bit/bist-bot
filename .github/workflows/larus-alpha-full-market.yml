@@ -495,22 +495,55 @@ jobs:
           done
 
       # ============================================================
-      # GITHUB COMMIT
+      # GITHUB COMMIT - CAKISMA DAYANIKLI
       # ============================================================
 
       - name: Sonuclari GitHub'a Kaydet
         run: |
+          set -e
+
           git config user.name "larus-alpha-bot"
           git config user.email "larus-alpha-bot@users.noreply.github.com"
 
-          find . -maxdepth 1 -type f \( -name "*.csv" -o -name "*.json" \) -print0 | xargs -0 -r git add
+          find . -maxdepth 1 -type f \( -name "*.csv" -o -name "*.json" \) -print0 \
+            | xargs -0 -r git add
 
           if git diff --cached --quiet; then
             echo "Kaydedilecek degisiklik yok."
-          else
-            git commit -m "LARUS V29 automatic update"
-            git pull --rebase origin main
-            git push
+            exit 0
+          fi
+
+          git commit -m "LARUS V29 automatic update"
+
+          PUSH_SUCCESS="false"
+
+          for ATTEMPT in 1 2 3 4 5
+          do
+            echo "===== GITHUB PUSH DENEMESI $ATTEMPT/5 ====="
+
+            git fetch origin main
+
+            if ! git rebase origin/main; then
+              echo "Rebase islemi basarisiz oldu."
+              git rebase --abort || true
+              exit 1
+            fi
+
+            if git push origin HEAD:main; then
+              echo "Sonuclar GitHub'a basariyla kaydedildi."
+              PUSH_SUCCESS="true"
+              break
+            fi
+
+            echo "Push sirasinda repo yeniden degisti."
+            echo "Yeni denemeden once bekleniyor."
+
+            sleep $((ATTEMPT * 5))
+          done
+
+          if [ "$PUSH_SUCCESS" != "true" ]; then
+            echo "5 denemeye ragmen GitHub push tamamlanamadi."
+            exit 1
           fi
 
       # ============================================================
