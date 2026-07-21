@@ -444,6 +444,22 @@ jobs:
           cat v28_status.json
 
       # ============================================================
+      # V29 - GERCEKLESEN SONUC TAKIBI
+      # ============================================================
+
+      - name: V29 Gerceklesen Sonuclari Guncelle
+        run: |
+          python v29_outcome_tracker.py
+
+          test -f v29_status.json
+          test -f v29_evaluated_observations.csv
+          test -f v29_outcome_summary.csv
+          test -f v29_missed_opportunities.csv
+
+          echo "===== V29 STATUS ====="
+          cat v29_status.json
+
+      # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
 
@@ -469,7 +485,8 @@ jobs:
             v25_status.json \
             v26_status.json \
             v27_status.json \
-            v28_status.json
+            v28_status.json \
+            v29_status.json
           do
             if [ -f "$file" ]; then
               echo "===== $file ====="
@@ -491,7 +508,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Kaydedilecek degisiklik yok."
           else
-            git commit -m "LARUS V28 automatic update"
+            git commit -m "LARUS V29 automatic update"
             git pull --rebase origin main
             git push
           fi
@@ -504,7 +521,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: larus-alpha-v28-results
+          name: larus-alpha-v29-results
           path: |
             *.csv
             *.json
