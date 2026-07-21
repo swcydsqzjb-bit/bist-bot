@@ -460,7 +460,7 @@ jobs:
           cat v29_status.json
 
       # ============================================================
-      # V30 - ORUNTU OGRENME VE BONUS MOTORU
+      # V30 - ORUNTU OGRENME MOTORU
       # ============================================================
 
       - name: V30 Oruntu Ogrenme Motorunu Calistir
@@ -487,6 +487,10 @@ jobs:
           else
             echo "V30 henuz uygulanabilir bonus uretmedi."
           fi
+
+      - name: V30 Telegram Raporunu Gonder
+        run: |
+          python v30_telegram.py
 
       # ============================================================
       # TUM MOTOR DURUMLARI
