@@ -1,14 +1,14 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "approved_count": 0,
+  "approved_count": 1,
   "top_level_confirmation_count": 0,
-  "active_tracking_count": 0,
-  "waiting_count": 3,
+  "active_tracking_count": 1,
+  "waiting_count": 2,
   "passive_count": 0,
   "eliminated_count": 0,
-  "top_symbol": "TCELL",
-  "top_decision": "TEYİT BEKLE",
-  "top_score": 50.19,
+  "top_symbol": "ENJSA",
+  "top_decision": "AKTİF İZLEME",
+  "top_score": 64.04,
   "version": "V27.2"
 }

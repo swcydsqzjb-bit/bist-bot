@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 3,
+  "new_observation_count": 2,
   "latest_candidate_count": 3,
-  "history_count": 12,
-  "tracked_count": 3,
+  "history_count": 14,
+  "tracked_count": 2,
   "analysis_only_count": 0,
-  "top_symbol": "TCELL",
-  "top_decision": "TEYİT BEKLE",
+  "top_symbol": "ENJSA",
+  "top_decision": "AKTİF İZLEME",
   "version": "V28.0"
 }

@@ -5,7 +5,7 @@
   "active_confirmation_count": 0,
   "waiting_confirmation_count": 3,
   "passive_count": 0,
-  "top_symbol": "TCELL",
+  "top_symbol": "ENJSA",
   "input_file": "v20_portfolio_model.csv",
   "output_file": "v20_monitoring_plan.csv",
   "version": "V20.4.2"
