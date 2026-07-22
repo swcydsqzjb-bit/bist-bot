@@ -1,5 +1,5 @@
 ﻿group,signal_count,completed_5d,positive_5d_pct,hit_3pct_5d_pct,average_result_5d,median_result_5d
-GENEL,25,7,42.86,42.86,0.55,-1.24
-SMART_65_74,5,5,40.0,40.0,-0.43,-1.24
-SMART_75_84,1,1,100.0,100.0,10.83,10.83
+GENEL,28,13,46.15,53.85,1.95,-1.47
+SMART_65_74,7,7,28.57,42.86,-1.35,-2.26
+SMART_75_84,5,5,80.0,80.0,7.92,9.75
 SMART_85_PLUS,1,1,0.0,0.0,-4.79,-4.79
