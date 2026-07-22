@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 0,
+  "new_observation_count": 3,
   "latest_candidate_count": 3,
-  "history_count": 9,
-  "tracked_count": 0,
+  "history_count": 12,
+  "tracked_count": 3,
   "analysis_only_count": 0,
-  "top_symbol": "RGYAS",
+  "top_symbol": "TCELL",
   "top_decision": "TEYİT BEKLE",
   "version": "V28.0"
 }

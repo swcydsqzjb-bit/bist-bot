@@ -4,11 +4,11 @@
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
-  "waiting_count": 1,
-  "passive_count": 1,
-  "eliminated_count": 1,
-  "top_symbol": "RGYAS",
+  "waiting_count": 3,
+  "passive_count": 0,
+  "eliminated_count": 0,
+  "top_symbol": "TCELL",
   "top_decision": "TEYİT BEKLE",
-  "top_score": 49.23,
+  "top_score": 50.19,
   "version": "V27.2"
 }

@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "position_count": 3,
-  "cash_reserve_pct": 30.0,
-  "invested_pct": 70.0,
-  "top_symbol": "RGYAS",
-  "top_weight_pct": 25.09,
+  "cash_reserve_pct": 28.0,
+  "invested_pct": 72.0,
+  "top_symbol": "TCELL",
+  "top_weight_pct": 25.16,
   "version": "V20.3"
 }
