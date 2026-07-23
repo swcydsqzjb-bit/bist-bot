@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "new_observation_count": 2,
+  "new_observation_count": 3,
   "latest_candidate_count": 3,
-  "history_count": 14,
-  "tracked_count": 2,
+  "history_count": 17,
+  "tracked_count": 3,
   "analysis_only_count": 0,
   "top_symbol": "ENJSA",
   "top_decision": "AKTİF İZLEME",
