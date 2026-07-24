@@ -1,2 +1,11 @@
-﻿feature,sample_count,correlation_with_5d,normalized_weight,message
-VERI_YETERSIZ,6,,,Ogrenme icin en az 30 tamamlanmis 5 gunluk sinyal gerekli.
+﻿feature,sample_count,correlation_with_5d,absolute_signal,normalized_weight,direction,message
+relationship_score,21,-0.2796,0.27960747984429046,33.92,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+live_confirmation_score,21,-0.1907,0.19070158191219086,23.14,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+volume_ratio,39,-0.0778,0.07781501823403236,9.44,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+ema20_distance,39,-0.0584,0.058413598810715076,7.09,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+prediction_score,21,-0.0556,0.05562420201161735,6.75,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+smart_money_score,39,0.0435,0.04349961231446417,5.28,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+historical_support_score,18,-0.0411,0.04110077887760628,4.99,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+rsi,39,0.0387,0.03874119843948865,4.7,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+v8_score,39,0.0352,0.035159101371643284,4.27,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+institutional_score,39,-0.0036,0.0036068468780546792,0.44,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.

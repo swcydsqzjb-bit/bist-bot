@@ -1,11 +1,11 @@
 ﻿feature,base_weight,recommended_weight,change,sample_count,correlation_5d,spread_5d,direction
-v8_score,20.0,20.0,0.0,6,,,VERÄ° YETERSÄ°Z
-smart_money_score,18.0,18.003,0.003,165,-0.01337,0.114,KORU
-institutional_score,16.0,16.0,0.0,6,,,VERÄ° YETERSÄ°Z
-historical_support_score,12.0,12.0,0.0,4,,,VERÄ° YETERSÄ°Z
-prediction_score,10.0,10.0,0.0,2,,,VERÄ° YETERSÄ°Z
-live_confirmation_score,8.0,8.0,0.0,2,,,VERÄ° YETERSÄ°Z
-relationship_score,6.0,6.0,0.0,2,,,VERÄ° YETERSÄ°Z
-rsi,4.0,3.401,-0.599,165,-0.13179,-0.442,AZALT
-volume_ratio,4.0,4.255,0.255,165,0.07277,0.055,KORU
-ema20_distance,2.0,2.0,0.0,165,-0.05954,-0.479,AZALT
+v8_score,20.0,20.684,0.684,39,0.03516,1.086,ARTIR
+smart_money_score,18.0,17.952,-0.048,201,-0.00799,-0.033,KORU
+institutional_score,16.0,16.379,0.379,39,-0.00361,0.788,ARTIR
+historical_support_score,12.0,10.934,-1.066,18,-0.0411,-1.803,AZALT
+prediction_score,10.0,11.157,1.157,21,-0.05562,2.76,ARTIR
+live_confirmation_score,8.0,6.534,-1.466,21,-0.1907,-1.407,AZALT
+relationship_score,6.0,3.382,-2.618,21,-0.27961,-5.862,AZALT
+rsi,4.0,3.687,-0.313,201,-0.05992,-0.147,KORU
+volume_ratio,4.0,3.763,-0.237,201,0.03183,-0.729,KORU
+ema20_distance,2.0,2.0,0.0,201,-0.03279,-0.368,KORU

@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 3,
-  "latest_candidate_count": 3,
-  "history_count": 17,
-  "tracked_count": 3,
-  "analysis_only_count": 0,
-  "top_symbol": "ENJSA",
-  "top_decision": "AKTİF İZLEME",
+  "new_observation_count": 2,
+  "latest_candidate_count": 2,
+  "history_count": 19,
+  "tracked_count": 0,
+  "analysis_only_count": 2,
+  "top_symbol": "OYAKC",
+  "top_decision": "ELE",
   "version": "V28.0"
 }
