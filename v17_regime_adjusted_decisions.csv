@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,OYAKC,21.3,PANİK,91.14,30,94.06,76.51,PÄ°YASA LÄ°DERÄ°,82.93,76.48,66.23,76.55,52.65,V15 GERÄ° ÃEKTÄ°,-6.0,53.33,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
-2,CIMSA,49.64,PANİK,91.14,48,90.37,72.3,PÄ°YASA LÄ°DERÄ°,68.05,74.86,67.51,80.91,48.08,V15 ELE,-3.0,51.86,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde yüksek kalite | Panik rejiminde piyasa liderliği
-3,OZSUB,33.42,PANİK,91.14,9,98.36,82.72,PÄ°YASA LÄ°DERÄ°,85.48,91.73,73.62,72.91,47.17,V15 ELE,-6.0,51.12,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+1,ANHYT,106.0,PANİK,99.44,11,97.95,81.98,PÄ°YASA LÄ°DERÄ°,81.99,84.82,83.64,75.38,59.04,V15 TEMKÄ°NLÄ° Ä°ZLEME,-6.0,59.46,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+2,OZSUB,34.78,PANİK,99.44,12,97.75,81.07,PÄ°YASA LÄ°DERÄ°,88.62,90.0,75.74,58.68,51.35,V15 ELE,-6.0,53.67,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+3,RYGYO,34.24,PANİK,99.44,7,98.77,83.13,PÄ°YASA LÄ°DERÄ°,91.49,88.94,72.36,70.57,43.45,V15 ELE,-6.0,48.56,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği

@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 2,
-  "cash_reserve_pct": 45.0,
-  "invested_pct": 55.0,
-  "top_symbol": "OYAKC",
-  "top_weight_pct": 28.11,
+  "position_count": 1,
+  "cash_reserve_pct": 38.0,
+  "invested_pct": 62.0,
+  "top_symbol": "ANHYT",
+  "top_weight_pct": 62.0,
   "version": "V20.3"
 }

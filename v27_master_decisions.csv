@@ -1,3 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,OYAKC,ELE,38.37,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,52.75,TEYİT BEKLE,50.0,50.0,YENİ,42.72,ORTA,54.0,PANİK,94.06,5,100.0,4.52,1.38,8.51,21.3,21.3
-2,OZSUB,ELE,37.0,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,50.74,TEYİT BEKLE,50.0,50.0,YENİ,31.47,ORTA,54.0,PANİK,98.36,5,100.0,5.49,1.6,7.86,33.42,33.42
+1,ANHYT,ELE,41.75,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,58.4,TEYİT BEKLE,50.0,50.0,YENİ,48.02,ORTA,42.0,PANİK,97.95,5,100.0,3.82,0.25,8.54,106.0,106.0
