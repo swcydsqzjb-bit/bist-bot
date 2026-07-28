@@ -1,7 +1,7 @@
 {
   "status": "insufficient_completed_observations",
   "learning_active": false,
-  "completed_observation_count": 0,
+  "completed_observation_count": 6,
   "minimum_required": 20,
   "pattern_count": 0,
   "active_pattern_count": 0,

@@ -2,10 +2,10 @@
   "status": "ready",
   "new_observation_count": 1,
   "latest_candidate_count": 1,
-  "history_count": 20,
-  "tracked_count": 0,
-  "analysis_only_count": 1,
-  "top_symbol": "ANHYT",
-  "top_decision": "ELE",
+  "history_count": 21,
+  "tracked_count": 1,
+  "analysis_only_count": 0,
+  "top_symbol": "OYAKC",
+  "top_decision": "PASİF İZLEME",
   "version": "V28.0"
 }
