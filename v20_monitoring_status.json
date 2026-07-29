@@ -1,12 +1,10 @@
 {
-  "status": "ready",
-  "plan_count": 1,
-  "planned_candidate_count": 1,
+  "status": "no_candidates",
+  "plan_count": 0,
+  "planned_candidate_count": 0,
   "active_confirmation_count": 0,
-  "waiting_confirmation_count": 1,
+  "waiting_confirmation_count": 0,
   "passive_count": 0,
-  "top_symbol": "OYAKC",
-  "input_file": "v20_portfolio_model.csv",
-  "output_file": "v20_monitoring_plan.csv",
+  "top_symbol": "",
   "version": "V20.4.2"
 }

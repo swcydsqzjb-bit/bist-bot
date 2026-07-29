@@ -1,9 +1,5 @@
 {
-  "status": "ready",
-  "position_count": 1,
-  "cash_reserve_pct": 38.0,
-  "invested_pct": 62.0,
-  "top_symbol": "OYAKC",
-  "top_weight_pct": 62.0,
-  "version": "V20.3"
+  "status": "no_eligible_candidate",
+  "position_count": 0,
+  "cash_reserve_pct": 100.0
 }

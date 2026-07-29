@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "model_mode": "LEARNED",
-  "completed_5d": 68,
+  "completed_5d": 87,
   "minimum_required": 30,
-  "candidate_count": 3,
+  "candidate_count": 2,
   "approved_count": 0,
   "message": "V15 ogrenilmis agirliklari kullaniyor."
 }
