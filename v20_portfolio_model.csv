@@ -1,1 +1,2 @@
-﻿
+﻿portfolio_rank,symbol,model_weight_pct,allocation_label,confirmation_state,top_pick_score,ai_final_score,consensus_score,risk_class,risk_score,close,best_horizon_days,expected_return,downside_20pct,upside_80pct,why_now,conflict_note
+1,OYAKC,70.0,ANA ADAY,TEMKİNLİ İZLE,59.68,64.77,51.75,ORTA,27.0,20.92,1,0.15,-0.55,1.91,Göreli güçte piyasanın üst %10 diliminde | Zamanlama güveni yüksek | Tarihsel beklenen sonuç pozitif,Motorlar arasında belirgin görüş ayrılığı var | Risk seviyesi orta

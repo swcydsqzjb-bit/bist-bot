@@ -1,14 +1,14 @@
 {
-  "status": "monitoring_plan_missing",
-  "candidate_count": 0,
+  "status": "ready",
+  "candidate_count": 1,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
   "waiting_count": 0,
-  "passive_count": 0,
+  "passive_count": 1,
   "eliminated_count": 0,
-  "top_symbol": "",
-  "top_state": "",
-  "top_score": 0.0,
-  "learning_bonus": 0.0,
+  "top_symbol": "OYAKC",
+  "top_state": "PASİF İZLEME",
+  "top_score": 57.11,
+  "learning_bonus": 1.0,
   "version": "V22.1"
 }
