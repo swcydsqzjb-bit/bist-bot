@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 1,
-  "latest_candidate_count": 1,
-  "history_count": 22,
-  "tracked_count": 1,
-  "analysis_only_count": 0,
-  "top_symbol": "OYAKC",
-  "top_decision": "PASİF İZLEME",
+  "new_observation_count": 2,
+  "latest_candidate_count": 2,
+  "history_count": 24,
+  "tracked_count": 0,
+  "analysis_only_count": 2,
+  "top_symbol": "OZSUB",
+  "top_decision": "ELE",
   "version": "V28.0"
 }
