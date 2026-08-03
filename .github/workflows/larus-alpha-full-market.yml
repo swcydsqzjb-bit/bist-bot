@@ -509,6 +509,24 @@ jobs:
       - name: V31 Telegram Raporunu Gonder
         run: |
           python v31_telegram.py
+                
+      # ============================================================
+      # V32 - ADAPTIF AI KARAR MOTORU
+      # ============================================================
+
+      - name: V32 Adaptif AI Motorunu Calistir
+        run: |
+          python v32_adaptive_ai_engine.py
+
+          test -f v32_status.json
+          test -f v32_adaptive_decisions.csv
+
+          echo "===== V32 STATUS ====="
+          cat v32_status.json
+
+      - name: V32 Telegram Raporunu Gonder
+        run: |
+          python v32_telegram.py
 
       # ============================================================
       # TUM MOTOR DURUMLARI
@@ -539,7 +557,8 @@ jobs:
             v28_status.json \
             v29_status.json \
             v30_status.json \
-            v31_status.json
+            v31_status.json \
+            v32_status.json
           do
             if [ -f "$file" ]; then
               echo "===== $file ====="
