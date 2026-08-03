@@ -2,10 +2,10 @@
   "status": "ready",
   "new_observation_count": 2,
   "latest_candidate_count": 2,
-  "history_count": 24,
+  "history_count": 26,
   "tracked_count": 0,
   "analysis_only_count": 2,
-  "top_symbol": "OZSUB",
+  "top_symbol": "GMTAS",
   "top_decision": "ELE",
   "version": "V28.0"
 }
