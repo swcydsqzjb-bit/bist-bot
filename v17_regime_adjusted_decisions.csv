@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,ENJSA,110.2,YATAY,63.37,7,98.76,82.85,PÄ°YASA LÄ°DERÄ°,88.04,85.5,75.05,77.89,44.85,V15 ELE,6.0,61.49,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
-2,GMTAS,45.88,YATAY,63.37,35,92.99,75.29,PÄ°YASA LÄ°DERÄ°,76.34,84.63,64.32,70.07,44.27,V15 ELE,4.0,56.96,V17 ELE,Yatay rejimde kalite avantajı
-3,ARDYZ,75.45,YATAY,63.37,11,97.94,81.1,PÄ°YASA LÄ°DERÄ°,95.85,93.29,59.23,58.85,46.33,V15 ELE,-3.0,53.06,V17 ELE,Yatay rejimde aşırı momentum
+1,ENJSA,110.2,YATAY,63.54,7,98.76,82.85,PÄ°YASA LÄ°DERÄ°,88.04,85.5,75.05,77.89,44.85,V15 ELE,6.0,61.49,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
+2,GMTAS,45.88,YATAY,63.54,36,92.78,75.21,PÄ°YASA LÄ°DERÄ°,76.06,84.69,64.24,70.07,44.28,V15 ELE,4.0,56.94,V17 ELE,Yatay rejimde kalite avantajı
+3,ARDYZ,75.45,YATAY,63.54,11,97.94,81.1,PÄ°YASA LÄ°DERÄ°,95.85,93.29,59.23,58.85,46.34,V15 ELE,-3.0,53.07,V17 ELE,Yatay rejimde aşırı momentum
