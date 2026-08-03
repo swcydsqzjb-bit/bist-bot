@@ -1,7 +1,10 @@
 ﻿signal_date,symbol,signal_price,return_1d,return_3d,return_5d,return_10d,max_return_10d,min_return_10d,status
 2026-08-03,ATATP,251.0,,,,,,,bekliyor
 2026-08-03,BJKAS,1.91,,,,,,,bekliyor
+2026-08-03,CATES,45.92,,,,,,,bekliyor
 2026-08-03,ENJSA,108.9,,,,,,,bekliyor
+2026-08-03,HURGZ,7.37,,,,,,,bekliyor
+2026-08-03,ISFIN,19.7,,,,,,,bekliyor
 2026-08-03,IZFAS,65.0,,,,,,,bekliyor
 2026-08-03,KMPUR,20.14,,,,,,,bekliyor
 2026-08-03,MSGYO,6.43,,,,,,,bekliyor
@@ -10,6 +13,9 @@
 2026-08-03,SNICA,3.51,,,,,,,bekliyor
 2026-08-03,TBORG,130.1,,,,,,,bekliyor
 2026-08-03,TMPOL,438.25,,,,,,,bekliyor
+2026-08-03,TMSN,86.3,,,,,,,bekliyor
+2026-08-03,TNZTP,27.5,,,,,,,bekliyor
+2026-08-03,TRHOL,1899.0,,,,,,,bekliyor
 2026-07-31,AGESA,240.3,,,,,,,bekliyor
 2026-07-31,ANHYT,109.3,,,,,,,bekliyor
 2026-07-31,ARDYZ,71.25,,,,,,,bekliyor
