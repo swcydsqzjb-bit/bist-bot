@@ -493,6 +493,24 @@ jobs:
           python v30_telegram.py
 
       # ============================================================
+      # V31 - OGRENILMIS ORUNTU MOTORU
+      # ============================================================
+
+      - name: V31 Ogrenilmis Oruntu Motorunu Calistir
+        run: |
+          python v31_learned_pattern_engine.py
+
+          test -f v31_status.json
+          test -f v31_learned_decisions.csv
+
+          echo "===== V31 STATUS ====="
+          cat v31_status.json
+
+      - name: V31 Telegram Raporunu Gonder
+        run: |
+          python v31_telegram.py
+
+      # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
 
@@ -520,7 +538,8 @@ jobs:
             v27_status.json \
             v28_status.json \
             v29_status.json \
-            v30_status.json
+            v30_status.json \
+            v31_status.json
           do
             if [ -f "$file" ]; then
               echo "===== $file ====="
