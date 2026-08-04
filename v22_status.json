@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 2,
+  "candidate_count": 3,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
   "waiting_count": 0,
-  "passive_count": 0,
+  "passive_count": 1,
   "eliminated_count": 2,
   "top_symbol": "GMTAS",
-  "top_state": "ELE",
-  "top_score": 52.62,
+  "top_state": "PASİF İZLEME",
+  "top_score": 52.14,
   "learning_bonus": 1.0,
   "version": "V22.1"
 }

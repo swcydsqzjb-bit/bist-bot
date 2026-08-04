@@ -1,12 +1,12 @@
 {
   "status": "ready",
-  "candidate_count": 2,
+  "candidate_count": 3,
   "approved_count": 0,
   "strong_confirmation_count": 0,
   "active_tracking_count": 0,
   "shadow_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 2,
+  "passive_count": 3,
   "eliminated_count": 0,
   "learning_ready": false,
   "completed_observation_count": 20,
@@ -15,10 +15,10 @@
   "minimum_pattern_required": 3,
   "matched_candidate_count": 0,
   "mode": "SHADOW",
-  "top_symbol": "GMTAS",
+  "top_symbol": "TAVHL",
   "top_decision": "PASİF İZLEME",
-  "top_score": 38.52,
-  "top_confidence": 38.79,
+  "top_score": 42.5,
+  "top_confidence": 42.19,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }

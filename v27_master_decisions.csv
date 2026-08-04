@@ -1,3 +1,4 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,GMTAS,ELE,39.02,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,52.62,TEYİT BEKLE,50.0,50.0,YENİ,44.76,ORTA,30.0,YATAY,92.78,1,93.53,0.38,-2.48,2.48,45.88,45.88
-2,ENJSA,ELE,36.6,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,49.11,TEYİT BEKLE,50.0,50.0,YENİ,37.95,ORTA,30.0,YATAY,98.76,1,87.68,-0.98,-3.71,1.07,110.2,110.2
+1,GMTAS,PASİF İZLEME,39.11,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,52.14,TEYİT BEKLE,50.0,50.0,YENİ,60.69,ORTA,41.0,YATAY,85.77,1,90.99,0.29,-2.25,3.27,46.18,46.18
+2,TAVHL,ELE,42.5,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,58.06,TEYİT BEKLE,50.0,50.0,YENİ,52.96,DÜŞÜK,15.0,YATAY,99.18,1,87.32,-0.67,-3.58,1.97,286.0,286.0
+3,OYAKC,ELE,38.36,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,51.1,TEYİT BEKLE,50.0,50.0,YENİ,54.83,ORTA,41.0,YATAY,87.01,1,95.17,-0.19,-3.08,1.51,20.58,20.58

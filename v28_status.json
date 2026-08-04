@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 0,
-  "latest_candidate_count": 2,
-  "history_count": 26,
-  "tracked_count": 0,
-  "analysis_only_count": 0,
+  "new_observation_count": 3,
+  "latest_candidate_count": 3,
+  "history_count": 29,
+  "tracked_count": 1,
+  "analysis_only_count": 2,
   "top_symbol": "GMTAS",
-  "top_decision": "ELE",
+  "top_decision": "PASİF İZLEME",
   "version": "V28.0"
 }
