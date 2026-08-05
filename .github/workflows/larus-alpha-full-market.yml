@@ -534,7 +534,7 @@ jobs:
 
       - name: V33 Benzer Gun Motorunu Calistir
         run: |
-          python v33_similar_market_days.py
+          python v33_market_similarity.py
 
       - name: V33 Telegram Raporunu Gonder
         run: |
