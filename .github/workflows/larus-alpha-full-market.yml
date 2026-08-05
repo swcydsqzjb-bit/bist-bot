@@ -527,6 +527,18 @@ jobs:
       - name: V32 Telegram Raporunu Gonder
         run: |
           python v32_telegram.py
+          
+# ==========================================================
+# V33 - BENZER GÜN ANALİZ MOTORU
+# ==========================================================
+
+      - name: V33 Benzer Gun Motorunu Calistir
+        run: |
+          python v33_similar_market_days.py
+
+      - name: V33 Telegram Raporunu Gonder
+        run: |
+          python v33_telegram.py
 
       # ============================================================
       # TUM MOTOR DURUMLARI
