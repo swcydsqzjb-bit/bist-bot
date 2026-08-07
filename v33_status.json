@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "target_date": "2026-08-05",
+  "target_date": "2026-08-07",
   "symbol_count": 485,
   "downloaded_symbol_count": 485,
-  "history_day_count": 502,
+  "history_day_count": 503,
   "similar_day_count": 12,
   "candidate_count": 1,
   "approved_count": 0,
@@ -12,10 +12,10 @@
   "waiting_count": 0,
   "passive_count": 1,
   "shadow_mode": true,
-  "top_symbol": "ISFIN",
+  "top_symbol": "TAVHL",
   "top_decision": "BENZER GÜN PASİF",
-  "top_score": 37.17,
-  "runtime_seconds": 18.63,
+  "top_score": 42.46,
+  "runtime_seconds": 22.04,
   "rsi_usage": "DISABLED",
   "version": "V33.0"
 }

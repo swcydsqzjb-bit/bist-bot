@@ -1,2 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,ISFIN,ELE,35.87,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,48.07,TEYİT BEKLE,50.0,50.0,YENİ,39.7,ORTA,30.0,YATAY,97.53,1,81.34,-1.21,-3.71,0.44,20.0,20.0
+1,TAVHL,ELE,38.9,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,52.46,TEYİT BEKLE,50.0,50.0,YENİ,68.1,ORTA,41.0,YATAY,86.6,1,81.15,-1.05,-3.31,1.21,275.5,275.5
