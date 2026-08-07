@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 3,
+  "position_count": 1,
   "cash_reserve_pct": 38.0,
   "invested_pct": 62.0,
-  "top_symbol": "GMTAS",
-  "top_weight_pct": 21.49,
+  "top_symbol": "ISFIN",
+  "top_weight_pct": 62.0,
   "version": "V20.3"
 }

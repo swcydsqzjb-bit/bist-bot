@@ -1,0 +1,21 @@
+{
+  "status": "ready",
+  "target_date": "2026-08-05",
+  "symbol_count": 485,
+  "downloaded_symbol_count": 485,
+  "history_day_count": 502,
+  "similar_day_count": 12,
+  "candidate_count": 1,
+  "approved_count": 0,
+  "strong_confirmation_count": 0,
+  "active_tracking_count": 0,
+  "waiting_count": 0,
+  "passive_count": 1,
+  "shadow_mode": true,
+  "top_symbol": "ISFIN",
+  "top_decision": "BENZER GÜN PASİF",
+  "top_score": 37.17,
+  "runtime_seconds": 18.63,
+  "rsi_usage": "DISABLED",
+  "version": "V33.0"
+}

@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 3,
+  "candidate_count": 1,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 1,
-  "eliminated_count": 2,
-  "top_symbol": "GMTAS",
-  "top_decision": "PASİF İZLEME",
-  "top_score": 39.11,
+  "passive_count": 0,
+  "eliminated_count": 1,
+  "top_symbol": "ISFIN",
+  "top_decision": "ELE",
+  "top_score": 35.87,
   "version": "V27.2"
 }
