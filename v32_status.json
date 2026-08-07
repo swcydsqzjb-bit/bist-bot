@@ -1,12 +1,12 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "approved_count": 0,
   "strong_confirmation_count": 0,
   "active_tracking_count": 0,
   "shadow_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 1,
+  "passive_count": 2,
   "eliminated_count": 0,
   "learning_ready": false,
   "completed_observation_count": 24,
@@ -17,8 +17,8 @@
   "mode": "SHADOW",
   "top_symbol": "TAVHL",
   "top_decision": "PASİF İZLEME",
-  "top_score": 35.4,
-  "top_confidence": 39.98,
+  "top_score": 36.83,
+  "top_confidence": 41.72,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }

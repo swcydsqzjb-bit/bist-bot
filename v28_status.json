@@ -1,8 +1,8 @@
 {
   "status": "ready",
   "new_observation_count": 1,
-  "latest_candidate_count": 1,
-  "history_count": 31,
+  "latest_candidate_count": 2,
+  "history_count": 32,
   "tracked_count": 0,
   "analysis_only_count": 1,
   "top_symbol": "TAVHL",

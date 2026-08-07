@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
   "waiting_count": 0,
   "passive_count": 0,
-  "eliminated_count": 1,
+  "eliminated_count": 2,
   "top_symbol": "TAVHL",
   "top_state": "ELE",
-  "top_score": 52.46,
+  "top_score": 54.19,
   "learning_bonus": 1.0,
   "version": "V22.1"
 }

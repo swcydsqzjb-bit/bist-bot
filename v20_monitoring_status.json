@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "plan_count": 1,
-  "planned_candidate_count": 1,
+  "plan_count": 2,
+  "planned_candidate_count": 2,
   "active_confirmation_count": 0,
-  "waiting_confirmation_count": 1,
+  "waiting_confirmation_count": 2,
   "passive_count": 0,
   "top_symbol": "TAVHL",
   "input_file": "v20_portfolio_model.csv",
