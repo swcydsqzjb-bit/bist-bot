@@ -10,20 +10,13 @@ import pandas as pd
 import requests
 
 
-# ============================================================
-# DOSYA YOLLARI
-# ============================================================
-
 SIMILAR_DAYS_FILE = Path("v33_similar_days.csv")
 CANDIDATE_FILE = Path("v33_similar_day_candidates.csv")
+CANDIDATE_POOL_FILE = Path("v33_candidate_pool.csv")
 STATUS_FILE = Path("v33_status.json")
 
-VERSION = "V33.0"
+VERSION = "V33.1"
 
-
-# ============================================================
-# YARDIMCI FONKSİYONLAR
-# ============================================================
 
 def text(value: Any) -> str:
     if value is None:
@@ -118,10 +111,10 @@ def load_json(path: Path) -> dict[str, Any]:
         if not raw.strip():
             return {}
 
-        data = json.loads(raw)
+        result = json.loads(raw)
 
-        if isinstance(data, dict):
-            return data
+        if isinstance(result, dict):
+            return result
 
         return {}
 
@@ -131,10 +124,6 @@ def load_json(path: Path) -> dict[str, Any]:
         )
         return {}
 
-
-# ============================================================
-# TELEGRAM
-# ============================================================
 
 def split_message(
     message: str,
@@ -237,11 +226,9 @@ def send_telegram(message: str) -> None:
             )
 
 
-# ============================================================
-# RAPOR YARDIMCILARI
-# ============================================================
-
-def decision_icon(decision: str) -> str:
+def decision_icon(
+    decision: str,
+) -> str:
     icons = {
         "BENZER GÜN GÜÇLÜ TEYİT": "🟢",
         "BENZER GÜN AKTİF İZLEME": "🔵",
@@ -270,6 +257,80 @@ def clean_note(
         return fallback
 
     return result
+
+
+def build_pool_block(
+    pool: pd.DataFrame,
+) -> str:
+    if pool.empty:
+        return (
+            "🧺 V33 ADAY HAVUZU\n\n"
+            "Aday havuzu oluşturulamadı."
+        )
+
+    lines = [
+        "🧺 V33 GENİŞ ADAY HAVUZU",
+        "",
+        (
+            "V33 artık sadece V32 adaylarını değil, "
+            "V22 + V27 + V32 birleşimini tarıyor."
+        ),
+        "",
+    ]
+
+    max_rows = min(
+        len(pool),
+        10,
+    )
+
+    for index in range(max_rows):
+        row = pool.iloc[index]
+
+        rank = integer(
+            row.get("pool_rank"),
+            index + 1,
+        )
+
+        symbol = text(
+            row.get("symbol")
+        )
+
+        score = number(
+            row.get(
+                "candidate_pool_score"
+            )
+        )
+
+        sources = text(
+            row.get(
+                "candidate_sources"
+            )
+        ) or "-"
+
+        risk = number(
+            row.get(
+                "risk_score_final"
+            )
+        )
+
+        lines.append(
+            (
+                f"{rank}. {symbol} | "
+                f"Havuz skoru: {score:.1f}/100 | "
+                f"Kaynak: {sources} | "
+                f"Risk: {risk:.1f}"
+            )
+        )
+
+    if len(pool) > max_rows:
+        lines.append(
+            (
+                f"... toplam {len(pool)} adaydan "
+                f"ilk {max_rows} gösterildi."
+            )
+        )
+
+    return "\n".join(lines)
 
 
 def build_similar_day_block(
@@ -354,6 +415,18 @@ def build_candidate_block(
         row.get("v33_score")
     )
 
+    pool_score = number(
+        row.get(
+            "candidate_pool_score"
+        )
+    )
+
+    sources = text(
+        row.get(
+            "candidate_sources"
+        )
+    ) or "-"
+
     similar_count = integer(
         row.get("similar_day_count")
     )
@@ -394,6 +467,22 @@ def build_candidate_block(
         row.get("worst_return_5d")
     )
 
+    v22_state = text(
+        row.get("v22_signal_state")
+    ) or "-"
+
+    v22_score = number(
+        row.get("v22_signal_score")
+    )
+
+    v27_decision = text(
+        row.get("v27_decision")
+    ) or "-"
+
+    v27_score = number(
+        row.get("v27_master_score")
+    )
+
     v32_decision = text(
         row.get("v32_decision")
     ) or "-"
@@ -417,6 +506,14 @@ def build_candidate_block(
     regime = text(
         row.get("regime")
     ) or "BİLİNMİYOR"
+
+    market_percentile = number(
+        row.get("market_percentile")
+    )
+
+    timing_confidence = number(
+        row.get("timing_confidence")
+    )
 
     expected_return = number(
         row.get("expected_return")
@@ -443,6 +540,8 @@ def build_candidate_block(
         f"{icon} {index}. {symbol}\n"
         f"V33 kararı: {decision}\n"
         f"V33 skoru: {score:.1f}/100\n"
+        f"Havuz skoru: {pool_score:.1f}/100\n"
+        f"Kaynak motorlar: {sources}\n"
         f"Referans fiyat: {close:.2f}\n"
         f"Benzer gün sayısı: {similar_count}\n\n"
         f"Benzer gün sonrası pozitif oran:\n"
@@ -456,13 +555,16 @@ def build_candidate_block(
         f"• 5 günlük medyan: {median_5d:+.2f}%\n"
         f"• En iyi 5 gün: {best_5d:+.2f}%\n"
         f"• En kötü 5 gün: {worst_5d:+.2f}%\n\n"
-        f"Önceki katman:\n"
-        f"• V32: {v32_decision}\n"
-        f"• V32 skoru: {v32_score:.1f}/100\n"
+        f"Önceki katmanlar:\n"
+        f"• V22: {v22_state} | {v22_score:.1f}/100\n"
+        f"• V27: {v27_decision} | {v27_score:.1f}/100\n"
+        f"• V32: {v32_decision} | {v32_score:.1f}/100\n"
         f"• V32 güveni: {v32_confidence:.1f}/100\n\n"
         f"Risk ve piyasa görünümü:\n"
         f"• Risk: {risk_class} | {risk_score:.1f}/100\n"
         f"• Rejim: {regime}\n"
+        f"• Piyasa göreli yüzdelik: {market_percentile:.1f}\n"
+        f"• Zamanlama güveni: {timing_confidence:.1f}/100\n"
         f"• Beklenen ortalama: {expected_return:+.2f}%\n"
         f"• Temkinli senaryo: {downside:+.2f}%\n"
         f"• Olumlu senaryo: {upside:+.2f}%\n\n"
@@ -471,34 +573,35 @@ def build_candidate_block(
     )
 
 
-# ============================================================
-# RAPOR OLUŞTURMA
-# ============================================================
-
 def build_empty_report(
     status: dict[str, Any],
 ) -> str:
     return (
-        "🧭 LARUS V33 BENZER PİYASA GÜNLERİ RAPORU\n\n"
+        "🧭 LARUS V33.1 BENZER PİYASA GÜNLERİ RAPORU\n\n"
         "Benzer gün analizi için yeterli sonuç oluşmadı.\n\n"
         f"Durum: {text(status.get('status')) or 'veri yok'}\n"
         f"Açıklama: "
         f"{text(status.get('message')) or 'Girdi dosyası boş veya eksik.'}\n"
-        f"İndirilen hisse sayısı: "
-        f"{integer(status.get('downloaded_symbol_count'))}\n"
-        f"Geçmiş gün sayısı: "
-        f"{integer(status.get('history_day_count'))}\n"
+        f"Aday havuzu: "
+        f"{integer(status.get('candidate_pool_count'))}\n"
+        f"İncelenen aday: "
+        f"{integer(status.get('candidate_count'))}\n"
         "RSI kullanımı: DEVRE DIŞI\n\n"
         "⚠️ Bu rapor otomatik alım-satım emri değildir."
     )
 
 
 def build_report(
+    pool: pd.DataFrame,
     similar_days: pd.DataFrame,
     candidates: pd.DataFrame,
     status: dict[str, Any],
 ) -> str:
-    if similar_days.empty and candidates.empty:
+    if (
+        pool.empty
+        and similar_days.empty
+        and candidates.empty
+    ):
         return build_empty_report(
             status
         )
@@ -507,8 +610,8 @@ def build_report(
         status.get("target_date")
     ) or "-"
 
-    symbol_count = integer(
-        status.get("symbol_count")
+    market_count = integer(
+        status.get("market_symbol_count")
     )
 
     downloaded_count = integer(
@@ -523,12 +626,12 @@ def build_report(
         status.get("similar_day_count")
     )
 
-    candidate_count = integer(
-        status.get("candidate_count")
+    pool_count = integer(
+        status.get("candidate_pool_count")
     )
 
-    approved_count = integer(
-        status.get("approved_count")
+    candidate_count = integer(
+        status.get("candidate_count")
     )
 
     strong_count = integer(
@@ -545,6 +648,10 @@ def build_report(
 
     passive_count = integer(
         status.get("passive_count")
+    )
+
+    approved_count = integer(
+        status.get("approved_count")
     )
 
     top_symbol = text(
@@ -564,17 +671,18 @@ def build_report(
     )
 
     header = (
-        "🧭 LARUS V33 BENZER PİYASA GÜNLERİ RAPORU\n\n"
+        "🧭 LARUS V33.1 GENİŞ ADAY + BENZER GÜN RAPORU\n\n"
         f"Analiz tarihi: {target_date}\n"
-        f"Tam piyasa sembolü: {symbol_count}\n"
+        f"Tam piyasa sembolü: {market_count}\n"
         f"Verisi indirilen sembol: {downloaded_count}\n"
-        f"Oluşturulan geçmiş piyasa günü: {history_count}\n"
+        f"Geçmiş piyasa günü: {history_count}\n"
         f"Bulunan benzer gün: {similar_count}\n"
+        f"Geniş aday havuzu: {pool_count}\n"
         f"İncelenen aday: {candidate_count}\n\n"
-        f"Güçlü teyit: {strong_count}\n"
-        f"Aktif izleme: {active_count}\n"
-        f"Teyit bekleyen: {waiting_count}\n"
-        f"Pasif: {passive_count}\n"
+        f"🟢 Güçlü teyit: {strong_count}\n"
+        f"🔵 Aktif izleme: {active_count}\n"
+        f"🟡 Teyit bekleyen: {waiting_count}\n"
+        f"⚪ Pasif: {passive_count}\n"
         f"Toplam onay: {approved_count}\n\n"
         f"İlk aday: {top_symbol}\n"
         f"İlk karar: {top_decision}\n"
@@ -588,8 +696,14 @@ def build_report(
         header
     ]
 
+    blocks.append(
+        build_pool_block(
+            pool
+        )
+    )
+
     if not similar_days.empty:
-        similar_blocks: list[str] = [
+        similar_blocks = [
             "📅 BUGÜNE EN ÇOK BENZEYEN GEÇMİŞ GÜNLER"
         ]
 
@@ -616,13 +730,17 @@ def build_report(
     if not candidates.empty:
         max_candidates = min(
             len(candidates),
-            5,
+            8,
         )
+
+        candidate_blocks = [
+            "📊 V33 ADAY DEĞERLENDİRMELERİ"
+        ]
 
         for index in range(
             max_candidates
         ):
-            blocks.append(
+            candidate_blocks.append(
                 build_candidate_block(
                     candidates.iloc[index],
                     index + 1,
@@ -630,28 +748,42 @@ def build_report(
             )
 
         if len(candidates) > max_candidates:
-            blocks.append(
+            candidate_blocks.append(
                 (
                     f"ℹ️ Toplam {len(candidates)} adaydan "
                     f"ilk {max_candidates} aday gösterildi."
                 )
             )
 
+        blocks.append(
+            "\n\n".join(
+                candidate_blocks
+            )
+        )
+
     blocks.append(
         (
-            "🟣 V33 şu anda GÖLGE modundadır.\n\n"
-            "Benzer gün sonuçları V32 kararlarını henüz değiştirmez. "
-            "Önce performansları gözlemlenecek; güvenilirlik oluşursa "
-            "ileride kontrollü biçimde puan sistemine bağlanacaktır."
+            "🟣 V33.1 GÖLGE MODU\n\n"
+            "V33 artık V22 + V27 + V32 kaynaklarından geniş aday havuzu oluşturur.\n"
+            "Önceki katmanlarda ELE veya PASİF kalan bir hisse de "
+            "geçmiş benzer gün performansı güçlüyse yeniden incelenebilir.\n\n"
+            "Ancak V33.1 henüz V32 kararlarını otomatik değiştirmez."
         )
     )
 
     blocks.append(
         (
-            "📌 V33; bugünkü piyasa genişliği, fiyat hareketi, "
-            "EMA20 dağılımı, hacim, volatilite ve piyasa dağılımını "
-            "geçmiş günlerle karşılaştırır.\n"
-            "RSI veya RSI tabanlı örüntü kullanılmaz.\n\n"
+            "📌 AKTİF İZLEME MANTIĞI\n\n"
+            "V33.1 yalnızca tek bir skora bakmaz. "
+            "Benzer günlerdeki 5 günlük pozitif oranı, "
+            "ortalama getiriyi, medyan getiriyi, risk seviyesini "
+            "ve önceki motorların birleşik gücünü birlikte değerlendirir.\n\n"
+            "RSI ve RSI tabanlı örüntüler kullanılmaz."
+        )
+    )
+
+    blocks.append(
+        (
             "⚠️ Bu rapor otomatik alım-satım emri değildir. "
             "Yatırım tavsiyesi veya getiri garantisi değildir."
         )
@@ -662,11 +794,11 @@ def build_report(
     )
 
 
-# ============================================================
-# ANA FONKSİYON
-# ============================================================
-
 def main() -> None:
+    pool = load_csv(
+        CANDIDATE_POOL_FILE
+    )
+
     similar_days = load_csv(
         SIMILAR_DAYS_FILE
     )
@@ -680,6 +812,7 @@ def main() -> None:
     )
 
     report = build_report(
+        pool=pool,
         similar_days=similar_days,
         candidates=candidates,
         status=status,
@@ -690,7 +823,7 @@ def main() -> None:
     )
 
     print(
-        "V33 Telegram raporu gönderildi."
+        "V33.1 Telegram raporu gönderildi."
     )
 
 
