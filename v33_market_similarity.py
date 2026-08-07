@@ -11,43 +11,66 @@ import yfinance as yf
 
 
 # ============================================================
-# DOSYA YOLLARI
+# V33 - BENZER PİYASA GÜNLERİ / GENİŞ ADAY HAVUZU
 # ============================================================
 
+VERSION = "V33.1"
+
 MARKET_SNAPSHOT_FILE = Path("v16_full_market_snapshot.csv")
-CANDIDATE_FILE = Path("v32_adaptive_decisions.csv")
+
+V22_FILE = Path("v22_signal_states.csv")
+V27_FILE = Path("v27_master_decisions.csv")
+V32_FILE = Path("v32_adaptive_decisions.csv")
 
 SIMILAR_DAYS_FILE = Path("v33_similar_days.csv")
 CANDIDATE_RESULTS_FILE = Path("v33_similar_day_candidates.csv")
+CANDIDATE_POOL_FILE = Path("v33_candidate_pool.csv")
 STATUS_FILE = Path("v33_status.json")
 
 
 # ============================================================
-# TEMEL AYARLAR
+# AYARLAR
 # ============================================================
 
-VERSION = "V33.0"
-
 LOOKBACK_PERIOD = "2y"
+
 MINIMUM_MARKET_SYMBOLS = 80
 MINIMUM_HISTORY_DAYS = 120
 MINIMUM_SIMILAR_DAYS = 5
 
 SIMILAR_DAY_COUNT = 12
-MAX_CANDIDATES = 10
 
-# Çok uzak günlerin kullanılmasını önler.
+# Önceden 1-2 aday kalıyordu.
+# Artık V22 + V27 + V32 birleşiminden en iyi 15 aday.
+MAX_CANDIDATES = 15
+
 MAX_SIMILARITY_DISTANCE = 3.50
-
-# Aşırı sonuçların ortalamayı bozmasını azaltır.
 RETURN_CLIP_LIMIT = 30.0
 
-# RSI kesinlikle kullanılmaz.
 RSI_USAGE = "DISABLED"
 
 
 # ============================================================
-# PİYASA BAĞLAMINDA KULLANILAN ÖZELLİKLER
+# YENİ V33 KARAR EŞİKLERİ
+# ============================================================
+
+STRONG_SCORE = 72.0
+STRONG_POSITIVE_5D = 65.0
+STRONG_AVERAGE_5D = 1.50
+
+ACTIVE_SCORE = 58.0
+ACTIVE_POSITIVE_5D = 55.0
+ACTIVE_AVERAGE_5D = 0.0
+
+WAIT_SCORE = 48.0
+
+MAX_ACTIVE_RISK = 55.0
+MAX_STRONG_RISK = 45.0
+HARD_RISK_LIMIT = 70.0
+
+
+# ============================================================
+# PİYASA BENZERLİK ÖZELLİKLERİ
 # ============================================================
 
 CONTEXT_FEATURES = [
@@ -91,6 +114,8 @@ CANDIDATE_RESULT_COLUMNS = [
     "symbol",
     "v33_decision",
     "v33_score",
+    "candidate_pool_score",
+    "candidate_sources",
     "similar_day_count",
     "positive_1d_rate",
     "positive_3d_rate",
@@ -103,13 +128,18 @@ CANDIDATE_RESULT_COLUMNS = [
     "median_return_5d",
     "best_return_5d",
     "worst_return_5d",
+    "v22_signal_state",
+    "v22_signal_score",
+    "v27_decision",
+    "v27_master_score",
     "v32_decision",
     "v32_score",
     "v32_confidence",
-    "v32_ai_adjustment",
     "risk_class",
     "risk_score",
     "regime",
+    "market_percentile",
+    "timing_confidence",
     "expected_return",
     "downside_20pct",
     "upside_80pct",
@@ -120,7 +150,7 @@ CANDIDATE_RESULT_COLUMNS = [
 
 
 # ============================================================
-# YARDIMCI FONKSİYONLAR
+# TEMEL YARDIMCILAR
 # ============================================================
 
 def text(value: Any) -> str:
@@ -152,30 +182,12 @@ def number(
         return default
 
 
-def integer(
-    value: Any,
-    default: int = 0,
-) -> int:
-    try:
-        result = float(value)
-
-        if np.isfinite(result):
-            return int(result)
-
-        return default
-
-    except (TypeError, ValueError):
-        return default
-
-
 def load_csv(path: Path) -> pd.DataFrame:
     if not path.exists():
-        print(f"UYARI: {path} bulunamadı.")
         return pd.DataFrame()
 
     try:
         if path.stat().st_size == 0:
-            print(f"UYARI: {path} boş.")
             return pd.DataFrame()
     except OSError:
         return pd.DataFrame()
@@ -219,15 +231,6 @@ def normalize_symbol(value: Any) -> str:
     return symbol
 
 
-def yahoo_symbol(value: Any) -> str:
-    symbol = normalize_symbol(value)
-
-    if not symbol:
-        return ""
-
-    return f"{symbol}.IS"
-
-
 def normalize_symbol_frame(
     frame: pd.DataFrame,
 ) -> pd.DataFrame:
@@ -252,12 +255,28 @@ def normalize_symbol_frame(
         keep="first",
     )
 
-    return result.reset_index(
-        drop=True
-    )
+    return result.reset_index(drop=True)
 
 
-def write_status(
+def yahoo_symbol(symbol: str) -> str:
+    normalized = normalize_symbol(symbol)
+
+    if not normalized:
+        return ""
+
+    return f"{normalized}.IS"
+
+
+def ensure_column(
+    frame: pd.DataFrame,
+    column: str,
+    default: Any,
+) -> None:
+    if column not in frame.columns:
+        frame[column] = default
+
+
+def save_status(
     status: dict[str, Any],
 ) -> None:
     STATUS_FILE.write_text(
@@ -270,56 +289,520 @@ def write_status(
     )
 
 
-def save_empty(
-    status_name: str,
-    message: str,
-) -> None:
-    pd.DataFrame(
-        columns=SIMILAR_DAY_COLUMNS
-    ).to_csv(
-        SIMILAR_DAYS_FILE,
-        index=False,
-        encoding="utf-8-sig",
-    )
+# ============================================================
+# ADAY HAVUZU
+# ============================================================
 
-    pd.DataFrame(
-        columns=CANDIDATE_RESULT_COLUMNS
-    ).to_csv(
-        CANDIDATE_RESULTS_FILE,
-        index=False,
-        encoding="utf-8-sig",
-    )
+def prepare_v22(
+    frame: pd.DataFrame,
+) -> pd.DataFrame:
+    frame = normalize_symbol_frame(frame)
 
-    status = {
-        "status": status_name,
-        "message": message,
-        "symbol_count": 0,
-        "downloaded_symbol_count": 0,
-        "history_day_count": 0,
-        "similar_day_count": 0,
-        "candidate_count": 0,
-        "approved_count": 0,
-        "shadow_mode": True,
-        "top_symbol": "",
-        "top_decision": "",
-        "top_score": 0.0,
-        "rsi_usage": RSI_USAGE,
-        "version": VERSION,
+    if frame.empty:
+        return pd.DataFrame()
+
+    wanted = [
+        "symbol",
+        "v22_signal_state",
+        "v22_signal_score",
+        "risk_class",
+        "risk_score",
+        "regime",
+        "market_percentile",
+        "timing_confidence",
+        "expected_return",
+        "downside_20pct",
+        "upside_80pct",
+        "close",
+    ]
+
+    for column in wanted:
+        ensure_column(
+            frame,
+            column,
+            np.nan,
+        )
+
+    return frame[wanted].copy()
+
+
+def prepare_v27(
+    frame: pd.DataFrame,
+) -> pd.DataFrame:
+    frame = normalize_symbol_frame(frame)
+
+    if frame.empty:
+        return pd.DataFrame()
+
+    wanted = [
+        "symbol",
+        "v27_decision",
+        "v27_master_score",
+        "risk_class",
+        "risk_score",
+        "regime",
+        "market_percentile",
+        "timing_confidence",
+        "expected_return",
+        "downside_20pct",
+        "upside_80pct",
+        "close",
+    ]
+
+    for column in wanted:
+        ensure_column(
+            frame,
+            column,
+            np.nan,
+        )
+
+    result = frame[wanted].copy()
+
+    rename_map = {
+        "risk_class": "risk_class_v27",
+        "risk_score": "risk_score_v27",
+        "regime": "regime_v27",
+        "market_percentile": "market_percentile_v27",
+        "timing_confidence": "timing_confidence_v27",
+        "expected_return": "expected_return_v27",
+        "downside_20pct": "downside_20pct_v27",
+        "upside_80pct": "upside_80pct_v27",
+        "close": "close_v27",
     }
 
-    write_status(status)
-
-    print(
-        json.dumps(
-            status,
-            ensure_ascii=False,
-            indent=2,
-        )
+    return result.rename(
+        columns=rename_map
     )
+
+
+def prepare_v32(
+    frame: pd.DataFrame,
+) -> pd.DataFrame:
+    frame = normalize_symbol_frame(frame)
+
+    if frame.empty:
+        return pd.DataFrame()
+
+    wanted = [
+        "symbol",
+        "v32_decision",
+        "v32_score",
+        "v32_confidence",
+        "risk_class",
+        "risk_score",
+        "regime",
+        "market_percentile",
+        "timing_confidence",
+        "expected_return",
+        "downside_20pct",
+        "upside_80pct",
+        "close",
+    ]
+
+    for column in wanted:
+        ensure_column(
+            frame,
+            column,
+            np.nan,
+        )
+
+    result = frame[wanted].copy()
+
+    rename_map = {
+        "risk_class": "risk_class_v32",
+        "risk_score": "risk_score_v32",
+        "regime": "regime_v32",
+        "market_percentile": "market_percentile_v32",
+        "timing_confidence": "timing_confidence_v32",
+        "expected_return": "expected_return_v32",
+        "downside_20pct": "downside_20pct_v32",
+        "upside_80pct": "upside_80pct_v32",
+        "close": "close_v32",
+    }
+
+    return result.rename(
+        columns=rename_map
+    )
+
+
+def build_candidate_pool() -> pd.DataFrame:
+    v22 = prepare_v22(
+        load_csv(V22_FILE)
+    )
+
+    v27 = prepare_v27(
+        load_csv(V27_FILE)
+    )
+
+    v32 = prepare_v32(
+        load_csv(V32_FILE)
+    )
+
+    symbols: set[str] = set()
+
+    for frame in (
+        v22,
+        v27,
+        v32,
+    ):
+        if not frame.empty:
+            symbols.update(
+                frame["symbol"].tolist()
+            )
+
+    if not symbols:
+        return pd.DataFrame()
+
+    pool = pd.DataFrame(
+        {
+            "symbol": sorted(symbols)
+        }
+    )
+
+    if not v22.empty:
+        pool = pool.merge(
+            v22,
+            on="symbol",
+            how="left",
+        )
+
+    if not v27.empty:
+        pool = pool.merge(
+            v27,
+            on="symbol",
+            how="left",
+        )
+
+    if not v32.empty:
+        pool = pool.merge(
+            v32,
+            on="symbol",
+            how="left",
+        )
+
+    numeric_columns = [
+        "v22_signal_score",
+        "v27_master_score",
+        "v32_score",
+        "v32_confidence",
+    ]
+
+    for column in numeric_columns:
+        ensure_column(
+            pool,
+            column,
+            0.0,
+        )
+
+        pool[column] = pd.to_numeric(
+            pool[column],
+            errors="coerce",
+        ).fillna(0.0)
+
+    # --------------------------------------------------------
+    # ORTAK RİSK / REJİM / DİĞER ALANLAR
+    # Öncelik: V32 -> V27 -> V22
+    # --------------------------------------------------------
+
+    def first_available(
+        row: pd.Series,
+        columns: list[str],
+        default: Any,
+    ) -> Any:
+        for column in columns:
+            value = row.get(column)
+
+            if text(value):
+                try:
+                    if pd.isna(value):
+                        continue
+                except Exception:
+                    pass
+
+                return value
+
+        return default
+
+    pool["risk_class"] = pool.apply(
+        lambda row: first_available(
+            row,
+            [
+                "risk_class_v32",
+                "risk_class_v27",
+                "risk_class",
+            ],
+            "ORTA",
+        ),
+        axis=1,
+    )
+
+    pool["risk_score_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "risk_score_v32",
+                    "risk_score_v27",
+                    "risk_score",
+                ],
+                50.0,
+            ),
+            50.0,
+        ),
+        axis=1,
+    )
+
+    pool["regime_final"] = pool.apply(
+        lambda row: first_available(
+            row,
+            [
+                "regime_v32",
+                "regime_v27",
+                "regime",
+            ],
+            "",
+        ),
+        axis=1,
+    )
+
+    pool["market_percentile_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "market_percentile_v32",
+                    "market_percentile_v27",
+                    "market_percentile",
+                ],
+                0.0,
+            )
+        ),
+        axis=1,
+    )
+
+    pool["timing_confidence_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "timing_confidence_v32",
+                    "timing_confidence_v27",
+                    "timing_confidence",
+                ],
+                0.0,
+            )
+        ),
+        axis=1,
+    )
+
+    pool["expected_return_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "expected_return_v32",
+                    "expected_return_v27",
+                    "expected_return",
+                ],
+                0.0,
+            )
+        ),
+        axis=1,
+    )
+
+    pool["downside_20pct_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "downside_20pct_v32",
+                    "downside_20pct_v27",
+                    "downside_20pct",
+                ],
+                0.0,
+            )
+        ),
+        axis=1,
+    )
+
+    pool["upside_80pct_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "upside_80pct_v32",
+                    "upside_80pct_v27",
+                    "upside_80pct",
+                ],
+                0.0,
+            )
+        ),
+        axis=1,
+    )
+
+    pool["close_final"] = pool.apply(
+        lambda row: number(
+            first_available(
+                row,
+                [
+                    "close_v32",
+                    "close_v27",
+                    "close",
+                ],
+                0.0,
+            )
+        ),
+        axis=1,
+    )
+
+    # --------------------------------------------------------
+    # HANGİ MOTORLARDA GÖRÜLDÜ?
+    # --------------------------------------------------------
+
+    def source_text(row: pd.Series) -> str:
+        sources: list[str] = []
+
+        if number(
+            row.get("v22_signal_score")
+        ) > 0:
+            sources.append("V22")
+
+        if number(
+            row.get("v27_master_score")
+        ) > 0:
+            sources.append("V27")
+
+        if number(
+            row.get("v32_score")
+        ) > 0:
+            sources.append("V32")
+
+        return "+".join(
+            sources
+        )
+
+    pool["candidate_sources"] = pool.apply(
+        source_text,
+        axis=1,
+    )
+
+    # --------------------------------------------------------
+    # GENİŞ HAVUZ PUANI
+    #
+    # Burada V32 zorunlu değil.
+    # V22 güçlü olup V27/V32'de elenmiş hisseler de incelenebilir.
+    # --------------------------------------------------------
+
+    pool["candidate_pool_score"] = (
+        pool["v22_signal_score"] * 0.42
+        + pool["v27_master_score"] * 0.33
+        + pool["v32_score"] * 0.25
+    )
+
+    # Eğer motorlardan biri çok güçlüyse tamamen ezilmesin.
+    best_layer_score = pool[
+        [
+            "v22_signal_score",
+            "v27_master_score",
+            "v32_score",
+        ]
+    ].max(axis=1)
+
+    pool["candidate_pool_score"] = (
+        pool["candidate_pool_score"] * 0.70
+        + best_layer_score * 0.30
+    )
+
+    # Göreceli güç katkısı
+    pool["candidate_pool_score"] += (
+        np.clip(
+            pool["market_percentile_final"] - 70.0,
+            0.0,
+            30.0,
+        )
+        * 0.08
+    )
+
+    # Zamanlama katkısı
+    pool["candidate_pool_score"] += (
+        np.clip(
+            pool["timing_confidence_final"] - 65.0,
+            0.0,
+            35.0,
+        )
+        * 0.05
+    )
+
+    # Risk kesintisi
+    pool["candidate_pool_score"] -= (
+        np.clip(
+            pool["risk_score_final"] - 40.0,
+            0.0,
+            60.0,
+        )
+        * 0.12
+    )
+
+    pool["candidate_pool_score"] = (
+        pool["candidate_pool_score"]
+        .clip(
+            0.0,
+            100.0,
+        )
+        .round(2)
+    )
+
+    # --------------------------------------------------------
+    # ÇOK KÖTÜ ADAYLARI BAŞTAN ÇIKAR
+    # Ama ELE kararını tek başına dışlama!
+    # Çünkü amaç kaçırılan fırsatları da bulmak.
+    # --------------------------------------------------------
+
+    pool = pool[
+        pool["risk_score_final"]
+        < HARD_RISK_LIMIT
+    ].copy()
+
+    # En az bir katmanda anlamlı skor üretmiş olsun.
+    pool = pool[
+        best_layer_score >= 35.0
+    ].copy()
+
+    pool = pool.sort_values(
+        [
+            "candidate_pool_score",
+            "market_percentile_final",
+            "timing_confidence_final",
+        ],
+        ascending=False,
+    )
+
+    pool = pool.head(
+        MAX_CANDIDATES
+    ).reset_index(
+        drop=True
+    )
+
+    pool.insert(
+        0,
+        "pool_rank",
+        range(
+            1,
+            len(pool) + 1,
+        ),
+    )
+
+    pool.to_csv(
+        CANDIDATE_POOL_FILE,
+        index=False,
+        encoding="utf-8-sig",
+    )
+
+    return pool
 
 
 # ============================================================
-# YAHOO FINANCE VERİSİNİ DÜZENLEME
+# PİYASA VERİSİ
 # ============================================================
 
 def extract_symbol_frame(
@@ -365,7 +848,9 @@ def extract_symbol_frame(
             result = downloaded.copy()
 
         result.columns = [
-            str(column).strip().lower()
+            str(column)
+            .strip()
+            .lower()
             for column in result.columns
         ]
 
@@ -419,8 +904,9 @@ def extract_symbol_frame(
 
     except Exception as exc:
         print(
-            f"UYARI: {ticker} verisi ayrıştırılamadı: {exc}"
+            f"UYARI: {ticker} ayrıştırılamadı: {exc}"
         )
+
         return pd.DataFrame()
 
 
@@ -437,8 +923,8 @@ def download_market_data(
         return {}
 
     print(
-        f"V33 veri indirme başladı. "
-        f"Toplam sembol: {len(tickers)}"
+        f"V33 piyasa verisi indiriliyor: "
+        f"{len(tickers)} sembol"
     )
 
     downloaded = yf.download(
@@ -464,18 +950,16 @@ def download_market_data(
         )
 
         if len(frame) >= 40:
-            symbol = normalize_symbol(
-                ticker
-            )
-
-            result[symbol] = frame
+            result[
+                normalize_symbol(ticker)
+            ] = frame
 
         if (
             index % 50 == 0
             or index == len(tickers)
         ):
             print(
-                f"V33 veri düzenleme "
+                f"V33 veri hazırlama "
                 f"{index}/{len(tickers)}"
             )
 
@@ -483,7 +967,7 @@ def download_market_data(
 
 
 # ============================================================
-# HER HİSSE İÇİN GÜNLÜK ÖZELLİKLER
+# HİSSE ÖZELLİKLERİ
 # ============================================================
 
 def calculate_symbol_features(
@@ -574,24 +1058,26 @@ def calculate_symbol_features(
 
 
 # ============================================================
-# TAM PİYASA GÜNLÜK BAĞLAMI
+# TAM PİYASA BAĞLAMI
 # ============================================================
 
 def build_market_context(
     market_data: dict[str, pd.DataFrame],
-) -> tuple[pd.DataFrame, dict[str, pd.DataFrame]]:
+) -> tuple[
+    pd.DataFrame,
+    dict[str, pd.DataFrame],
+]:
     featured: dict[str, pd.DataFrame] = {}
-
     rows: list[pd.DataFrame] = []
 
     for symbol, frame in market_data.items():
-        symbol_features = calculate_symbol_features(
+        features = calculate_symbol_features(
             frame
         )
 
-        featured[symbol] = symbol_features
+        featured[symbol] = features
 
-        temporary = symbol_features[
+        temporary = features[
             [
                 "return_1d",
                 "return_5d",
@@ -625,7 +1111,9 @@ def build_market_context(
         ignore_index=True,
     )
 
-    context_rows: list[dict[str, Any]] = []
+    context_rows: list[
+        dict[str, Any]
+    ] = []
 
     for date, group in long_frame.groupby(
         "date"
@@ -678,92 +1166,82 @@ def build_market_context(
             errors="coerce",
         ).dropna()
 
-        symbol_count = int(
-            valid_1d.count()
-        )
-
-        if symbol_count < MINIMUM_MARKET_SYMBOLS:
+        if len(valid_1d) < MINIMUM_MARKET_SYMBOLS:
             continue
 
         context_rows.append(
             {
                 "date": pd.Timestamp(date),
-                "symbol_count": symbol_count,
+                "symbol_count": len(
+                    valid_1d
+                ),
                 "breadth_1d": (
-                    float(
-                        (valid_1d > 0).mean()
-                        * 100.0
-                    )
-                    if not valid_1d.empty
-                    else np.nan
+                    (valid_1d > 0)
+                    .mean()
+                    * 100.0
                 ),
                 "breadth_5d": (
-                    float(
-                        (valid_5d > 0).mean()
-                        * 100.0
-                    )
-                    if not valid_5d.empty
+                    (valid_5d > 0)
+                    .mean()
+                    * 100.0
+                    if len(valid_5d)
                     else np.nan
                 ),
                 "breadth_20d": (
-                    float(
-                        (valid_20d > 0).mean()
-                        * 100.0
-                    )
-                    if not valid_20d.empty
+                    (valid_20d > 0)
+                    .mean()
+                    * 100.0
+                    if len(valid_20d)
                     else np.nan
                 ),
                 "above_ema20": (
-                    float(
-                        (ema_distance > 0).mean()
-                        * 100.0
-                    )
-                    if not ema_distance.empty
+                    (ema_distance > 0)
+                    .mean()
+                    * 100.0
+                    if len(ema_distance)
                     else np.nan
                 ),
                 "median_return_1d": (
-                    float(valid_1d.median())
-                    if not valid_1d.empty
-                    else np.nan
+                    valid_1d.median()
                 ),
                 "median_return_5d": (
-                    float(valid_5d.median())
-                    if not valid_5d.empty
+                    valid_5d.median()
+                    if len(valid_5d)
                     else np.nan
                 ),
                 "median_return_20d": (
-                    float(valid_20d.median())
-                    if not valid_20d.empty
+                    valid_20d.median()
+                    if len(valid_20d)
                     else np.nan
                 ),
                 "median_volume_ratio": (
-                    float(volume_ratio.median())
-                    if not volume_ratio.empty
+                    volume_ratio.median()
+                    if len(volume_ratio)
                     else np.nan
                 ),
                 "median_volatility_20d": (
-                    float(volatility.median())
-                    if not volatility.empty
+                    volatility.median()
+                    if len(volatility)
                     else np.nan
                 ),
                 "dispersion_1d": (
-                    float(valid_1d.std())
+                    valid_1d.std()
                     if len(valid_1d) >= 2
                     else np.nan
                 ),
                 "market_next_1d_return": (
-                    float(next_1d.median())
-                    if not next_1d.empty
+                    next_1d.median()
+                    if len(next_1d)
                     else np.nan
                 ),
                 "market_next_3d_return": (
-                    float(next_3d.median())
-                    if not next_3d.empty
+                    next_3d.median()
+                    if len(next_3d)
                     else np.nan
                 ),
                 "market_next_5d_return": (
-                    float(next_5d.median())
-                    if not next_5d.empty
+                    next_5d.median()
+                    if len(next_5d)
                     else np.nan
                 ),
             }
@@ -780,7 +1258,8 @@ def build_market_context(
         )
 
     context = (
-        context.sort_values("date")
+        context
+        .sort_values("date")
         .drop_duplicates(
             subset=["date"],
             keep="last",
@@ -795,18 +1274,15 @@ def build_market_context(
 
 
 # ============================================================
-# BENZER GÜN HESABI
+# BENZER GÜNLERİ BUL
 # ============================================================
 
 def find_similar_days(
     context: pd.DataFrame,
-) -> tuple[pd.DataFrame, pd.Timestamp | None]:
-    if context.empty:
-        return (
-            pd.DataFrame(),
-            None,
-        )
-
+) -> tuple[
+    pd.DataFrame,
+    pd.Timestamp | None,
+]:
     usable = context.dropna(
         subset=CONTEXT_FEATURES
     ).copy()
@@ -817,11 +1293,12 @@ def find_similar_days(
             None,
         )
 
-    target_row = usable.iloc[-1].copy()
+    target_row = usable.iloc[-1]
     target_date = pd.Timestamp(
         target_row["date"]
     )
 
+    # Son 5 gün kullanılmaz.
     historical = usable.iloc[:-5].copy()
 
     if historical.empty:
@@ -830,35 +1307,32 @@ def find_similar_days(
             target_date,
         )
 
-    feature_matrix = historical[
+    matrix = historical[
         CONTEXT_FEATURES
     ].astype(float)
 
-    target_values = target_row[
+    target = target_row[
         CONTEXT_FEATURES
     ].astype(float)
 
-    medians = feature_matrix.median()
-    deviations = (
-        feature_matrix
+    medians = matrix.median()
+
+    mad = (
+        matrix
         .sub(medians)
         .abs()
         .median()
     )
 
-    deviations = deviations.replace(
+    scale = (
+        mad * 1.4826
+    ).replace(
         0,
         np.nan,
     )
 
-    standard_deviation = (
-        feature_matrix.std()
-    )
-
-    scale = deviations * 1.4826
-
     scale = scale.fillna(
-        standard_deviation
+        matrix.std()
     )
 
     scale = scale.replace(
@@ -868,25 +1342,21 @@ def find_similar_days(
         1.0
     )
 
-    standardized_history = (
-        feature_matrix
-        - target_values
+    standardized = (
+        matrix - target
     ) / scale
 
-    distances = np.sqrt(
+    historical[
+        "similarity_distance"
+    ] = np.sqrt(
         (
-            standardized_history
-            ** 2
-        ).mean(
-            axis=1
-        )
+            standardized ** 2
+        ).mean(axis=1)
     )
 
-    historical["similarity_distance"] = (
-        distances
-    )
-
-    historical["similarity_score"] = (
+    historical[
+        "similarity_score"
+    ] = (
         100.0
         * np.exp(
             -historical[
@@ -947,11 +1417,14 @@ def find_similar_days(
         }
     )
 
-    historical["similar_date"] = (
-        pd.to_datetime(
-            historical["similar_date"]
-        )
-        .dt.strftime("%Y-%m-%d")
+    historical[
+        "similar_date"
+    ] = pd.to_datetime(
+        historical[
+            "similar_date"
+        ]
+    ).dt.strftime(
+        "%Y-%m-%d"
     )
 
     output = pd.DataFrame()
@@ -971,53 +1444,45 @@ def find_similar_days(
 
 
 # ============================================================
-# ADAYLARIN BENZER GÜN SONRASI DAVRANIŞI
+# ADAYIN BENZER GÜNLERDEKİ SONUÇLARI
 # ============================================================
 
 def candidate_forward_returns(
-    symbol_frame: pd.DataFrame,
+    frame: pd.DataFrame,
     similar_dates: list[pd.Timestamp],
 ) -> pd.DataFrame:
-    rows: list[dict[str, float]] = []
+    rows: list[
+        dict[str, float]
+    ] = []
 
     for similar_date in similar_dates:
-        if similar_date not in symbol_frame.index:
+        if similar_date not in frame.index:
             continue
 
-        row = symbol_frame.loc[
+        row = frame.loc[
             similar_date
         ]
 
-        return_1d = number(
-            row.get("forward_return_1d"),
-            np.nan,
-        )
-
-        return_3d = number(
-            row.get("forward_return_3d"),
-            np.nan,
-        )
-
-        return_5d = number(
-            row.get("forward_return_5d"),
-            np.nan,
-        )
-
-        if not any(
-            np.isfinite(value)
-            for value in [
-                return_1d,
-                return_3d,
-                return_5d,
-            ]
-        ):
-            continue
-
         rows.append(
             {
-                "return_1d": return_1d,
-                "return_3d": return_3d,
-                "return_5d": return_5d,
+                "return_1d": number(
+                    row.get(
+                        "forward_return_1d"
+                    ),
+                    np.nan,
+                ),
+                "return_3d": number(
+                    row.get(
+                        "forward_return_3d"
+                    ),
+                    np.nan,
+                ),
+                "return_5d": number(
+                    row.get(
+                        "forward_return_5d"
+                    ),
+                    np.nan,
+                ),
             }
         )
 
@@ -1026,7 +1491,7 @@ def candidate_forward_returns(
     )
 
 
-def clipped_series(
+def clean_returns(
     series: pd.Series,
 ) -> pd.Series:
     return pd.to_numeric(
@@ -1038,82 +1503,73 @@ def clipped_series(
     )
 
 
-def calculate_candidate_similarity_score(
-    stats: dict[str, float],
-    v32_score: float,
+# ============================================================
+# V33 PUAN
+# ============================================================
+
+def calculate_v33_score(
+    positive_1d: float,
+    positive_3d: float,
+    positive_5d: float,
+    average_1d: float,
+    average_3d: float,
+    average_5d: float,
+    candidate_pool_score: float,
     risk_score: float,
 ) -> float:
-    positive_1d = stats[
-        "positive_1d_rate"
-    ]
-
-    positive_3d = stats[
-        "positive_3d_rate"
-    ]
-
-    positive_5d = stats[
-        "positive_5d_rate"
-    ]
-
-    average_1d = stats[
-        "average_return_1d"
-    ]
-
-    average_3d = stats[
-        "average_return_3d"
-    ]
-
-    average_5d = stats[
-        "average_return_5d"
-    ]
-
-    historical_component = (
-        positive_1d * 0.12
-        + positive_3d * 0.16
-        + positive_5d * 0.22
+    historical_score = (
+        positive_1d * 0.10
+        + positive_3d * 0.15
+        + positive_5d * 0.25
         + np.clip(
-            average_1d * 10.0 + 50.0,
-            0.0,
-            100.0,
-        ) * 0.10
+            50 + average_1d * 9,
+            0,
+            100,
+        ) * 0.08
         + np.clip(
-            average_3d * 7.0 + 50.0,
-            0.0,
-            100.0,
-        ) * 0.14
+            50 + average_3d * 6,
+            0,
+            100,
+        ) * 0.12
         + np.clip(
-            average_5d * 5.0 + 50.0,
-            0.0,
-            100.0,
-        ) * 0.16
+            50 + average_5d * 5,
+            0,
+            100,
+        ) * 0.15
     )
 
-    combined = (
-        historical_component * 0.70
-        + v32_score * 0.30
-        - max(
-            risk_score - 35.0,
-            0.0,
+    score = (
+        historical_score * 0.72
+        + candidate_pool_score * 0.28
+    )
+
+    if risk_score > 50:
+        score -= (
+            risk_score - 50
         ) * 0.20
-    )
 
     return round(
         float(
             np.clip(
-                combined,
-                0.0,
-                100.0,
+                score,
+                0,
+                100,
             )
         ),
         2,
     )
 
 
+# ============================================================
+# YENİ KARAR MOTORU
+# ============================================================
+
 def determine_v33_decision(
     score: float,
     similar_day_count: int,
     positive_5d_rate: float,
     average_return_5d: float,
+    median_return_5d: float,
     risk_score: float,
 ) -> tuple[str, str]:
     if similar_day_count < MINIMUM_SIMILAR_DAYS:
@@ -1125,69 +1581,103 @@ def determine_v33_decision(
             ),
         )
 
-    if risk_score >= 65:
+    if risk_score >= HARD_RISK_LIMIT:
         return (
             "ELE",
-            "Risk puanı kabul edilebilir seviyenin üzerinde",
+            "Risk puanı çok yüksek",
         )
 
+    # --------------------------------------------------------
+    # GÜÇLÜ
+    # --------------------------------------------------------
+
     if (
-        score >= 78
-        and positive_5d_rate >= 70
-        and average_return_5d >= 2.0
-        and risk_score <= 40
+        score >= STRONG_SCORE
+        and positive_5d_rate >= STRONG_POSITIVE_5D
+        and average_return_5d >= STRONG_AVERAGE_5D
+        and median_return_5d > 0
+        and risk_score <= MAX_STRONG_RISK
     ):
         return (
             "BENZER GÜN GÜÇLÜ TEYİT",
             (
-                "Benzer piyasa günlerinin çoğunda "
-                "aday sonraki beş günde pozitif ve güçlü"
+                "Benzer piyasa günlerinin büyük bölümünde "
+                "pozitif sonuç oluşmuş ve ortalama getiri güçlü"
             ),
         )
 
+    # --------------------------------------------------------
+    # AKTİF İZLEME
+    # --------------------------------------------------------
+
     if (
-        score >= 66
-        and positive_5d_rate >= 60
-        and average_return_5d > 0
+        score >= ACTIVE_SCORE
+        and positive_5d_rate >= ACTIVE_POSITIVE_5D
+        and average_return_5d > ACTIVE_AVERAGE_5D
+        and risk_score <= MAX_ACTIVE_RISK
+    ):
+        return (
+            "BENZER GÜN AKTİF İZLEME",
+            (
+                "Benzer geçmiş piyasa günleri adayı "
+                "istatistiksel olarak destekliyor"
+            ),
+        )
+
+    # Alternatif aktif izleme:
+    # Ortalama çok kuvvetliyse pozitif oran %55 altında olsa bile
+    # değerlendirmeye alınabilir.
+    if (
+        score >= 60
+        and average_return_5d >= 2.50
+        and median_return_5d > 0
+        and positive_5d_rate >= 50
         and risk_score <= 50
     ):
         return (
             "BENZER GÜN AKTİF İZLEME",
             (
-                "Geçmiş benzer piyasa günleri "
-                "adayı istatistiksel olarak destekliyor"
+                "Pozitif gün oranı sınırlı olsa da "
+                "benzer günlerde ortalama ve medyan getiri güçlü"
             ),
         )
 
+    # --------------------------------------------------------
+    # TEYİT BEKLE
+    # --------------------------------------------------------
+
     if (
-        score >= 54
-        and positive_5d_rate >= 50
-        and risk_score <= 55
+        score >= WAIT_SCORE
+        and risk_score <= 60
     ):
         return (
             "BENZER GÜN TEYİT BEKLE",
             (
                 "Benzer gün görünümü kısmen olumlu "
-                "fakat güçlü ortak sonuç oluşmadı"
+                "fakat aktif izleme için yeterli güven oluşmadı"
             ),
         )
 
     return (
         "BENZER GÜN PASİF",
         (
-            "Geçmiş benzer piyasa günlerinde "
-            "aday yeterince güvenilir performans göstermedi"
+            "Benzer gün istatistikleri aktif takip "
+            "için yeterli güç üretmedi"
         ),
     )
 
 
+# ============================================================
+# ADAY DEĞERLENDİRMESİ
+# ============================================================
+
 def evaluate_candidates(
-    candidates: pd.DataFrame,
+    candidate_pool: pd.DataFrame,
     featured_data: dict[str, pd.DataFrame],
     similar_days: pd.DataFrame,
 ) -> pd.DataFrame:
     if (
-        candidates.empty
+        candidate_pool.empty
         or similar_days.empty
     ):
         return pd.DataFrame(
@@ -1196,7 +1686,9 @@ def evaluate_candidates(
 
     similar_dates = (
         pd.to_datetime(
-            similar_days["similar_date"],
+            similar_days[
+                "similar_date"
+            ],
             errors="coerce",
         )
         .dropna()
@@ -1204,13 +1696,11 @@ def evaluate_candidates(
         .tolist()
     )
 
-    rows: list[dict[str, Any]] = []
+    rows: list[
+        dict[str, Any]
+    ] = []
 
-    limited_candidates = candidates.head(
-        MAX_CANDIDATES
-    ).copy()
-
-    for _, candidate in limited_candidates.iterrows():
+    for _, candidate in candidate_pool.iterrows():
         symbol = normalize_symbol(
             candidate.get("symbol")
         )
@@ -1226,119 +1716,132 @@ def evaluate_candidates(
         if outcomes.empty:
             continue
 
-        return_1d = clipped_series(
+        return_1d = clean_returns(
             outcomes["return_1d"]
         )
 
-        return_3d = clipped_series(
+        return_3d = clean_returns(
             outcomes["return_3d"]
         )
 
-        return_5d = clipped_series(
+        return_5d = clean_returns(
             outcomes["return_5d"]
         )
 
-        similar_count = int(
-            max(
-                len(return_1d),
-                len(return_3d),
-                len(return_5d),
-            )
+        similar_count = max(
+            len(return_1d),
+            len(return_3d),
+            len(return_5d),
         )
 
-        stats = {
-            "positive_1d_rate": (
-                float(
-                    (return_1d > 0).mean()
-                    * 100.0
-                )
-                if not return_1d.empty
-                else 0.0
-            ),
-            "positive_3d_rate": (
-                float(
-                    (return_3d > 0).mean()
-                    * 100.0
-                )
-                if not return_3d.empty
-                else 0.0
-            ),
-            "positive_5d_rate": (
-                float(
-                    (return_5d > 0).mean()
-                    * 100.0
-                )
-                if not return_5d.empty
-                else 0.0
-            ),
-            "average_return_1d": (
-                float(return_1d.mean())
-                if not return_1d.empty
-                else 0.0
-            ),
-            "average_return_3d": (
-                float(return_3d.mean())
-                if not return_3d.empty
-                else 0.0
-            ),
-            "average_return_5d": (
-                float(return_5d.mean())
-                if not return_5d.empty
-                else 0.0
-            ),
-            "median_return_1d": (
-                float(return_1d.median())
-                if not return_1d.empty
-                else 0.0
-            ),
-            "median_return_3d": (
-                float(return_3d.median())
-                if not return_3d.empty
-                else 0.0
-            ),
-            "median_return_5d": (
-                float(return_5d.median())
-                if not return_5d.empty
-                else 0.0
-            ),
-            "best_return_5d": (
-                float(return_5d.max())
-                if not return_5d.empty
-                else 0.0
-            ),
-            "worst_return_5d": (
-                float(return_5d.min())
-                if not return_5d.empty
-                else 0.0
-            ),
-        }
+        positive_1d = (
+            float(
+                (return_1d > 0)
+                .mean()
+                * 100
+            )
+            if len(return_1d)
+            else 0.0
+        )
 
-        v32_score = number(
-            candidate.get("v32_score")
+        positive_3d = (
+            float(
+                (return_3d > 0)
+                .mean()
+                * 100
+            )
+            if len(return_3d)
+            else 0.0
+        )
+
+        positive_5d = (
+            float(
+                (return_5d > 0)
+                .mean()
+                * 100
+            )
+            if len(return_5d)
+            else 0.0
+        )
+
+        average_1d = (
+            float(return_1d.mean())
+            if len(return_1d)
+            else 0.0
+        )
+
+        average_3d = (
+            float(return_3d.mean())
+            if len(return_3d)
+            else 0.0
+        )
+
+        average_5d = (
+            float(return_5d.mean())
+            if len(return_5d)
+            else 0.0
+        )
+
+        median_1d = (
+            float(return_1d.median())
+            if len(return_1d)
+            else 0.0
+        )
+
+        median_3d = (
+            float(return_3d.median())
+            if len(return_3d)
+            else 0.0
+        )
+
+        median_5d = (
+            float(return_5d.median())
+            if len(return_5d)
+            else 0.0
+        )
+
+        best_5d = (
+            float(return_5d.max())
+            if len(return_5d)
+            else 0.0
+        )
+
+        worst_5d = (
+            float(return_5d.min())
+            if len(return_5d)
+            else 0.0
+        )
+
+        candidate_pool_score = number(
+            candidate.get(
+                "candidate_pool_score"
+            )
         )
 
         risk_score = number(
-            candidate.get("risk_score"),
-            100.0,
+            candidate.get(
+                "risk_score_final"
+            ),
+            50.0,
         )
 
-        v33_score = (
-            calculate_candidate_similarity_score(
-                stats=stats,
-                v32_score=v32_score,
-                risk_score=risk_score,
-            )
+        v33_score = calculate_v33_score(
+            positive_1d=positive_1d,
+            positive_3d=positive_3d,
+            positive_5d=positive_5d,
+            average_1d=average_1d,
+            average_3d=average_3d,
+            average_5d=average_5d,
+            candidate_pool_score=candidate_pool_score,
+            risk_score=risk_score,
         )
 
         decision, reason = determine_v33_decision(
             score=v33_score,
             similar_day_count=similar_count,
-            positive_5d_rate=stats[
-                "positive_5d_rate"
-            ],
-            average_return_5d=stats[
-                "average_return_5d"
-            ],
+            positive_5d_rate=positive_5d,
+            average_return_5d=average_5d,
+            median_return_5d=median_5d,
             risk_score=risk_score,
         )
 
@@ -1347,29 +1850,90 @@ def evaluate_candidates(
                 "symbol": symbol,
                 "v33_decision": decision,
                 "v33_score": v33_score,
-                "similar_day_count": similar_count,
-                **{
-                    key: round(
-                        value,
-                        2,
+                "candidate_pool_score": candidate_pool_score,
+                "candidate_sources": text(
+                    candidate.get(
+                        "candidate_sources"
                     )
-                    for key, value
-                    in stats.items()
-                },
+                ),
+                "similar_day_count": similar_count,
+                "positive_1d_rate": round(
+                    positive_1d,
+                    2,
+                ),
+                "positive_3d_rate": round(
+                    positive_3d,
+                    2,
+                ),
+                "positive_5d_rate": round(
+                    positive_5d,
+                    2,
+                ),
+                "average_return_1d": round(
+                    average_1d,
+                    2,
+                ),
+                "average_return_3d": round(
+                    average_3d,
+                    2,
+                ),
+                "average_return_5d": round(
+                    average_5d,
+                    2,
+                ),
+                "median_return_1d": round(
+                    median_1d,
+                    2,
+                ),
+                "median_return_3d": round(
+                    median_3d,
+                    2,
+                ),
+                "median_return_5d": round(
+                    median_5d,
+                    2,
+                ),
+                "best_return_5d": round(
+                    best_5d,
+                    2,
+                ),
+                "worst_return_5d": round(
+                    worst_5d,
+                    2,
+                ),
+                "v22_signal_state": text(
+                    candidate.get(
+                        "v22_signal_state"
+                    )
+                ),
+                "v22_signal_score": number(
+                    candidate.get(
+                        "v22_signal_score"
+                    )
+                ),
+                "v27_decision": text(
+                    candidate.get(
+                        "v27_decision"
+                    )
+                ),
+                "v27_master_score": number(
+                    candidate.get(
+                        "v27_master_score"
+                    )
+                ),
                 "v32_decision": text(
                     candidate.get(
                         "v32_decision"
                     )
                 ),
-                "v32_score": v32_score,
+                "v32_score": number(
+                    candidate.get(
+                        "v32_score"
+                    )
+                ),
                 "v32_confidence": number(
                     candidate.get(
                         "v32_confidence"
-                    )
-                ),
-                "v32_ai_adjustment": number(
-                    candidate.get(
-                        "v32_ai_adjustment"
                     )
                 ),
                 "risk_class": text(
@@ -1379,25 +1943,39 @@ def evaluate_candidates(
                 ),
                 "risk_score": risk_score,
                 "regime": text(
-                    candidate.get("regime")
+                    candidate.get(
+                        "regime_final"
+                    )
+                ),
+                "market_percentile": number(
+                    candidate.get(
+                        "market_percentile_final"
+                    )
+                ),
+                "timing_confidence": number(
+                    candidate.get(
+                        "timing_confidence_final"
+                    )
                 ),
                 "expected_return": number(
                     candidate.get(
-                        "expected_return"
+                        "expected_return_final"
                     )
                 ),
                 "downside_20pct": number(
                     candidate.get(
-                        "downside_20pct"
+                        "downside_20pct_final"
                     )
                 ),
                 "upside_80pct": number(
                     candidate.get(
-                        "upside_80pct"
+                        "upside_80pct_final"
                     )
                 ),
                 "close": number(
-                    candidate.get("close")
+                    candidate.get(
+                        "close_final"
+                    )
                 ),
                 "v33_reason": reason,
                 "rsi_usage": RSI_USAGE,
@@ -1429,7 +2007,8 @@ def evaluate_candidates(
     )
 
     result = (
-        result.sort_values(
+        result
+        .sort_values(
             [
                 "_priority",
                 "v33_score",
@@ -1443,7 +2022,9 @@ def evaluate_candidates(
                 False,
             ],
         )
-        .drop(columns="_priority")
+        .drop(
+            columns="_priority"
+        )
         .reset_index(drop=True)
     )
 
@@ -1460,11 +2041,64 @@ def evaluate_candidates(
 
     for column in CANDIDATE_RESULT_COLUMNS:
         if column in result.columns:
-            output[column] = result[column]
+            output[column] = (
+                result[column]
+            )
         else:
             output[column] = np.nan
 
     return output
+
+
+# ============================================================
+# BOŞ SONUÇ
+# ============================================================
+
+def save_empty(
+    status_name: str,
+    message: str,
+) -> None:
+    pd.DataFrame(
+        columns=SIMILAR_DAY_COLUMNS
+    ).to_csv(
+        SIMILAR_DAYS_FILE,
+        index=False,
+        encoding="utf-8-sig",
+    )
+
+    pd.DataFrame(
+        columns=CANDIDATE_RESULT_COLUMNS
+    ).to_csv(
+        CANDIDATE_RESULTS_FILE,
+        index=False,
+        encoding="utf-8-sig",
+    )
+
+    status = {
+        "status": status_name,
+        "message": message,
+        "candidate_pool_count": 0,
+        "candidate_count": 0,
+        "strong_confirmation_count": 0,
+        "active_tracking_count": 0,
+        "waiting_count": 0,
+        "passive_count": 0,
+        "approved_count": 0,
+        "rsi_usage": RSI_USAGE,
+        "version": VERSION,
+    }
+
+    save_status(
+        status
+    )
+
+    print(
+        json.dumps(
+            status,
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
 
 
 # ============================================================
@@ -1475,7 +2109,7 @@ def main() -> None:
     started_at = time.time()
 
     print(
-        "===== V33 BENZER PİYASA GÜNLERİ MOTORU BAŞLADI ====="
+        "===== V33.1 GENIS ADAY + BENZER GUN MOTORU ====="
     )
 
     market_snapshot = normalize_symbol_frame(
@@ -1484,34 +2118,47 @@ def main() -> None:
         )
     )
 
-    candidates = normalize_symbol_frame(
-        load_csv(
-            CANDIDATE_FILE
+    if market_snapshot.empty:
+        save_empty(
+            "market_snapshot_missing",
+            "V16 tam piyasa dosyası bulunamadı.",
+        )
+        return
+
+    candidate_pool = build_candidate_pool()
+
+    if candidate_pool.empty:
+        save_empty(
+            "candidate_pool_empty",
+            (
+                "V22, V27 ve V32 kaynaklarından "
+                "uygun aday havuzu oluşturulamadı."
+            ),
+        )
+        return
+
+    print(
+        f"V33 aday havuzu: "
+        f"{len(candidate_pool)} hisse"
+    )
+
+    print(
+        candidate_pool[
+            [
+                "pool_rank",
+                "symbol",
+                "candidate_pool_score",
+                "candidate_sources",
+            ]
+        ].to_string(
+            index=False
         )
     )
 
-    if market_snapshot.empty:
-        save_empty(
-            status_name="market_snapshot_missing",
-            message=(
-                "v16_full_market_snapshot.csv "
-                "bulunamadı veya geçerli sembol içermiyor."
-            ),
-        )
-        return
-
-    if candidates.empty:
-        save_empty(
-            status_name="candidate_input_missing",
-            message=(
-                "v32_adaptive_decisions.csv "
-                "bulunamadı veya geçerli aday içermiyor."
-            ),
-        )
-        return
-
     symbols = (
-        market_snapshot["symbol"]
+        market_snapshot[
+            "symbol"
+        ]
         .dropna()
         .astype(str)
         .drop_duplicates()
@@ -1522,12 +2169,14 @@ def main() -> None:
         symbols
     )
 
-    if len(market_data) < MINIMUM_MARKET_SYMBOLS:
+    if len(
+        market_data
+    ) < MINIMUM_MARKET_SYMBOLS:
         save_empty(
-            status_name="insufficient_market_data",
-            message=(
-                "Benzer gün analizi için yeterli "
-                "sayıda hisse verisi indirilemedi."
+            "insufficient_market_data",
+            (
+                "Benzer gün analizi için "
+                "yeterli piyasa verisi indirilemedi."
             ),
         )
         return
@@ -1536,12 +2185,14 @@ def main() -> None:
         market_data
     )
 
-    if len(context) < MINIMUM_HISTORY_DAYS:
+    if len(
+        context
+    ) < MINIMUM_HISTORY_DAYS:
         save_empty(
-            status_name="insufficient_history",
-            message=(
-                "Benzer gün analizi için yeterli "
-                "geçmiş işlem günü oluşturulamadı."
+            "insufficient_history",
+            (
+                "Benzer gün analizi için "
+                "yeterli geçmiş oluşmadı."
             ),
         )
         return
@@ -1556,39 +2207,83 @@ def main() -> None:
         encoding="utf-8-sig",
     )
 
-    candidate_results = evaluate_candidates(
-        candidates=candidates,
+    result = evaluate_candidates(
+        candidate_pool=candidate_pool,
         featured_data=featured_data,
         similar_days=similar_days,
     )
 
-    candidate_results.to_csv(
+    result.to_csv(
         CANDIDATE_RESULTS_FILE,
         index=False,
         encoding="utf-8-sig",
     )
 
-    approved_states = {
-        "BENZER GÜN GÜÇLÜ TEYİT",
-        "BENZER GÜN AKTİF İZLEME",
-    }
+    if result.empty:
+        top_symbol = ""
+        top_decision = ""
+        top_score = 0.0
 
-    approved_count = int(
-        candidate_results[
-            "v33_decision"
-        ].isin(
-            approved_states
+    else:
+        top_symbol = text(
+            result.iloc[0]["symbol"]
+        )
+
+        top_decision = text(
+            result.iloc[0][
+                "v33_decision"
+            ]
+        )
+
+        top_score = number(
+            result.iloc[0][
+                "v33_score"
+            ]
+        )
+
+    strong_count = int(
+        (
+            result["v33_decision"]
+            == "BENZER GÜN GÜÇLÜ TEYİT"
         ).sum()
-    ) if not candidate_results.empty else 0
+    ) if not result.empty else 0
+
+    active_count = int(
+        (
+            result["v33_decision"]
+            == "BENZER GÜN AKTİF İZLEME"
+        ).sum()
+    ) if not result.empty else 0
+
+    waiting_count = int(
+        (
+            result["v33_decision"]
+            == "BENZER GÜN TEYİT BEKLE"
+        ).sum()
+    ) if not result.empty else 0
+
+    passive_count = int(
+        (
+            result["v33_decision"]
+            == "BENZER GÜN PASİF"
+        ).sum()
+    ) if not result.empty else 0
+
+    approved_count = (
+        strong_count
+        + active_count
+    )
 
     status = {
         "status": "ready",
         "target_date": (
-            target_date.strftime("%Y-%m-%d")
+            target_date.strftime(
+                "%Y-%m-%d"
+            )
             if target_date is not None
             else ""
         ),
-        "symbol_count": int(
+        "market_symbol_count": int(
             len(symbols)
         ),
         "downloaded_symbol_count": int(
@@ -1600,108 +2295,65 @@ def main() -> None:
         "similar_day_count": int(
             len(similar_days)
         ),
+        "candidate_pool_count": int(
+            len(candidate_pool)
+        ),
         "candidate_count": int(
-            len(candidate_results)
+            len(result)
         ),
+        "strong_confirmation_count": strong_count,
+        "active_tracking_count": active_count,
+        "waiting_count": waiting_count,
+        "passive_count": passive_count,
         "approved_count": approved_count,
-        "strong_confirmation_count": int(
-            (
-                candidate_results[
-                    "v33_decision"
-                ]
-                == "BENZER GÜN GÜÇLÜ TEYİT"
-            ).sum()
-        ) if not candidate_results.empty else 0,
-        "active_tracking_count": int(
-            (
-                candidate_results[
-                    "v33_decision"
-                ]
-                == "BENZER GÜN AKTİF İZLEME"
-            ).sum()
-        ) if not candidate_results.empty else 0,
-        "waiting_count": int(
-            (
-                candidate_results[
-                    "v33_decision"
-                ]
-                == "BENZER GÜN TEYİT BEKLE"
-            ).sum()
-        ) if not candidate_results.empty else 0,
-        "passive_count": int(
-            (
-                candidate_results[
-                    "v33_decision"
-                ]
-                == "BENZER GÜN PASİF"
-            ).sum()
-        ) if not candidate_results.empty else 0,
-        "shadow_mode": True,
-        "top_symbol": (
-            text(
-                candidate_results.iloc[0][
-                    "symbol"
-                ]
-            )
-            if len(candidate_results)
-            else ""
-        ),
-        "top_decision": (
-            text(
-                candidate_results.iloc[0][
-                    "v33_decision"
-                ]
-            )
-            if len(candidate_results)
-            else ""
-        ),
-        "top_score": (
-            number(
-                candidate_results.iloc[0][
-                    "v33_score"
-                ]
-            )
-            if len(candidate_results)
-            else 0.0
-        ),
-        "runtime_seconds": round(
-            time.time() - started_at,
+        "top_symbol": top_symbol,
+        "top_decision": top_decision,
+        "top_score": round(
+            top_score,
             2,
         ),
+        "shadow_mode": True,
         "rsi_usage": RSI_USAGE,
+        "runtime_seconds": round(
+            time.time()
+            - started_at,
+            2,
+        ),
         "version": VERSION,
     }
 
-    write_status(
+    save_status(
         status
     )
 
     print(
-        "===== V33 BENZER GÜNLER ====="
+        "===== V33.1 SONUCLAR ====="
     )
 
-    print(
-        similar_days.to_string(
-            index=False
+    if result.empty:
+        print(
+            "Değerlendirilebilir aday bulunamadı."
         )
-        if not similar_days.empty
-        else "Uygun benzer gün bulunamadı."
-    )
-
-    print(
-        "===== V33 ADAY SONUÇLARI ====="
-    )
-
-    print(
-        candidate_results.to_string(
-            index=False
+    else:
+        print(
+            result[
+                [
+                    "v33_rank",
+                    "symbol",
+                    "v33_decision",
+                    "v33_score",
+                    "candidate_pool_score",
+                    "positive_5d_rate",
+                    "average_return_5d",
+                    "risk_score",
+                ]
+            ].to_string(
+                index=False
+            )
         )
-        if not candidate_results.empty
-        else "Değerlendirilebilecek aday sonucu oluşmadı."
-    )
 
     print(
-        "===== V33 STATUS ====="
+        "===== V33.1 STATUS ====="
     )
 
     print(
@@ -1710,10 +2362,6 @@ def main() -> None:
             ensure_ascii=False,
             indent=2,
         )
-    )
-
-    print(
-        "===== V33 BENZER PİYASA GÜNLERİ MOTORU TAMAMLANDI ====="
     )
 
 
