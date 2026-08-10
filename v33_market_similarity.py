@@ -24,7 +24,7 @@ V32_FILE = Path("v32_adaptive_decisions.csv")
 
 SIMILAR_DAYS_FILE = Path("v33_similar_days.csv")
 CANDIDATE_RESULTS_FILE = Path("v33_similar_day_candidates.csv")
-CANDIDATE_POOL_FILE = Path("v33_candidate_pool.csv")
+CANDIDATE_POOL_FILE = Path("v33_prescan_candidates.csv")
 STATUS_FILE = Path("v33_status.json")
 
 
@@ -42,7 +42,7 @@ SIMILAR_DAY_COUNT = 12
 
 # Önceden 1-2 aday kalıyordu.
 # Artık V22 + V27 + V32 birleşiminden en iyi 15 aday.
-MAX_CANDIDATES = 15
+MAX_CANDIDATES = 30
 
 MAX_SIMILARITY_DISTANCE = 3.50
 RETURN_CLIP_LIMIT = 30.0
@@ -426,61 +426,58 @@ def prepare_v32(
 
 
 def build_candidate_pool() -> pd.DataFrame:
-    v22 = prepare_v22(
-        load_csv(V22_FILE)
+    pool = normalize_symbol_frame(
+        load_csv(
+            CANDIDATE_POOL_FILE
+        )
     )
 
-    v27 = prepare_v27(
-        load_csv(V27_FILE)
-    )
-
-    v32 = prepare_v32(
-        load_csv(V32_FILE)
-    )
-
-    symbols: set[str] = set()
-
-    for frame in (
-        v22,
-        v27,
-        v32,
-    ):
-        if not frame.empty:
-            symbols.update(
-                frame["symbol"].tolist()
-            )
-
-    if not symbols:
+    if pool.empty:
         return pd.DataFrame()
 
-    pool = pd.DataFrame(
-        {
-            "symbol": sorted(symbols)
-        }
-    )
+    defaults = {
+        "prescan_score": 0.0,
+        "prescan_class": "",
+        "close": 0.0,
+        "return_1d": 0.0,
+        "return_5d": 0.0,
+        "return_20d": 0.0,
+        "ema20_distance": 0.0,
+        "volume_ratio": 0.0,
+        "market_percentile": 0.0,
+        "timing_confidence": 0.0,
+        "risk_score": 50.0,
+        "risk_class": "ORTA",
+        "regime": "",
+        "v22_signal_state": "",
+        "v22_signal_score": 0.0,
+        "v27_decision": "",
+        "v27_master_score": 0.0,
+        "v32_decision": "",
+        "v32_score": 0.0,
+        "v32_confidence": 0.0,
+        "supporting_factors": "",
+        "risk_notes": "",
+    }
 
-    if not v22.empty:
-        pool = pool.merge(
-            v22,
-            on="symbol",
-            how="left",
-        )
-
-    if not v27.empty:
-        pool = pool.merge(
-            v27,
-            on="symbol",
-            how="left",
-        )
-
-    if not v32.empty:
-        pool = pool.merge(
-            v32,
-            on="symbol",
-            how="left",
+    for column, default in defaults.items():
+        ensure_column(
+            pool,
+            column,
+            default,
         )
 
     numeric_columns = [
+        "prescan_score",
+        "close",
+        "return_1d",
+        "return_5d",
+        "return_20d",
+        "ema20_distance",
+        "volume_ratio",
+        "market_percentile",
+        "timing_confidence",
+        "risk_score",
         "v22_signal_score",
         "v27_master_score",
         "v32_score",
@@ -488,22 +485,97 @@ def build_candidate_pool() -> pd.DataFrame:
     ]
 
     for column in numeric_columns:
-        ensure_column(
-            pool,
-            column,
-            0.0,
-        )
-
         pool[column] = pd.to_numeric(
             pool[column],
             errors="coerce",
-        ).fillna(0.0)
+        ).fillna(
+            defaults[column]
+        )
 
-    # --------------------------------------------------------
-    # ORTAK RİSK / REJİM / DİĞER ALANLAR
-    # Öncelik: V32 -> V27 -> V22
-    # --------------------------------------------------------
+    pool["candidate_pool_score"] = (
+        pool["prescan_score"]
+    )
 
+    def source_text(
+        row: pd.Series,
+    ) -> str:
+        sources: list[str] = [
+            "V33_PRESCAN"
+        ]
+
+        if number(
+            row.get("v22_signal_score")
+        ) > 0:
+            sources.append("V22")
+
+        if number(
+            row.get("v27_master_score")
+        ) > 0:
+            sources.append("V27")
+
+        if number(
+            row.get("v32_score")
+        ) > 0:
+            sources.append("V32")
+
+        return "+".join(
+            sources
+        )
+
+    pool["candidate_sources"] = pool.apply(
+        source_text,
+        axis=1,
+    )
+
+    pool["risk_score_final"] = (
+        pool["risk_score"]
+    )
+
+    pool["regime_final"] = (
+        pool["regime"]
+    )
+
+    pool["market_percentile_final"] = (
+        pool["market_percentile"]
+    )
+
+    pool["timing_confidence_final"] = (
+        pool["timing_confidence"]
+    )
+
+    pool["expected_return_final"] = 0.0
+    pool["downside_20pct_final"] = 0.0
+    pool["upside_80pct_final"] = 0.0
+
+    pool["close_final"] = (
+        pool["close"]
+    )
+
+    pool = pool.sort_values(
+        [
+            "candidate_pool_score",
+            "market_percentile_final",
+            "timing_confidence_final",
+        ],
+        ascending=False,
+    ).head(
+        MAX_CANDIDATES
+    ).reset_index(
+        drop=True
+    )
+
+    if "pool_rank" not in pool.columns:
+        pool.insert(
+            0,
+            "pool_rank",
+            range(
+                1,
+                len(pool) + 1,
+            ),
+        )
+
+    return pool
+    
     def first_available(
         row: pd.Series,
         columns: list[str],
