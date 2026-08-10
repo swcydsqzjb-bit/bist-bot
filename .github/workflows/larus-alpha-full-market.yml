@@ -527,6 +527,20 @@ jobs:
       - name: V32 Telegram Raporunu Gonder
         run: |
           python v32_telegram.py
+
+# ============================================================
+# V33.2 - TAM PIYASA ON TARAMA
+# ============================================================
+
+      - name: V33.2 Tam Piyasa On Tarama
+        run: |
+          python v33_full_market_prescan.py
+
+          test -f v33_prescan_status.json
+          test -f v33_prescan_candidates.csv
+
+          echo "===== V33.2 PRESCAN STATUS ====="
+          cat v33_prescan_status.json       
           
 # ==========================================================
 # V33 - BENZER GÜN ANALİZ MOTORU
