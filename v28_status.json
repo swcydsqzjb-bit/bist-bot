@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 1,
+  "new_observation_count": 2,
   "latest_candidate_count": 2,
-  "history_count": 32,
+  "history_count": 34,
   "tracked_count": 0,
-  "analysis_only_count": 1,
-  "top_symbol": "TAVHL",
+  "analysis_only_count": 2,
+  "top_symbol": "KCHOL",
   "top_decision": "ELE",
   "version": "V28.0"
 }

@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "observation_count": 32,
-  "symbol_count": 17,
-  "completed_1d_count": 29,
+  "observation_count": 34,
+  "symbol_count": 19,
+  "completed_1d_count": 32,
   "completed_3d_count": 29,
-  "completed_5d_count": 24,
+  "completed_5d_count": 26,
   "completed_10d_count": 19,
   "completed_15d_count": 0,
   "missed_opportunity_count": 5,
-  "successful_observation_count": 4,
-  "open_count": 3,
-  "in_progress_count": 29,
+  "successful_observation_count": 5,
+  "open_count": 2,
+  "in_progress_count": 32,
   "completed_count": 0,
   "version": "V29.0"
 }
