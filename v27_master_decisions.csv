@@ -1,3 +1,3 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,KCHOL,ELE,41.06,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,55.98,TEYİT BEKLE,50.0,50.0,YENİ,53.74,DÜŞÜK,15.0,YATAY,93.18,1,80.88,-1.08,-3.82,0.08,203.9,203.9
-2,UFUK,ELE,39.87,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,54.55,TEYİT BEKLE,50.0,50.0,YENİ,46.92,ORTA,30.0,YATAY,95.04,1,87.13,1.73,-2.64,3.66,1813.0,1813.0
+1,YGGYO,ELE,46.61,Temkinli senaryoda aşağı yönlü risk yüksek,0.0,0.0,,RİSKLİ - ELE,65.27,TEYİT BEKLE,50.0,50.0,YENİ,67.15,DÜŞÜK,24.0,YATAY,98.35,5,94.54,1.58,-6.6,6.01,239.9,239.9
+2,AKSGY,ELE,36.36,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,49.23,TEYİT BEKLE,50.0,50.0,YENİ,49.28,ORTA,38.0,YATAY,90.7,1,80.03,-0.42,-3.08,1.53,9.71,9.71

@@ -1,0 +1,15 @@
+{
+  "status": "ready",
+  "candidate_count": 10,
+  "strong_confirmation_count": 2,
+  "active_tracking_count": 8,
+  "waiting_count": 0,
+  "passive_count": 0,
+  "eliminated_count": 0,
+  "approved_count": 10,
+  "top_symbol": "DOAS",
+  "top_decision": "ÜST DÜZEY TEYİT",
+  "top_score": 80.44,
+  "rsi_usage": "DISABLED",
+  "version": "V33.3"
+}

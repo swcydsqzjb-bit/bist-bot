@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "position_count": 2,
-  "cash_reserve_pct": 30.0,
-  "invested_pct": 70.0,
-  "top_symbol": "UFUK",
-  "top_weight_pct": 37.12,
+  "cash_reserve_pct": 38.0,
+  "invested_pct": 62.0,
+  "top_symbol": "YGGYO",
+  "top_weight_pct": 35.44,
   "version": "V20.3"
 }

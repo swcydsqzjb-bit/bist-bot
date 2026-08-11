@@ -1,10 +1,10 @@
 {
   "status": "learning_active",
   "history_sources": "signals_history.csv,v11_signal_history.csv,v3_signals_history.csv,v5_backfill_history.csv",
-  "completed_5d": 320,
+  "completed_5d": 327,
   "minimum_required": 30,
   "reliability_factor": 1.0,
   "strongest_feature": "ema20_distance",
-  "weakest_feature": "relationship_score",
+  "weakest_feature": "prediction_score",
   "version": "V21.0"
 }
