@@ -554,6 +554,57 @@ jobs:
         run: |
           python v33_telegram.py
 
+                # ============================================================
+      # V33.2 - TAM PIYASA ON TARAMA
+      # ============================================================
+
+      - name: V33.2 Tam Piyasa On Tarama
+        run: |
+          python v33_full_market_prescan.py
+
+          test -f v33_prescan_status.json
+          test -f v33_prescan_candidates.csv
+
+          echo "===== V33.2 PRESCAN STATUS ====="
+          cat v33_prescan_status.json
+
+      # ============================================================
+      # V33 - BENZER GUN ANALIZ MOTORU
+      # ============================================================
+
+      - name: V33 Benzer Gun Motorunu Calistir
+        run: |
+          python v33_market_similarity.py
+
+          test -f v33_status.json
+          test -f v33_similar_days.csv
+          test -f v33_similar_day_candidates.csv
+
+          echo "===== V33 STATUS ====="
+          cat v33_status.json
+
+      - name: V33 Telegram Raporunu Gonder
+        run: |
+          python v33_telegram.py
+
+      # ============================================================
+      # V33.3 - IKINCI DOGRULAMA
+      # ============================================================
+
+      - name: V33.3 Ikinci Dogrulama Motorunu Calistir
+        run: |
+          python v33_3_confirmation.py
+
+          test -f v33_3_status.json
+          test -f v33_3_confirmed_candidates.csv
+
+          echo "===== V33.3 STATUS ====="
+          cat v33_3_status.json
+
+      - name: V33.3 Telegram Raporunu Gonder
+        run: |
+          python v33_3_telegram.py
+
       # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
