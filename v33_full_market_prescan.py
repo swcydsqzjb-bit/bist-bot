@@ -20,6 +20,10 @@ V22_FILE = Path("v22_signal_states.csv")
 V27_FILE = Path("v27_master_decisions.csv")
 V32_FILE = Path("v32_adaptive_decisions.csv")
 
+REGIME_FILE = Path("v17_market_regime_status.json")
+V19_FILE = Path("v19_timing_forecasts.csv")
+V20_FILE = Path("v20_ai_final_decisions.csv")
+
 OUTPUT_FILE = Path("v33_prescan_candidates.csv")
 STATUS_FILE = Path("v33_prescan_status.json")
 
@@ -41,6 +45,7 @@ OUTPUT_COLUMNS = [
     "symbol",
     "prescan_score",
     "prescan_class",
+
     "close",
     "return_1d",
     "return_5d",
@@ -48,19 +53,32 @@ OUTPUT_COLUMNS = [
     "ema20_distance",
     "volume_ratio",
     "market_percentile",
+
     "timing_confidence",
+    "timing_available",
+    "timing_source",
+
     "risk_score",
     "risk_class",
+    "risk_available",
+    "risk_source",
+
     "regime",
+    "regime_confidence",
+
     "v22_signal_state",
     "v22_signal_score",
+
     "v27_decision",
     "v27_master_score",
+
     "v32_decision",
     "v32_score",
     "v32_confidence",
+
     "supporting_factors",
     "risk_notes",
+
     "rsi_usage",
 ]
 
@@ -98,13 +116,52 @@ def number(
         return default
 
 
-def load_csv(path: Path) -> pd.DataFrame:
+def optional_number(
+    value: Any,
+) -> float:
+    try:
+        result = float(value)
+
+        if np.isfinite(result):
+            return result
+
+    except (TypeError, ValueError):
+        pass
+
+    return np.nan
+
+
+def normalize_symbol(
+    value: Any,
+) -> str:
+    symbol = (
+        text(value)
+        .upper()
+        .replace(" ", "")
+    )
+
+    if symbol.endswith(".IS"):
+        symbol = symbol[:-3]
+
+    return symbol
+
+
+def load_csv(
+    path: Path,
+) -> pd.DataFrame:
     if not path.exists():
+        print(
+            f"UYARI: Dosya bulunamadi: {path}"
+        )
         return pd.DataFrame()
 
     try:
         if path.stat().st_size == 0:
+            print(
+                f"UYARI: Dosya bos: {path}"
+            )
             return pd.DataFrame()
+
     except OSError:
         return pd.DataFrame()
 
@@ -127,24 +184,41 @@ def load_csv(path: Path) -> pd.DataFrame:
 
         except Exception as exc:
             print(
-                f"UYARI: {path} okunamadı: {exc}"
+                f"UYARI: {path} okunamadi: {exc}"
             )
             return pd.DataFrame()
 
     return pd.DataFrame()
 
 
-def normalize_symbol(value: Any) -> str:
-    symbol = (
-        text(value)
-        .upper()
-        .replace(" ", "")
-    )
+def load_json(
+    path: Path,
+) -> dict[str, Any]:
+    if not path.exists():
+        print(
+            f"UYARI: JSON bulunamadi: {path}"
+        )
+        return {}
 
-    if symbol.endswith(".IS"):
-        symbol = symbol[:-3]
+    try:
+        raw = path.read_text(
+            encoding="utf-8",
+        )
 
-    return symbol
+        if not raw.strip():
+            return {}
+
+        result = json.loads(raw)
+
+        if isinstance(result, dict):
+            return result
+
+    except Exception as exc:
+        print(
+            f"UYARI: {path} okunamadi: {exc}"
+        )
+
+    return {}
 
 
 def normalize_frame(
@@ -158,8 +232,9 @@ def normalize_frame(
 
     result = frame.copy()
 
-    result["symbol"] = result["symbol"].apply(
-        normalize_symbol
+    result["symbol"] = (
+        result["symbol"]
+        .apply(normalize_symbol)
     )
 
     result = result[
@@ -171,7 +246,9 @@ def normalize_frame(
         keep="first",
     )
 
-    return result.reset_index(drop=True)
+    return result.reset_index(
+        drop=True
+    )
 
 
 def ensure_column(
@@ -183,16 +260,213 @@ def ensure_column(
         frame[column] = default
 
 
+def first_existing_column(
+    frame: pd.DataFrame,
+    names: list[str],
+) -> str | None:
+    for name in names:
+        if name in frame.columns:
+            return name
+
+    return None
+
+
+def numeric_from_aliases(
+    frame: pd.DataFrame,
+    aliases: list[str],
+    default: float = np.nan,
+) -> pd.Series:
+    column = first_existing_column(
+        frame,
+        aliases,
+    )
+
+    if column is None:
+        return pd.Series(
+            default,
+            index=frame.index,
+            dtype=float,
+        )
+
+    return pd.to_numeric(
+        frame[column],
+        errors="coerce",
+    )
+
+
+def text_from_aliases(
+    frame: pd.DataFrame,
+    aliases: list[str],
+    default: str = "",
+) -> pd.Series:
+    column = first_existing_column(
+        frame,
+        aliases,
+    )
+
+    if column is None:
+        return pd.Series(
+            default,
+            index=frame.index,
+            dtype=object,
+        )
+
+    return (
+        frame[column]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
+
 # ============================================================
-# EK MOTOR VERILERI
+# PIYASA VERISI
+# ============================================================
+
+def prepare_market() -> pd.DataFrame:
+    raw = normalize_frame(
+        load_csv(
+            MARKET_FILE
+        )
+    )
+
+    if raw.empty:
+        return pd.DataFrame()
+
+    market = pd.DataFrame()
+
+    market["symbol"] = raw["symbol"]
+
+    market["close"] = numeric_from_aliases(
+        raw,
+        [
+            "close",
+            "price",
+            "last",
+            "last_price",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    market["return_1d"] = numeric_from_aliases(
+        raw,
+        [
+            "return_1d",
+            "ret_1d",
+            "change_1d",
+            "daily_return",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    market["return_5d"] = numeric_from_aliases(
+        raw,
+        [
+            "return_5d",
+            "ret_5d",
+            "change_5d",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    market["return_20d"] = numeric_from_aliases(
+        raw,
+        [
+            "return_20d",
+            "ret_20d",
+            "change_20d",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    market["ema20_distance"] = numeric_from_aliases(
+        raw,
+        [
+            "ema20_distance",
+            "ema20_dist",
+            "distance_ema20",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    market["volume_ratio"] = numeric_from_aliases(
+        raw,
+        [
+            "volume_ratio",
+            "relative_volume",
+            "rel_volume",
+            "volume_ratio_20d",
+        ],
+        1.0,
+    ).fillna(1.0)
+
+    market_pct = numeric_from_aliases(
+        raw,
+        [
+            "market_percentile",
+            "relative_percentile",
+            "market_pct",
+        ],
+        np.nan,
+    )
+
+    if market_pct.notna().sum() >= max(
+        10,
+        int(len(market) * 0.20),
+    ):
+        market[
+            "market_percentile"
+        ] = market_pct.fillna(
+            market_pct.median()
+        )
+
+    else:
+        # V16 dosyasında doğrudan piyasa yüzdeliği yoksa,
+        # yalnızca V16 verileriyle sıralama üret.
+        composite = (
+            market["return_5d"] * 0.45
+            + market["return_20d"] * 0.20
+            + market["ema20_distance"] * 0.20
+            + (
+                market["volume_ratio"] - 1.0
+            ) * 10.0 * 0.15
+        )
+
+        market[
+            "market_percentile"
+        ] = (
+            composite.rank(
+                pct=True,
+                method="average",
+            )
+            * 100.0
+        )
+
+    market[
+        "market_percentile"
+    ] = (
+        market["market_percentile"]
+        .clip(
+            lower=0,
+            upper=100,
+        )
+    )
+
+    return market
+
+
+# ============================================================
+# V22
 # ============================================================
 
 def prepare_v22() -> pd.DataFrame:
-    frame = normalize_frame(
-        load_csv(V22_FILE)
+    raw = normalize_frame(
+        load_csv(
+            V22_FILE
+        )
     )
 
-    if frame.empty:
+    if raw.empty:
         return pd.DataFrame(
             columns=[
                 "symbol",
@@ -201,33 +475,51 @@ def prepare_v22() -> pd.DataFrame:
             ]
         )
 
-    ensure_column(
-        frame,
-        "v22_signal_state",
+    result = pd.DataFrame()
+
+    result["symbol"] = raw["symbol"]
+
+    result[
+        "v22_signal_state"
+    ] = text_from_aliases(
+        raw,
+        [
+            "v22_signal_state",
+            "signal_state",
+            "v22_state",
+            "decision",
+        ],
         "",
     )
 
-    ensure_column(
-        frame,
-        "v22_signal_score",
-        0.0,
-    )
-
-    return frame[
+    result[
+        "v22_signal_score"
+    ] = numeric_from_aliases(
+        raw,
         [
-            "symbol",
-            "v22_signal_state",
             "v22_signal_score",
-        ]
-    ].copy()
+            "signal_score",
+            "v22_score",
+            "score",
+        ],
+        0.0,
+    ).fillna(0.0)
 
+    return result
+
+
+# ============================================================
+# V27
+# ============================================================
 
 def prepare_v27() -> pd.DataFrame:
-    frame = normalize_frame(
-        load_csv(V27_FILE)
+    raw = normalize_frame(
+        load_csv(
+            V27_FILE
+        )
     )
 
-    if frame.empty:
+    if raw.empty:
         return pd.DataFrame(
             columns=[
                 "symbol",
@@ -236,33 +528,50 @@ def prepare_v27() -> pd.DataFrame:
             ]
         )
 
-    ensure_column(
-        frame,
-        "v27_decision",
+    result = pd.DataFrame()
+
+    result["symbol"] = raw["symbol"]
+
+    result[
+        "v27_decision"
+    ] = text_from_aliases(
+        raw,
+        [
+            "v27_decision",
+            "entry_decision",
+            "decision",
+        ],
         "",
     )
 
-    ensure_column(
-        frame,
-        "v27_master_score",
-        0.0,
-    )
-
-    return frame[
+    result[
+        "v27_master_score"
+    ] = numeric_from_aliases(
+        raw,
         [
-            "symbol",
-            "v27_decision",
             "v27_master_score",
-        ]
-    ].copy()
+            "master_score",
+            "v27_score",
+            "score",
+        ],
+        0.0,
+    ).fillna(0.0)
 
+    return result
+
+
+# ============================================================
+# V32
+# ============================================================
 
 def prepare_v32() -> pd.DataFrame:
-    frame = normalize_frame(
-        load_csv(V32_FILE)
+    raw = normalize_frame(
+        load_csv(
+            V32_FILE
+        )
     )
 
-    if frame.empty:
+    if raw.empty:
         return pd.DataFrame(
             columns=[
                 "symbol",
@@ -272,273 +581,599 @@ def prepare_v32() -> pd.DataFrame:
             ]
         )
 
-    ensure_column(
-        frame,
-        "v32_decision",
+    result = pd.DataFrame()
+
+    result["symbol"] = raw["symbol"]
+
+    result[
+        "v32_decision"
+    ] = text_from_aliases(
+        raw,
+        [
+            "v32_decision",
+            "decision",
+        ],
         "",
     )
 
-    ensure_column(
-        frame,
-        "v32_score",
-        0.0,
-    )
-
-    ensure_column(
-        frame,
-        "v32_confidence",
-        0.0,
-    )
-
-    return frame[
+    result[
+        "v32_score"
+    ] = numeric_from_aliases(
+        raw,
         [
-            "symbol",
-            "v32_decision",
             "v32_score",
+            "adaptive_score",
+            "score",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    result[
+        "v32_confidence"
+    ] = numeric_from_aliases(
+        raw,
+        [
             "v32_confidence",
-        ]
-    ].copy()
+            "confidence",
+            "confidence_score",
+        ],
+        0.0,
+    ).fillna(0.0)
+
+    return result
 
 
 # ============================================================
-# ANA PIYASA VERISI
+# V19 - ZAMANLAMA
 # ============================================================
 
-def prepare_market() -> pd.DataFrame:
-    market = normalize_frame(
-        load_csv(MARKET_FILE)
+def prepare_v19() -> pd.DataFrame:
+    raw = normalize_frame(
+        load_csv(
+            V19_FILE
+        )
     )
 
-    if market.empty:
-        return market
-
-    numeric_defaults = {
-        "close": 0.0,
-        "return_1d": 0.0,
-        "return_5d": 0.0,
-        "return_20d": 0.0,
-        "ema20_distance": 0.0,
-        "volume_ratio": 0.0,
-        "market_percentile": 0.0,
-        "timing_confidence": 0.0,
-        "risk_score": 50.0,
-    }
-
-    text_defaults = {
-        "risk_class": "ORTA",
-        "regime": "",
-    }
-
-    for column, default in numeric_defaults.items():
-        ensure_column(
-            market,
-            column,
-            default,
+    if raw.empty:
+        return pd.DataFrame(
+            columns=[
+                "symbol",
+                "v19_timing_confidence",
+            ]
         )
 
-        market[column] = pd.to_numeric(
-            market[column],
-            errors="coerce",
-        ).fillna(default)
+    result = pd.DataFrame()
 
-    for column, default in text_defaults.items():
-        ensure_column(
-            market,
-            column,
-            default,
-        )
+    result["symbol"] = raw["symbol"]
 
-        market[column] = (
-            market[column]
-            .fillna(default)
-            .astype(str)
-            .str.strip()
-        )
+    # Ekranda doğruladığımız gerçek kolon:
+    # confidence_score
+    result[
+        "v19_timing_confidence"
+    ] = numeric_from_aliases(
+        raw,
+        [
+            "confidence_score",
+            "timing_confidence",
+            "v19_score",
+        ],
+        np.nan,
+    )
 
-    return market
+    return result
 
 
 # ============================================================
-# PUAN BILESENLERI
+# V20 - RISK + ZAMANLAMA
 # ============================================================
 
-def score_momentum(
-    return_1d: float,
-    return_5d: float,
-    return_20d: float,
+def prepare_v20() -> pd.DataFrame:
+    raw = normalize_frame(
+        load_csv(
+            V20_FILE
+        )
+    )
+
+    if raw.empty:
+        return pd.DataFrame(
+            columns=[
+                "symbol",
+                "v20_risk_score",
+                "v20_risk_class",
+                "v20_timing_confidence",
+                "v20_regime",
+                "v20_ai_reasons",
+                "v20_risk_reasons",
+            ]
+        )
+
+    result = pd.DataFrame()
+
+    result["symbol"] = raw["symbol"]
+
+    result[
+        "v20_risk_score"
+    ] = numeric_from_aliases(
+        raw,
+        [
+            "risk_score",
+        ],
+        np.nan,
+    )
+
+    result[
+        "v20_risk_class"
+    ] = text_from_aliases(
+        raw,
+        [
+            "risk_class",
+        ],
+        "",
+    )
+
+    result[
+        "v20_timing_confidence"
+    ] = numeric_from_aliases(
+        raw,
+        [
+            "timing_confidence",
+        ],
+        np.nan,
+    )
+
+    result[
+        "v20_regime"
+    ] = text_from_aliases(
+        raw,
+        [
+            "regime",
+        ],
+        "",
+    )
+
+    result[
+        "v20_ai_reasons"
+    ] = text_from_aliases(
+        raw,
+        [
+            "ai_reasons",
+        ],
+        "",
+    )
+
+    result[
+        "v20_risk_reasons"
+    ] = text_from_aliases(
+        raw,
+        [
+            "risk_reasons",
+        ],
+        "",
+    )
+
+    return result
+
+
+# ============================================================
+# V17 - GENEL PIYASA REJIMI
+# ============================================================
+
+def prepare_regime() -> dict[str, Any]:
+    status = load_json(
+        REGIME_FILE
+    )
+
+    regime = (
+        text(
+            status.get("regime")
+        )
+        or "BILINMIYOR"
+    )
+
+    confidence = optional_number(
+        status.get(
+            "regime_confidence"
+        )
+    )
+
+    return {
+        "regime": regime,
+        "regime_confidence": confidence,
+    }
+
+
+# ============================================================
+# PRESCAN ALT PUANLARI
+# ============================================================
+
+def score_market_strength(
+    percentile: float,
 ) -> float:
-    score = 0.0
-
-    # 1 günlük hareket
-    if -1.5 <= return_1d <= 4.0:
-        score += 12.0
-    elif 4.0 < return_1d <= 7.0:
-        score += 7.0
-    elif return_1d > 9.0:
-        score -= 8.0
-
-    # 5 günlük yapı
-    if 0.0 <= return_5d <= 8.0:
-        score += 16.0
-    elif 8.0 < return_5d <= 14.0:
-        score += 10.0
-    elif return_5d > 18.0:
-        score -= 10.0
-
-    # 20 günlük yapı
-    if -5.0 <= return_20d <= 18.0:
-        score += 10.0
-    elif 18.0 < return_20d <= 28.0:
-        score += 5.0
-    elif return_20d > 35.0:
-        score -= 8.0
-
-    return score
+    return float(
+        np.clip(
+            percentile,
+            0,
+            100,
+        )
+    )
 
 
-def score_ema(
-    ema20_distance: float,
+def score_ema20(
+    distance: float,
 ) -> float:
-    if -3.0 <= ema20_distance <= 6.0:
-        return 18.0
+    if -2.0 <= distance <= 4.0:
+        return 100.0
 
-    if 6.0 < ema20_distance <= 10.0:
-        return 12.0
+    if 4.0 < distance <= 7.0:
+        return 88.0
 
-    if -6.0 <= ema20_distance < -3.0:
-        return 8.0
+    if -4.0 <= distance < -2.0:
+        return 78.0
 
-    if 10.0 < ema20_distance <= 15.0:
-        return 5.0
+    if 7.0 < distance <= 10.0:
+        return 68.0
 
-    if ema20_distance > 18.0:
-        return -10.0
+    if -7.0 <= distance < -4.0:
+        return 58.0
 
-    return 0.0
+    if 10.0 < distance <= 14.0:
+        return 45.0
+
+    if distance > 18.0:
+        return 10.0
+
+    return 30.0
 
 
 def score_volume(
-    volume_ratio: float,
+    ratio: float,
 ) -> float:
-    if 1.2 <= volume_ratio <= 3.5:
-        return 18.0
+    if 1.20 <= ratio <= 2.50:
+        return 100.0
 
-    if 0.9 <= volume_ratio < 1.2:
-        return 10.0
+    if 1.00 <= ratio < 1.20:
+        return 82.0
 
-    if 3.5 < volume_ratio <= 5.0:
-        return 9.0
+    if 2.50 < ratio <= 3.50:
+        return 85.0
 
-    if volume_ratio > 6.0:
-        return -5.0
+    if 0.80 <= ratio < 1.00:
+        return 62.0
 
-    return 3.0
+    if 3.50 < ratio <= 5.00:
+        return 62.0
+
+    if ratio > 6.0:
+        return 30.0
+
+    return 42.0
 
 
-def score_relative_strength(
-    market_percentile: float,
+def score_return_1d(
+    value: float,
 ) -> float:
-    if market_percentile >= 90:
-        return 18.0
+    if -1.5 <= value <= 2.5:
+        return 100.0
 
-    if market_percentile >= 80:
-        return 14.0
+    if 2.5 < value <= 4.5:
+        return 82.0
 
-    if market_percentile >= 70:
-        return 10.0
+    if -3.0 <= value < -1.5:
+        return 72.0
 
-    if market_percentile >= 60:
-        return 6.0
+    if 4.5 < value <= 6.0:
+        return 55.0
 
-    return 0.0
+    if value > 8.0:
+        return 15.0
+
+    return 40.0
 
 
-def score_timing(
-    timing_confidence: float,
+def score_return_5d(
+    value: float,
 ) -> float:
-    if timing_confidence >= 85:
-        return 12.0
+    if 0.0 <= value <= 6.0:
+        return 100.0
 
-    if timing_confidence >= 75:
-        return 9.0
+    if -3.0 <= value < 0.0:
+        return 78.0
 
-    if timing_confidence >= 65:
-        return 6.0
+    if 6.0 < value <= 10.0:
+        return 82.0
 
-    if timing_confidence >= 55:
-        return 3.0
+    if 10.0 < value <= 15.0:
+        return 58.0
 
-    return 0.0
+    if value > 18.0:
+        return 20.0
+
+    return 45.0
 
 
-def score_risk(
-    risk_score: float,
+def score_return_20d(
+    value: float,
 ) -> float:
-    if risk_score <= 20:
-        return 8.0
+    if -5.0 <= value <= 15.0:
+        return 100.0
 
-    if risk_score <= 35:
-        return 5.0
+    if 15.0 < value <= 25.0:
+        return 72.0
 
-    if risk_score <= 50:
-        return 0.0
+    if -10.0 <= value < -5.0:
+        return 62.0
 
-    if risk_score <= 60:
-        return -5.0
+    if 25.0 < value <= 35.0:
+        return 45.0
 
-    return -12.0
+    if value > 40.0:
+        return 15.0
+
+    return 35.0
 
 
-def score_previous_layers(
+# ============================================================
+# ONCEKI MOTOR BONUSU
+# ============================================================
+
+def upstream_bonus(
     row: pd.Series,
 ) -> float:
-    score = 0.0
+    bonus = 0.0
 
-    v22 = number(
+    v22_score = number(
         row.get("v22_signal_score")
     )
 
-    v27 = number(
+    v27_score = number(
         row.get("v27_master_score")
     )
 
-    v32 = number(
+    v32_score = number(
         row.get("v32_score")
     )
 
-    # Eski katmanlar sadece bonus.
-    # Aday olmanın şartı değiller.
-    if v22 >= 70:
-        score += 5.0
-    elif v22 >= 60:
-        score += 3.0
+    v22_state = text(
+        row.get("v22_signal_state")
+    ).upper()
 
-    if v27 >= 60:
-        score += 4.0
-    elif v27 >= 50:
-        score += 2.0
+    v27_decision = text(
+        row.get("v27_decision")
+    ).upper()
 
-    if v32 >= 60:
-        score += 4.0
-    elif v32 >= 50:
-        score += 2.0
+    v32_decision = text(
+        row.get("v32_decision")
+    ).upper()
 
-    return score
+    if v22_score >= 65:
+        bonus += 2.0
 
+    if (
+        "AKTİF" in v22_state
+        or "AKTIF" in v22_state
+        or "ONAY" in v22_state
+        or "GÜÇLÜ" in v22_state
+        or "GUCLU" in v22_state
+    ):
+        bonus += 1.5
 
-# ============================================================
-# ACIKLAMA
-# ============================================================
+    if v27_score >= 65:
+        bonus += 2.0
 
-def build_notes(
-    row: pd.Series,
-) -> tuple[str, str]:
-    positives: list[str] = []
-    risks: list[str] = []
+    if (
+        "AKTİF" in v27_decision
+        or "AKTIF" in v27_decision
+        or "ONAY" in v27_decision
+        or "TEYİT" in v27_decision
+    ):
+        bonus += 1.0
 
-    return_1d = number(
-        row.get("return_1d")
+    if v32_score >= 65:
+        bonus += 1.5
+
+    if (
+        "AKTİF" in v32_decision
+        or "AKTIF" in v32_decision
+        or "ONAY" in v32_decision
+        or "TEYİT" in v32_decision
+    ):
+        bonus += 1.0
+
+    return min(
+        bonus,
+        8.0,
     )
+
+
+# ============================================================
+# ANA PRESCAN SKORU
+# ============================================================
+
+def calculate_prescan_score(
+    row: pd.Series,
+) -> float:
+    market_strength = score_market_strength(
+        number(
+            row.get(
+                "market_percentile"
+            ),
+            50.0,
+        )
+    )
+
+    ema_score = score_ema20(
+        number(
+            row.get(
+                "ema20_distance"
+            )
+        )
+    )
+
+    volume_score = score_volume(
+        number(
+            row.get(
+                "volume_ratio"
+            ),
+            1.0,
+        )
+    )
+
+    return_1d_score = score_return_1d(
+        number(
+            row.get(
+                "return_1d"
+            )
+        )
+    )
+
+    return_5d_score = score_return_5d(
+        number(
+            row.get(
+                "return_5d"
+            )
+        )
+    )
+
+    return_20d_score = score_return_20d(
+        number(
+            row.get(
+                "return_20d"
+            )
+        )
+    )
+
+    score = (
+        market_strength * 0.25
+        + ema_score * 0.20
+        + volume_score * 0.18
+        + return_5d_score * 0.15
+        + return_20d_score * 0.12
+        + return_1d_score * 0.10
+    )
+
+    score += upstream_bonus(
+        row
+    )
+
+    # Gerçek risk verisi VARSA kullan.
+    # Risk verisi yoksa cezalandırma/bonus verme.
+    risk = optional_number(
+        row.get("risk_score")
+    )
+
+    if np.isfinite(risk):
+        if risk >= 65:
+            score -= 8.0
+
+        elif risk >= 55:
+            score -= 4.0
+
+        elif risk <= 30:
+            score += 2.0
+
+    return round(
+        float(
+            np.clip(
+                score,
+                0,
+                100,
+            )
+        ),
+        2,
+    )
+
+
+def classify_prescan(
+    score: float,
+) -> str:
+    if score >= 88:
+        return "UST ADAY"
+
+    if score >= 78:
+        return "GUCLU ADAY"
+
+    if score >= 68:
+        return "IZLEME ADAYI"
+
+    if score >= 58:
+        return "YEDEK ADAY"
+
+    return "ZAYIF"
+
+
+# ============================================================
+# DESTEK VE RISK NOTLARI
+# ============================================================
+
+def build_supporting_factors(
+    row: pd.Series,
+) -> str:
+    factors: list[str] = []
+
+    return_5d = number(
+        row.get("return_5d")
+    )
+
+    ema20 = number(
+        row.get("ema20_distance")
+    )
+
+    volume = number(
+        row.get("volume_ratio"),
+        1.0,
+    )
+
+    percentile = number(
+        row.get("market_percentile"),
+        50.0,
+    )
+
+    if 0 <= return_5d <= 10:
+        factors.append(
+            "5 günlük momentum kontrollü"
+        )
+
+    if -3 <= ema20 <= 7:
+        factors.append(
+            "EMA20 konumu uygun"
+        )
+
+    if 1.2 <= volume <= 3.5:
+        factors.append(
+            "Hacim artışı sağlıklı"
+        )
+
+    if percentile >= 85:
+        factors.append(
+            "Piyasa göreli gücü yüksek"
+        )
+
+    ai_reason = text(
+        row.get(
+            "v20_ai_reasons"
+        )
+    )
+
+    if ai_reason:
+        factors.append(
+            ai_reason
+        )
+
+    if not factors:
+        return (
+            "Belirgin ek destekleyici "
+            "faktor bulunamadi"
+        )
+
+    return " | ".join(
+        factors
+    )
+
+
+def build_risk_notes(
+    row: pd.Series,
+) -> str:
+    risks: list[str] = []
 
     return_5d = number(
         row.get("return_5d")
@@ -553,70 +1188,23 @@ def build_notes(
     )
 
     volume = number(
-        row.get("volume_ratio")
+        row.get("volume_ratio"),
+        1.0,
     )
 
-    market_pct = number(
-        row.get("market_percentile")
-    )
-
-    timing = number(
-        row.get("timing_confidence")
-    )
-
-    risk = number(
-        row.get("risk_score"),
-        50.0,
-    )
-
-    if 0 <= return_5d <= 8:
-        positives.append(
-            "5 günlük momentum kontrollü"
-        )
-
-    if -3 <= ema20 <= 6:
-        positives.append(
-            "EMA20 konumu uygun"
-        )
-
-    if 1.2 <= volume <= 3.5:
-        positives.append(
-            "Hacim artışı sağlıklı"
-        )
-
-    if market_pct >= 80:
-        positives.append(
-            "Piyasa göreli gücü yüksek"
-        )
-
-    if timing >= 75:
-        positives.append(
-            "Zamanlama güveni yüksek"
-        )
-
-    if risk <= 35:
-        positives.append(
-            "Risk puanı düşük"
-        )
-
-    if return_1d > 7:
-        risks.append(
-            "Günlük hareket hızlı"
-        )
-
-    if return_5d > 14:
+    if return_5d > 15:
         risks.append(
             "5 günlük hareket şişkin"
         )
 
-    if return_20d > 28:
+    if return_20d > 35:
         risks.append(
             "20 günlük hareket yüksek"
         )
 
-    if ema20 > 12:
+    if ema20 > 14:
         risks.append(
-            "EMA20'den uzak"
+            "EMA20 uzaklığı yüksek"
         )
 
     if volume > 5:
@@ -624,295 +1212,396 @@ def build_notes(
             "Hacim aşırı yüksek"
         )
 
-    if risk > 55:
+    if not bool(
+        row.get("risk_available")
+    ):
         risks.append(
-            "Risk puanı yüksek"
+            "V20 risk verisi mevcut değil"
         )
 
-    if not positives:
-        positives.append(
-            "Belirgin güçlü ön tarama özelliği yok"
+    if not bool(
+        row.get("timing_available")
+    ):
+        risks.append(
+            "V19/V20 zamanlama verisi mevcut değil"
+        )
+
+    v20_risk_reason = text(
+        row.get(
+            "v20_risk_reasons"
+        )
+    )
+
+    if v20_risk_reason:
+        risks.append(
+            v20_risk_reason
         )
 
     if not risks:
-        risks.append(
-            "Belirgin ek risk notu yok"
-        )
+        return "Belirgin ek risk notu yok"
 
-    return (
-        " | ".join(positives),
-        " | ".join(risks),
+    return " | ".join(
+        risks
     )
 
 
 # ============================================================
-# SINIFLANDIRMA
+# ANA BIRLESTIRME
 # ============================================================
 
-def classify(
-    score: float,
-) -> str:
-    if score >= 78:
-        return "A+"
-
-    if score >= 68:
-        return "A"
-
-    if score >= 58:
-        return "B"
-
-    if score >= 48:
-        return "C"
-
-    return "ZAYIF"
-
-
-# ============================================================
-# MAIN
-# ============================================================
-
-def main() -> None:
+def build_full_market_pool() -> pd.DataFrame:
     market = prepare_market()
 
     if market.empty:
-        status = {
-            "status": "market_input_missing",
-            "market_count": 0,
-            "selected_count": 0,
-            "version": VERSION,
-        }
-
-        STATUS_FILE.write_text(
-            json.dumps(
-                status,
-                ensure_ascii=False,
-                indent=2,
-            ),
-            encoding="utf-8",
-        )
-
-        pd.DataFrame(
-            columns=OUTPUT_COLUMNS
-        ).to_csv(
-            OUTPUT_FILE,
-            index=False,
-            encoding="utf-8-sig",
-        )
-
-        print(
-            json.dumps(
-                status,
-                ensure_ascii=False,
-                indent=2,
-            )
-        )
-
-        return
+        return pd.DataFrame()
 
     v22 = prepare_v22()
     v27 = prepare_v27()
     v32 = prepare_v32()
+    v19 = prepare_v19()
+    v20 = prepare_v20()
 
-    merged = market.copy()
+    regime_info = prepare_regime()
 
-    if not v22.empty:
-        merged = merged.merge(
-            v22,
-            on="symbol",
-            how="left",
-        )
+    pool = market.copy()
 
-    if not v27.empty:
-        merged = merged.merge(
-            v27,
-            on="symbol",
-            how="left",
-        )
+    for source in (
+        v22,
+        v27,
+        v32,
+        v19,
+        v20,
+    ):
+        if not source.empty:
+            pool = pool.merge(
+                source,
+                on="symbol",
+                how="left",
+            )
 
-    if not v32.empty:
-        merged = merged.merge(
-            v32,
-            on="symbol",
-            how="left",
-        )
+    # --------------------------------------------------------
+    # Önceki motor alanları
+    # --------------------------------------------------------
 
-    defaults = {
+    text_defaults = {
         "v22_signal_state": "",
-        "v22_signal_score": 0.0,
         "v27_decision": "",
-        "v27_master_score": 0.0,
         "v32_decision": "",
+        "v20_risk_class": "",
+        "v20_regime": "",
+        "v20_ai_reasons": "",
+        "v20_risk_reasons": "",
+    }
+
+    numeric_defaults = {
+        "v22_signal_score": 0.0,
+        "v27_master_score": 0.0,
         "v32_score": 0.0,
         "v32_confidence": 0.0,
     }
 
-    for column, default in defaults.items():
+    for column, default in (
+        text_defaults.items()
+    ):
         ensure_column(
-            merged,
+            pool,
             column,
             default,
         )
 
-    numeric_columns = [
-        "v22_signal_score",
-        "v27_master_score",
-        "v32_score",
-        "v32_confidence",
+        pool[column] = (
+            pool[column]
+            .fillna(default)
+            .astype(str)
+            .str.strip()
+        )
+
+    for column, default in (
+        numeric_defaults.items()
+    ):
+        ensure_column(
+            pool,
+            column,
+            default,
+        )
+
+        pool[column] = (
+            pd.to_numeric(
+                pool[column],
+                errors="coerce",
+            )
+            .fillna(default)
+        )
+
+    # --------------------------------------------------------
+    # GERCEK REJIM
+    # --------------------------------------------------------
+
+    pool["regime"] = (
+        regime_info["regime"]
+    )
+
+    pool[
+        "regime_confidence"
+    ] = regime_info[
+        "regime_confidence"
     ]
 
-    for column in numeric_columns:
-        merged[column] = pd.to_numeric(
-            merged[column],
-            errors="coerce",
-        ).fillna(0.0)
-
     # --------------------------------------------------------
-    # HARD FILTER
+    # GERCEK ZAMANLAMA
+    #
+    # Öncelik:
+    # 1) V20 timing_confidence
+    # 2) V19 confidence_score
     # --------------------------------------------------------
 
-    merged = merged[
-        merged["close"] > 0
-    ].copy()
-
-    merged = merged[
-        merged["risk_score"]
-        < MAX_RISK_SCORE
-    ].copy()
-
-    # --------------------------------------------------------
-    # PUAN
-    # --------------------------------------------------------
-
-    scores: list[float] = []
-    supporting_notes: list[str] = []
-    risk_notes: list[str] = []
-
-    for _, row in merged.iterrows():
-        momentum_score = score_momentum(
-            number(
-                row.get("return_1d")
-            ),
-            number(
-                row.get("return_5d")
-            ),
-            number(
-                row.get("return_20d")
-            ),
-        )
-
-        ema_score = score_ema(
-            number(
-                row.get("ema20_distance")
-            )
-        )
-
-        volume_score = score_volume(
-            number(
-                row.get("volume_ratio")
-            )
-        )
-
-        relative_score = score_relative_strength(
-            number(
-                row.get("market_percentile")
-            )
-        )
-
-        timing_score = score_timing(
-            number(
-                row.get("timing_confidence")
-            )
-        )
-
-        risk_component = score_risk(
-            number(
-                row.get("risk_score"),
-                50.0,
-            )
-        )
-
-        layer_bonus = score_previous_layers(
-            row
-        )
-
-        raw_score = (
-            momentum_score
-            + ema_score
-            + volume_score
-            + relative_score
-            + timing_score
-            + risk_component
-            + layer_bonus
-        )
-
-        final_score = float(
-            np.clip(
-                raw_score,
-                0,
-                100,
-            )
-        )
-
-        positive_note, risk_note = build_notes(
-            row
-        )
-
-        scores.append(
-            round(
-                final_score,
-                2,
-            )
-        )
-
-        supporting_notes.append(
-            positive_note
-        )
-
-        risk_notes.append(
-            risk_note
-        )
-
-    merged["prescan_score"] = scores
-    merged["supporting_factors"] = (
-        supporting_notes
+    ensure_column(
+        pool,
+        "v20_timing_confidence",
+        np.nan,
     )
-    merged["risk_notes"] = risk_notes
 
-    merged["prescan_class"] = (
-        merged["prescan_score"]
-        .apply(
-            classify
-        )
+    ensure_column(
+        pool,
+        "v19_timing_confidence",
+        np.nan,
+    )
+
+    pool[
+        "v20_timing_confidence"
+    ] = pd.to_numeric(
+        pool[
+            "v20_timing_confidence"
+        ],
+        errors="coerce",
+    )
+
+    pool[
+        "v19_timing_confidence"
+    ] = pd.to_numeric(
+        pool[
+            "v19_timing_confidence"
+        ],
+        errors="coerce",
+    )
+
+    pool[
+        "timing_confidence"
+    ] = pool[
+        "v20_timing_confidence"
+    ].combine_first(
+        pool[
+            "v19_timing_confidence"
+        ]
+    )
+
+    pool[
+        "timing_available"
+    ] = pool[
+        "timing_confidence"
+    ].notna()
+
+    pool[
+        "timing_source"
+    ] = np.select(
+        [
+            pool[
+                "v20_timing_confidence"
+            ].notna(),
+
+            pool[
+                "v19_timing_confidence"
+            ].notna(),
+        ],
+        [
+            "V20",
+            "V19",
+        ],
+        default="VERI_YOK",
     )
 
     # --------------------------------------------------------
-    # SIRALAMA
+    # GERCEK RISK
+    #
+    # V20'de hisse varsa gerçek değer.
+    # Yoksa uydurma 50 YOK.
     # --------------------------------------------------------
 
-    merged = merged.sort_values(
+    ensure_column(
+        pool,
+        "v20_risk_score",
+        np.nan,
+    )
+
+    ensure_column(
+        pool,
+        "v20_risk_class",
+        "",
+    )
+
+    pool[
+        "risk_score"
+    ] = pd.to_numeric(
+        pool[
+            "v20_risk_score"
+        ],
+        errors="coerce",
+    )
+
+    pool[
+        "risk_available"
+    ] = pool[
+        "risk_score"
+    ].notna()
+
+    pool[
+        "risk_class"
+    ] = (
+        pool[
+            "v20_risk_class"
+        ]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
+    pool.loc[
+        ~pool[
+            "risk_available"
+        ],
+        "risk_class",
+    ] = "VERI YOK"
+
+    pool[
+        "risk_source"
+    ] = np.where(
+        pool[
+            "risk_available"
+        ],
+        "V20",
+        "VERI_YOK",
+    )
+
+    # --------------------------------------------------------
+    # PRESCAN SCORE
+    # --------------------------------------------------------
+
+    pool[
+        "prescan_score"
+    ] = pool.apply(
+        calculate_prescan_score,
+        axis=1,
+    )
+
+    pool[
+        "prescan_class"
+    ] = pool[
+        "prescan_score"
+    ].apply(
+        classify_prescan
+    )
+
+    # --------------------------------------------------------
+    # Metin alanları
+    # --------------------------------------------------------
+
+    pool[
+        "supporting_factors"
+    ] = pool.apply(
+        build_supporting_factors,
+        axis=1,
+    )
+
+    pool[
+        "risk_notes"
+    ] = pool.apply(
+        build_risk_notes,
+        axis=1,
+    )
+
+    pool[
+        "rsi_usage"
+    ] = RSI_USAGE
+
+    return pool
+
+
+# ============================================================
+# ADAY SECIMI
+# ============================================================
+
+def select_candidates(
+    pool: pd.DataFrame,
+) -> pd.DataFrame:
+    if pool.empty:
+        return pd.DataFrame()
+
+    result = pool.copy()
+
+    # Gerçek risk verisi olan ve risk > 70 olanları
+    # ana seçimden çıkar.
+    eligible = result[
+        (
+            ~result["risk_available"]
+        )
+        |
+        (
+            result["risk_score"]
+            <= MAX_RISK_SCORE
+        )
+    ].copy()
+
+    eligible = eligible.sort_values(
         [
             "prescan_score",
             "market_percentile",
-            "timing_confidence",
             "volume_ratio",
         ],
         ascending=False,
-    ).reset_index(
-        drop=True
     )
 
-    # Önce 48+ olanları al.
-    selected = merged[
-        merged["prescan_score"] >= 48
-    ].copy()
+    selected = eligible.head(
+        MAX_CANDIDATES
+    ).copy()
 
-    # Çok az kaldıysa ilk MIN_CANDIDATES'a tamamla.
+    # Olağanüstü durumda 10 adaydan az kalırsa,
+    # güvenlik için en yüksek skorlu adaylardan tamamla.
     if len(selected) < MIN_CANDIDATES:
-        selected = merged.head(
-            MIN_CANDIDATES
-        ).copy()
+        used_symbols = set(
+            selected["symbol"]
+        )
 
-    selected = selected.head(
+        extras = result[
+            ~result["symbol"].isin(
+                used_symbols
+            )
+        ].sort_values(
+            "prescan_score",
+            ascending=False,
+        )
+
+        needed = (
+            MIN_CANDIDATES
+            - len(selected)
+        )
+
+        selected = pd.concat(
+            [
+                selected,
+                extras.head(
+                    needed
+                ),
+            ],
+            ignore_index=True,
+        )
+
+    selected = selected.sort_values(
+        [
+            "prescan_score",
+            "market_percentile",
+        ],
+        ascending=False,
+    ).head(
         MAX_CANDIDATES
     ).reset_index(
         drop=True
@@ -927,57 +1616,186 @@ def main() -> None:
         ),
     )
 
-    selected["rsi_usage"] = RSI_USAGE
+    return selected
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main() -> None:
+    pool = build_full_market_pool()
+
+    if pool.empty:
+        empty = pd.DataFrame(
+            columns=OUTPUT_COLUMNS
+        )
+
+        empty.to_csv(
+            OUTPUT_FILE,
+            index=False,
+            encoding="utf-8-sig",
+        )
+
+        status = {
+            "status": "market_input_missing",
+            "market_count": 0,
+            "selected_count": 0,
+
+            "regime": "BILINMIYOR",
+            "regime_confidence": None,
+
+            "timing_data_count": 0,
+            "risk_data_count": 0,
+
+            "rsi_usage": RSI_USAGE,
+            "version": VERSION,
+        }
+
+        STATUS_FILE.write_text(
+            json.dumps(
+                status,
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+
+        print(
+            json.dumps(
+                status,
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+
+        return
+
+    selected = select_candidates(
+        pool
+    )
 
     # --------------------------------------------------------
-    # ÇIKTI
+    # Output kolonları
     # --------------------------------------------------------
 
-    result = pd.DataFrame()
+    output = pd.DataFrame()
 
     for column in OUTPUT_COLUMNS:
         if column in selected.columns:
-            result[column] = selected[column]
+            output[column] = (
+                selected[column]
+            )
         else:
-            result[column] = np.nan
+            output[column] = np.nan
 
-    result.to_csv(
+    output.to_csv(
         OUTPUT_FILE,
         index=False,
         encoding="utf-8-sig",
     )
 
+    regime_value = (
+        text(
+            selected.iloc[0][
+                "regime"
+            ]
+        )
+        if len(selected)
+        else "BILINMIYOR"
+    )
+
+    regime_confidence = (
+        optional_number(
+            selected.iloc[0][
+                "regime_confidence"
+            ]
+        )
+        if len(selected)
+        else np.nan
+    )
+
+    top_symbol = (
+        text(
+            output.iloc[0][
+                "symbol"
+            ]
+        )
+        if len(output)
+        else ""
+    )
+
+    top_score = (
+        number(
+            output.iloc[0][
+                "prescan_score"
+            ]
+        )
+        if len(output)
+        else 0.0
+    )
+
     status = {
         "status": "ready",
+
         "market_count": int(
-            len(market)
+            len(pool)
         ),
-        "eligible_count": int(
-            len(merged)
-        ),
+
         "selected_count": int(
-            len(result)
+            len(output)
         ),
-        "top_symbol": (
-            text(
-                result.iloc[0]["symbol"]
-            )
-            if len(result)
-            else ""
-        ),
-        "top_score": (
+
+        "max_candidates": MAX_CANDIDATES,
+
+        "regime": regime_value,
+
+        "regime_confidence": (
             round(
-                number(
-                    result.iloc[0][
-                        "prescan_score"
-                    ]
+                float(
+                    regime_confidence
                 ),
                 2,
             )
-            if len(result)
-            else 0.0
+            if np.isfinite(
+                regime_confidence
+            )
+            else None
         ),
+
+        "timing_data_count": int(
+            pool[
+                "timing_available"
+            ].sum()
+        ),
+
+        "selected_timing_data_count": int(
+            output[
+                "timing_available"
+            ].fillna(False).sum()
+        ),
+
+        "risk_data_count": int(
+            pool[
+                "risk_available"
+            ].sum()
+        ),
+
+        "selected_risk_data_count": int(
+            output[
+                "risk_available"
+            ].fillna(False).sum()
+        ),
+
+        "top_symbol": top_symbol,
+
+        "top_score": round(
+            top_score,
+            2,
+        ),
+
         "rsi_usage": RSI_USAGE,
+
         "version": VERSION,
     }
 
@@ -991,7 +1809,7 @@ def main() -> None:
     )
 
     print(
-        "===== V33.2 FULL MARKET PRESCAN STATUS ====="
+        "===== V33.2 PRESCAN STATUS ====="
     )
 
     print(
@@ -1006,24 +1824,33 @@ def main() -> None:
         "===== V33.2 TOP CANDIDATES ====="
     )
 
-    print(
-        result[
-            [
-                "prescan_rank",
-                "symbol",
-                "prescan_score",
-                "prescan_class",
-                "return_5d",
-                "ema20_distance",
-                "volume_ratio",
-                "market_percentile",
-                "timing_confidence",
-                "risk_score",
-            ]
-        ].to_string(
-            index=False
+    if output.empty:
+        print(
+            "Aday bulunamadi."
         )
-    )
+
+    else:
+        display_columns = [
+            "prescan_rank",
+            "symbol",
+            "prescan_score",
+            "prescan_class",
+            "market_percentile",
+            "timing_confidence",
+            "timing_source",
+            "risk_score",
+            "risk_class",
+            "risk_source",
+            "regime",
+        ]
+
+        print(
+            output[
+                display_columns
+            ].to_string(
+                index=False
+            )
+        )
 
 
 if __name__ == "__main__":
