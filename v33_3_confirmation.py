@@ -32,41 +32,62 @@ HARD_RISK_LIMIT = 70.0
 OUTPUT_COLUMNS = [
     "v33_3_rank",
     "symbol",
+
     "v33_3_decision",
     "v33_3_score",
     "v33_3_confidence",
+
     "v33_score",
     "prescan_score",
+
     "similar_day_count",
+
     "positive_1d_rate",
     "positive_3d_rate",
     "positive_5d_rate",
+
     "average_return_1d",
     "average_return_3d",
     "average_return_5d",
+
     "median_return_5d",
     "best_return_5d",
     "worst_return_5d",
+
     "return_range_5d",
     "downside_penalty",
     "consistency_score",
+
     "current_technical_score",
     "historical_quality_score",
+
     "risk_score",
     "risk_class",
+    "risk_available",
+    "risk_source",
+
     "regime",
+    "regime_confidence",
+
     "market_percentile",
+
     "timing_confidence",
+    "timing_available",
+    "timing_source",
+
     "close",
     "return_1d",
     "return_5d",
     "return_20d",
     "ema20_distance",
     "volume_ratio",
+
     "prescan_class",
+
     "supporting_factors",
     "risk_notes",
     "v33_3_reason",
+
     "rsi_usage",
 ]
 
@@ -104,15 +125,78 @@ def number(
         return default
 
 
+def optional_number(
+    value: Any,
+) -> float:
+    try:
+        result = float(value)
+
+        if np.isfinite(result):
+            return result
+
+    except (TypeError, ValueError):
+        pass
+
+    return np.nan
+
+
+def boolean(
+    value: Any,
+    default: bool = False,
+) -> bool:
+    if isinstance(value, bool):
+        return value
+
+    if value is None:
+        return default
+
+    try:
+        if pd.isna(value):
+            return default
+    except Exception:
+        pass
+
+    value_text = str(value).strip().lower()
+
+    if value_text in {
+        "true",
+        "1",
+        "yes",
+        "evet",
+        "var",
+    }:
+        return True
+
+    if value_text in {
+        "false",
+        "0",
+        "no",
+        "hayir",
+        "hayır",
+        "yok",
+        "",
+    }:
+        return False
+
+    return default
+
+
 def load_csv(
     path: Path,
 ) -> pd.DataFrame:
     if not path.exists():
+        print(
+            f"UYARI: Dosya bulunamadi: {path}"
+        )
         return pd.DataFrame()
 
     try:
         if path.stat().st_size == 0:
+            print(
+                f"UYARI: Dosya bos: {path}"
+            )
             return pd.DataFrame()
+
     except OSError:
         return pd.DataFrame()
 
@@ -168,8 +252,9 @@ def normalize_frame(
 
     result = frame.copy()
 
-    result["symbol"] = result["symbol"].apply(
-        normalize_symbol
+    result["symbol"] = (
+        result["symbol"]
+        .apply(normalize_symbol)
     )
 
     result = result[
@@ -181,7 +266,9 @@ def normalize_frame(
         keep="first",
     )
 
-    return result.reset_index(drop=True)
+    return result.reset_index(
+        drop=True
+    )
 
 
 def ensure_column(
@@ -194,7 +281,7 @@ def ensure_column(
 
 
 # ============================================================
-# VERI HAZIRLAMA
+# VERI HAZIRLAMA - PRESCAN
 # ============================================================
 
 def prepare_prescan() -> pd.DataFrame:
@@ -210,6 +297,7 @@ def prepare_prescan() -> pd.DataFrame:
     defaults = {
         "prescan_score": 0.0,
         "prescan_class": "",
+
         "close": 0.0,
         "return_1d": 0.0,
         "return_5d": 0.0,
@@ -217,10 +305,19 @@ def prepare_prescan() -> pd.DataFrame:
         "ema20_distance": 0.0,
         "volume_ratio": 0.0,
         "market_percentile": 0.0,
-        "timing_confidence": 0.0,
-        "risk_score": 50.0,
-        "risk_class": "ORTA",
-        "regime": "",
+
+        "timing_confidence": np.nan,
+        "timing_available": False,
+        "timing_source": "VERI_YOK",
+
+        "risk_score": np.nan,
+        "risk_class": "VERI YOK",
+        "risk_available": False,
+        "risk_source": "VERI_YOK",
+
+        "regime": "BILINMIYOR",
+        "regime_confidence": np.nan,
+
         "supporting_factors": "",
         "risk_notes": "",
     }
@@ -232,7 +329,7 @@ def prepare_prescan() -> pd.DataFrame:
             default,
         )
 
-    numeric_columns = [
+    normal_numeric_columns = [
         "prescan_score",
         "close",
         "return_1d",
@@ -241,20 +338,105 @@ def prepare_prescan() -> pd.DataFrame:
         "ema20_distance",
         "volume_ratio",
         "market_percentile",
-        "timing_confidence",
-        "risk_score",
     ]
 
-    for column in numeric_columns:
-        frame[column] = pd.to_numeric(
-            frame[column],
-            errors="coerce",
-        ).fillna(
-            defaults[column]
+    for column in normal_numeric_columns:
+        frame[column] = (
+            pd.to_numeric(
+                frame[column],
+                errors="coerce",
+            )
+            .fillna(
+                defaults[column]
+            )
         )
+
+    # Bu alanlarda eksik bilgi NaN olarak korunur.
+    frame["timing_confidence"] = pd.to_numeric(
+        frame["timing_confidence"],
+        errors="coerce",
+    )
+
+    frame["risk_score"] = pd.to_numeric(
+        frame["risk_score"],
+        errors="coerce",
+    )
+
+    frame["regime_confidence"] = pd.to_numeric(
+        frame["regime_confidence"],
+        errors="coerce",
+    )
+
+    frame["timing_available"] = (
+        frame["timing_available"]
+        .apply(boolean)
+    )
+
+    frame["risk_available"] = (
+        frame["risk_available"]
+        .apply(boolean)
+    )
+
+    # Güvenlik:
+    # sayı gerçekten varsa availability True olsun.
+    frame.loc[
+        frame["timing_confidence"].notna(),
+        "timing_available",
+    ] = True
+
+    frame.loc[
+        frame["risk_score"].notna(),
+        "risk_available",
+    ] = True
+
+    frame["timing_source"] = (
+        frame["timing_source"]
+        .fillna("VERI_YOK")
+        .astype(str)
+        .str.strip()
+    )
+
+    frame["risk_source"] = (
+        frame["risk_source"]
+        .fillna("VERI_YOK")
+        .astype(str)
+        .str.strip()
+    )
+
+    frame["risk_class"] = (
+        frame["risk_class"]
+        .fillna("VERI YOK")
+        .astype(str)
+        .str.strip()
+    )
+
+    frame["regime"] = (
+        frame["regime"]
+        .fillna("BILINMIYOR")
+        .astype(str)
+        .str.strip()
+    )
+
+    frame["supporting_factors"] = (
+        frame["supporting_factors"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
+    frame["risk_notes"] = (
+        frame["risk_notes"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
 
     return frame
 
+
+# ============================================================
+# VERI HAZIRLAMA - V33 BENZER GUN
+# ============================================================
 
 def prepare_v33() -> pd.DataFrame:
     frame = normalize_frame(
@@ -269,13 +451,17 @@ def prepare_v33() -> pd.DataFrame:
     defaults = {
         "v33_decision": "",
         "v33_score": 0.0,
+
         "similar_day_count": 0.0,
+
         "positive_1d_rate": 0.0,
         "positive_3d_rate": 0.0,
         "positive_5d_rate": 0.0,
+
         "average_return_1d": 0.0,
         "average_return_3d": 0.0,
         "average_return_5d": 0.0,
+
         "median_return_5d": 0.0,
         "best_return_5d": 0.0,
         "worst_return_5d": 0.0,
@@ -291,23 +477,29 @@ def prepare_v33() -> pd.DataFrame:
     numeric_columns = [
         "v33_score",
         "similar_day_count",
+
         "positive_1d_rate",
         "positive_3d_rate",
         "positive_5d_rate",
+
         "average_return_1d",
         "average_return_3d",
         "average_return_5d",
+
         "median_return_5d",
         "best_return_5d",
         "worst_return_5d",
     ]
 
     for column in numeric_columns:
-        frame[column] = pd.to_numeric(
-            frame[column],
-            errors="coerce",
-        ).fillna(
-            defaults[column]
+        frame[column] = (
+            pd.to_numeric(
+                frame[column],
+                errors="coerce",
+            )
+            .fillna(
+                defaults[column]
+            )
         )
 
     return frame
@@ -339,74 +531,126 @@ def current_technical_score(
     )
 
     volume = number(
-        row.get("volume_ratio")
+        row.get("volume_ratio"),
+        1.0,
     )
 
     market_pct = number(
-        row.get("market_percentile")
+        row.get("market_percentile"),
+        50.0,
     )
 
-    timing = number(
+    timing = optional_number(
         row.get("timing_confidence")
     )
 
-    # Günlük hareket
+    timing_available = boolean(
+        row.get("timing_available")
+    )
+
+    # --------------------------------------------------------
+    # 1 GUNLUK HAREKET
+    # --------------------------------------------------------
+
     if -1.5 <= return_1d <= 3.5:
         score += 12
+
     elif 3.5 < return_1d <= 6:
         score += 8
+
     elif return_1d > 8:
         score -= 8
 
-    # 5 günlük momentum
+    # --------------------------------------------------------
+    # 5 GUNLUK MOMENTUM
+    # --------------------------------------------------------
+
     if 0 <= return_5d <= 8:
         score += 18
+
     elif 8 < return_5d <= 14:
         score += 10
+
     elif return_5d > 18:
         score -= 10
 
-    # 20 günlük yapı
+    # --------------------------------------------------------
+    # 20 GUNLUK YAPI
+    # --------------------------------------------------------
+
     if -5 <= return_20d <= 18:
         score += 10
+
     elif 18 < return_20d <= 28:
         score += 5
+
     elif return_20d > 35:
         score -= 8
 
+    # --------------------------------------------------------
     # EMA20
+    # --------------------------------------------------------
+
     if -3 <= ema20 <= 6:
         score += 20
+
     elif 6 < ema20 <= 10:
         score += 12
+
     elif -6 <= ema20 < -3:
         score += 7
+
     elif ema20 > 15:
         score -= 10
 
-    # Hacim
+    # --------------------------------------------------------
+    # HACIM
+    # --------------------------------------------------------
+
     if 1.2 <= volume <= 3.5:
         score += 18
+
     elif 0.9 <= volume < 1.2:
         score += 10
+
     elif 3.5 < volume <= 5:
         score += 8
+
     elif volume > 6:
         score -= 6
 
-    # Piyasa göreli güç
+    # --------------------------------------------------------
+    # PIYASA GORELI GUC
+    # --------------------------------------------------------
+
     if market_pct >= 90:
         score += 14
+
     elif market_pct >= 80:
         score += 10
+
     elif market_pct >= 70:
         score += 6
 
-    # Zamanlama güveni varsa kullan
-    if timing >= 85:
-        score += 8
-    elif timing >= 75:
-        score += 5
+    # --------------------------------------------------------
+    # ZAMANLAMA
+    #
+    # Sadece gerçek veri varsa kullanılır.
+    # Veri yoksa 0 kabul edilmez ve ceza verilmez.
+    # --------------------------------------------------------
+
+    if (
+        timing_available
+        and np.isfinite(timing)
+    ):
+        if timing >= 85:
+            score += 8
+
+        elif timing >= 75:
+            score += 5
+
+        elif timing < 40:
+            score -= 3
 
     return round(
         float(
@@ -501,7 +745,6 @@ def historical_quality_score(
         * 0.08
     )
 
-    # Benzer gün sayısı azsa hafif kesinti
     if similar_count < 8:
         score -= 6
 
@@ -603,15 +846,12 @@ def consistency_score(
     else:
         consistency -= 8
 
-    # Ortalama çok yüksek ama medyan düşükse
-    # birkaç uç değer ortalamayı taşıyor olabilir.
     if (
         average_5d >= 5
         and median_5d < 1
     ):
         consistency -= 12
 
-    # Dağılım aşırı genişse azalt
     if return_range >= 45:
         consistency -= 15
 
@@ -621,7 +861,9 @@ def consistency_score(
     elif return_range >= 25:
         consistency -= 5
 
-    consistency -= downside_penalty * 0.45
+    consistency -= (
+        downside_penalty * 0.45
+    )
 
     return (
         round(
@@ -634,10 +876,12 @@ def consistency_score(
             ),
             2,
         ),
+
         round(
             return_range,
             2,
         ),
+
         round(
             downside_penalty,
             2,
@@ -660,9 +904,12 @@ def calculate_final_score(
         row.get("prescan_score")
     )
 
-    risk_score = number(
-        row.get("risk_score"),
-        50.0,
+    risk_score = optional_number(
+        row.get("risk_score")
+    )
+
+    risk_available = boolean(
+        row.get("risk_available")
     )
 
     technical = current_technical_score(
@@ -681,7 +928,10 @@ def calculate_final_score(
         row
     )
 
-    # Ana bileşenler
+    # --------------------------------------------------------
+    # ANA BILESENLER
+    # --------------------------------------------------------
+
     final_score = (
         v33_score * 0.24
         + prescan_score * 0.22
@@ -690,29 +940,53 @@ def calculate_final_score(
         + consistency * 0.14
     )
 
-    # Risk kesintisi
-    if risk_score > 40:
-        final_score -= (
-            risk_score - 40
-        ) * 0.20
+    # --------------------------------------------------------
+    # GERCEK RISK VERISI VARSA UYGULA
+    #
+    # Risk verisi yoksa:
+    # - 50 varsayılmaz
+    # - bonus verilmez
+    # - ceza verilmez
+    # --------------------------------------------------------
 
-    # Çok kötü tarihsel senaryo varsa
+    if (
+        risk_available
+        and np.isfinite(risk_score)
+    ):
+        if risk_score > 40:
+            final_score -= (
+                risk_score - 40
+            ) * 0.20
+
+        elif risk_score <= 30:
+            final_score += 1.0
+
+    # --------------------------------------------------------
+    # TARIHSEL DOWNSIDE
+    # --------------------------------------------------------
+
     final_score -= (
         downside_penalty * 0.30
     )
 
-    # 5 günlük ortalama + medyan ikisi de pozitifse bonus
+    # --------------------------------------------------------
+    # TARIHSEL BONUSLAR
+    # --------------------------------------------------------
+
     if (
         number(
-            row.get("average_return_5d")
+            row.get(
+                "average_return_5d"
+            )
         ) > 1.0
         and number(
-            row.get("median_return_5d")
+            row.get(
+                "median_return_5d"
+            )
         ) > 1.0
     ):
         final_score += 3.0
 
-    # Pozitif oran çok yüksekse bonus
     if number(
         row.get("positive_5d_rate")
     ) >= 70:
@@ -729,10 +1003,15 @@ def calculate_final_score(
             ),
             2,
         ),
+
         "current_technical_score": technical,
+
         "historical_quality_score": historical,
+
         "consistency_score": consistency,
+
         "return_range_5d": return_range,
+
         "downside_penalty": downside_penalty,
     }
 
@@ -748,9 +1027,16 @@ def determine_decision(
         row.get("v33_3_score")
     )
 
-    risk = number(
-        row.get("risk_score"),
-        50.0,
+    risk = optional_number(
+        row.get("risk_score")
+    )
+
+    risk_available = boolean(
+        row.get("risk_available")
+    )
+
+    timing_available = boolean(
+        row.get("timing_available")
     )
 
     positive_5d = number(
@@ -781,19 +1067,36 @@ def determine_decision(
         row.get("consistency_score")
     )
 
-    if risk >= HARD_RISK_LIMIT:
+    # --------------------------------------------------------
+    # GERCEK RISK VAR VE LIMIT USTUNDEYSE ELE
+    # --------------------------------------------------------
+
+    if (
+        risk_available
+        and np.isfinite(risk)
+        and risk >= HARD_RISK_LIMIT
+    ):
         return (
             "ELE",
-            "Risk puanı kabul edilebilir seviyenin üzerinde",
+            (
+                "Gerçek V20 risk puanı kabul edilebilir "
+                "seviyenin üzerinde"
+            ),
             25.0,
         )
 
     # --------------------------------------------------------
     # UST DUZEY TEYIT
+    #
+    # Burada gerçek risk doğrulaması zorunlu.
+    # Risk verisi olmayan hisse en yüksek etiketi alamaz.
     # --------------------------------------------------------
 
     if (
-        score >= 74
+        risk_available
+        and np.isfinite(risk)
+        and risk <= 50
+        and score >= 74
         and positive_5d >= 66
         and avg_5d >= 1.5
         and median_5d > 0
@@ -801,7 +1104,6 @@ def determine_decision(
         and technical >= 55
         and historical >= 60
         and consistency >= 55
-        and risk <= 50
     ):
         confidence = (
             score * 0.55
@@ -813,8 +1115,8 @@ def determine_decision(
         return (
             "ÜST DÜZEY TEYİT",
             (
-                "Benzer gün geçmişi, mevcut teknik yapı ve "
-                "dağılım kalitesi birlikte güçlü"
+                "Benzer gün geçmişi, mevcut teknik yapı, "
+                "dağılım kalitesi ve gerçek risk verisi birlikte güçlü"
             ),
             round(
                 confidence,
@@ -824,7 +1126,21 @@ def determine_decision(
 
     # --------------------------------------------------------
     # AKTIF IZLEME
+    #
+    # Risk verisi yoksa yine aktif izleme mümkün.
+    # Ancak güçlü teyit verilmez.
     # --------------------------------------------------------
+
+    risk_ok_for_active = (
+        (
+            risk_available
+            and np.isfinite(risk)
+            and risk <= 58
+        )
+        or (
+            not risk_available
+        )
+    )
 
     if (
         score >= 64
@@ -832,7 +1148,7 @@ def determine_decision(
         and avg_5d > 0
         and median_5d >= 0
         and worst_5d > -20
-        and risk <= 58
+        and risk_ok_for_active
     ):
         confidence = (
             score * 0.60
@@ -841,12 +1157,34 @@ def determine_decision(
             + technical * 0.08
         )
 
+        if not risk_available:
+            confidence = min(
+                confidence,
+                79.0,
+            )
+
+            reason = (
+                "Tarihsel benzerlik ve mevcut teknik yapı aktif takip "
+                "için yeterli; ancak gerçek V20 risk verisi olmadığı "
+                "için üst düzey teyit verilmedi"
+            )
+
+        elif not timing_available:
+            reason = (
+                "Tarihsel benzerlik ve mevcut teknik yapı aktif takip "
+                "için yeterli; zamanlama verisi bulunmadığından "
+                "zamanlama bonusu kullanılmadı"
+            )
+
+        else:
+            reason = (
+                "Tarihsel benzerlik, mevcut ön tarama ve doğrulama "
+                "verileri aktif takip için yeterli ortak güç üretti"
+            )
+
         return (
             "AKTİF İZLEME",
-            (
-                "Tarihsel benzerlik ve mevcut ön tarama "
-                "aktif takip için yeterli ortak güç üretti"
-            ),
+            reason,
             round(
                 confidence,
                 2,
@@ -857,9 +1195,20 @@ def determine_decision(
     # TEYIT BEKLE
     # --------------------------------------------------------
 
+    risk_ok_for_waiting = (
+        (
+            risk_available
+            and np.isfinite(risk)
+            and risk <= 62
+        )
+        or (
+            not risk_available
+        )
+    )
+
     if (
         score >= 54
-        and risk <= 62
+        and risk_ok_for_waiting
     ):
         confidence = (
             score * 0.70
@@ -867,28 +1216,70 @@ def determine_decision(
             + consistency * 0.10
         )
 
-        return (
-            "TEYİT BEKLE",
-            (
+        missing_notes: list[str] = []
+
+        if not risk_available:
+            missing_notes.append(
+                "gerçek risk verisi yok"
+            )
+
+        if not timing_available:
+            missing_notes.append(
+                "zamanlama verisi yok"
+            )
+
+        if missing_notes:
+            reason = (
+                "Genel görünüm olumlu ancak "
+                + " ve ".join(missing_notes)
+                + "; daha güçlü doğrulama bekleniyor"
+            )
+
+        else:
+            reason = (
                 "Genel görünüm olumlu fakat güçlü doğrulama "
                 "için bazı şartlar eksik"
-            ),
+            )
+
+        return (
+            "TEYİT BEKLE",
+            reason,
             round(
                 confidence,
                 2,
             ),
         )
 
+    # --------------------------------------------------------
+    # PASIF IZLEME
+    # --------------------------------------------------------
+
     confidence = (
         score * 0.75
         + consistency * 0.25
     )
 
+    reason_parts = [
+        (
+            "Toplam doğrulama skoru aktif takip "
+            "için yeterli seviyeye ulaşmadı"
+        )
+    ]
+
+    if not risk_available:
+        reason_parts.append(
+            "V20 risk verisi yok"
+        )
+
+    if not timing_available:
+        reason_parts.append(
+            "V19/V20 zamanlama verisi yok"
+        )
+
     return (
         "PASİF İZLEME",
-        (
-            "Toplam doğrulama skoru aktif takip için "
-            "yeterli seviyeye ulaşmadı"
+        " | ".join(
+            reason_parts
         ),
         round(
             confidence,
@@ -918,15 +1309,28 @@ def main() -> None:
 
         status = {
             "status": "input_missing",
+
             "candidate_count": 0,
+
             "strong_confirmation_count": 0,
             "active_tracking_count": 0,
             "waiting_count": 0,
             "passive_count": 0,
             "eliminated_count": 0,
+
+            "risk_available_count": 0,
+            "risk_missing_count": 0,
+
+            "timing_available_count": 0,
+            "timing_missing_count": 0,
+
             "top_symbol": "",
             "top_decision": "",
             "top_score": 0.0,
+
+            "regime": "BILINMIYOR",
+            "regime_confidence": None,
+
             "rsi_usage": RSI_USAGE,
             "version": VERSION,
         }
@@ -950,6 +1354,10 @@ def main() -> None:
 
         return
 
+    # --------------------------------------------------------
+    # V33 + PRESCAN BIRLESTIR
+    # --------------------------------------------------------
+
     merged = v33.merge(
         prescan,
         on="symbol",
@@ -961,12 +1369,13 @@ def main() -> None:
     )
 
     # --------------------------------------------------------
-    # Gerekli alanların varlığını garanti et
+    # GEREKLI ALANLARI GARANTI ET
     # --------------------------------------------------------
 
     defaults = {
         "prescan_score": 0.0,
         "prescan_class": "",
+
         "close": 0.0,
         "return_1d": 0.0,
         "return_5d": 0.0,
@@ -974,10 +1383,19 @@ def main() -> None:
         "ema20_distance": 0.0,
         "volume_ratio": 0.0,
         "market_percentile": 0.0,
-        "timing_confidence": 0.0,
-        "risk_score": 50.0,
-        "risk_class": "ORTA",
-        "regime": "",
+
+        "timing_confidence": np.nan,
+        "timing_available": False,
+        "timing_source": "VERI_YOK",
+
+        "risk_score": np.nan,
+        "risk_class": "VERI YOK",
+        "risk_available": False,
+        "risk_source": "VERI_YOK",
+
+        "regime": "BILINMIYOR",
+        "regime_confidence": np.nan,
+
         "supporting_factors": "",
         "risk_notes": "",
     }
@@ -989,8 +1407,97 @@ def main() -> None:
             default,
         )
 
+    # Sayılar
+    normal_numeric_columns = [
+        "prescan_score",
+        "close",
+        "return_1d",
+        "return_5d",
+        "return_20d",
+        "ema20_distance",
+        "volume_ratio",
+        "market_percentile",
+    ]
+
+    for column in normal_numeric_columns:
+        merged[column] = (
+            pd.to_numeric(
+                merged[column],
+                errors="coerce",
+            )
+            .fillna(
+                defaults[column]
+            )
+        )
+
+    # Eksik kalması gereken sayılar
+    merged["risk_score"] = pd.to_numeric(
+        merged["risk_score"],
+        errors="coerce",
+    )
+
+    merged["timing_confidence"] = pd.to_numeric(
+        merged["timing_confidence"],
+        errors="coerce",
+    )
+
+    merged["regime_confidence"] = pd.to_numeric(
+        merged["regime_confidence"],
+        errors="coerce",
+    )
+
+    # Availability
+    merged["risk_available"] = (
+        merged["risk_available"]
+        .apply(boolean)
+    )
+
+    merged["timing_available"] = (
+        merged["timing_available"]
+        .apply(boolean)
+    )
+
+    merged.loc[
+        merged["risk_score"].notna(),
+        "risk_available",
+    ] = True
+
+    merged.loc[
+        merged["timing_confidence"].notna(),
+        "timing_available",
+    ] = True
+
+    # Metinler
+    merged["risk_class"] = (
+        merged["risk_class"]
+        .fillna("VERI YOK")
+        .astype(str)
+        .str.strip()
+    )
+
+    merged["risk_source"] = (
+        merged["risk_source"]
+        .fillna("VERI_YOK")
+        .astype(str)
+        .str.strip()
+    )
+
+    merged["timing_source"] = (
+        merged["timing_source"]
+        .fillna("VERI_YOK")
+        .astype(str)
+        .str.strip()
+    )
+
+    merged["regime"] = (
+        merged["regime"]
+        .fillna("BILINMIYOR")
+        .astype(str)
+        .str.strip()
+    )
+
     # --------------------------------------------------------
-    # Final skorlar
+    # FINAL SKORLAR
     # --------------------------------------------------------
 
     score_rows = merged.apply(
@@ -1052,6 +1559,10 @@ def main() -> None:
         for item in score_rows
     ]
 
+    # --------------------------------------------------------
+    # KARARLAR
+    # --------------------------------------------------------
+
     decisions = merged.apply(
         determine_decision,
         axis=1,
@@ -1079,7 +1590,7 @@ def main() -> None:
     ]
 
     # --------------------------------------------------------
-    # Öncelik sırası
+    # ONCELIK SIRASI
     # --------------------------------------------------------
 
     priority = {
@@ -1098,22 +1609,26 @@ def main() -> None:
         .fillna(0)
     )
 
-    merged = merged.sort_values(
-        [
-            "_priority",
-            "v33_3_score",
-            "v33_3_confidence",
-            "positive_5d_rate",
-        ],
-        ascending=False,
-    ).drop(
-        columns="_priority"
-    ).reset_index(
-        drop=True
+    merged = (
+        merged.sort_values(
+            [
+                "_priority",
+                "v33_3_score",
+                "v33_3_confidence",
+                "positive_5d_rate",
+            ],
+            ascending=False,
+        )
+        .drop(
+            columns="_priority"
+        )
+        .reset_index(
+            drop=True
+        )
     )
 
     # --------------------------------------------------------
-    # Üst düzey teyit en fazla 5 tane
+    # UST DUZEY TEYIT EN FAZLA 5
     # --------------------------------------------------------
 
     strong_mask = (
@@ -1131,9 +1646,10 @@ def main() -> None:
         .tolist()
     )
 
-    if len(
-        strong_indices
-    ) > MAX_STRONG_CONFIRMATIONS:
+    if (
+        len(strong_indices)
+        > MAX_STRONG_CONFIRMATIONS
+    ):
         for index in strong_indices[
             MAX_STRONG_CONFIRMATIONS:
         ]:
@@ -1146,19 +1662,22 @@ def main() -> None:
                 index,
                 "v33_3_reason",
             ] = (
-                "Üst düzey teyit kriterlerini karşıladı "
-                "ancak günlük maksimum güçlü teyit kotası nedeniyle "
+                "Üst düzey teyit kriterlerini karşıladı ancak "
+                "günlük maksimum güçlü teyit kotası nedeniyle "
                 "aktif izlemeye alındı"
             )
 
     # --------------------------------------------------------
-    # Sadece ilk 10 final aday
+    # ILK 10 FINAL ADAY
     # --------------------------------------------------------
 
-    merged = merged.head(
-        MAX_FINAL_CANDIDATES
-    ).reset_index(
-        drop=True
+    merged = (
+        merged.head(
+            MAX_FINAL_CANDIDATES
+        )
+        .reset_index(
+            drop=True
+        )
     )
 
     merged.insert(
@@ -1175,7 +1694,7 @@ def main() -> None:
     ] = RSI_USAGE
 
     # --------------------------------------------------------
-    # Çıktı
+    # OUTPUT
     # --------------------------------------------------------
 
     result = pd.DataFrame()
@@ -1185,6 +1704,7 @@ def main() -> None:
             result[column] = (
                 merged[column]
             )
+
         else:
             result[column] = np.nan
 
@@ -1193,6 +1713,10 @@ def main() -> None:
         index=False,
         encoding="utf-8-sig",
     )
+
+    # --------------------------------------------------------
+    # SAYACLAR
+    # --------------------------------------------------------
 
     strong_count = int(
         (
@@ -1239,20 +1763,107 @@ def main() -> None:
         ).sum()
     )
 
+    risk_available_count = int(
+        result[
+            "risk_available"
+        ].apply(
+            boolean
+        ).sum()
+    )
+
+    timing_available_count = int(
+        result[
+            "timing_available"
+        ].apply(
+            boolean
+        ).sum()
+    )
+
+    # --------------------------------------------------------
+    # REJIM STATUS
+    # --------------------------------------------------------
+
+    if len(result):
+        regime_value = (
+            text(
+                result.iloc[0][
+                    "regime"
+                ]
+            )
+            or "BILINMIYOR"
+        )
+
+        regime_confidence = (
+            optional_number(
+                result.iloc[0][
+                    "regime_confidence"
+                ]
+            )
+        )
+
+    else:
+        regime_value = "BILINMIYOR"
+        regime_confidence = np.nan
+
+    # --------------------------------------------------------
+    # STATUS JSON
+    # --------------------------------------------------------
+
     status = {
         "status": "ready",
+
         "candidate_count": int(
             len(result)
         ),
+
         "strong_confirmation_count": strong_count,
+
         "active_tracking_count": active_count,
+
         "waiting_count": waiting_count,
+
         "passive_count": passive_count,
+
         "eliminated_count": eliminated_count,
+
         "approved_count": (
             strong_count
             + active_count
         ),
+
+        "risk_available_count": (
+            risk_available_count
+        ),
+
+        "risk_missing_count": int(
+            len(result)
+            - risk_available_count
+        ),
+
+        "timing_available_count": (
+            timing_available_count
+        ),
+
+        "timing_missing_count": int(
+            len(result)
+            - timing_available_count
+        ),
+
+        "regime": regime_value,
+
+        "regime_confidence": (
+            round(
+                float(
+                    regime_confidence
+                ),
+                2,
+            )
+            if np.isfinite(
+                regime_confidence
+            )
+            else None
+        ),
+
         "top_symbol": (
             text(
                 result.iloc[0][
@@ -1262,6 +1873,7 @@ def main() -> None:
             if len(result)
             else ""
         ),
+
         "top_decision": (
             text(
                 result.iloc[0][
@@ -1271,6 +1883,7 @@ def main() -> None:
             if len(result)
             else ""
         ),
+
         "top_score": (
             round(
                 number(
@@ -1283,7 +1896,9 @@ def main() -> None:
             if len(result)
             else 0.0
         ),
+
         "rsi_usage": RSI_USAGE,
+
         "version": VERSION,
     }
 
@@ -1295,6 +1910,10 @@ def main() -> None:
         ),
         encoding="utf-8",
     )
+
+    # --------------------------------------------------------
+    # LOG
+    # --------------------------------------------------------
 
     print(
         "===== V33.3 STATUS ====="
@@ -1316,23 +1935,38 @@ def main() -> None:
         print(
             "Final aday bulunamadi."
         )
+
     else:
+        display_columns = [
+            "v33_3_rank",
+            "symbol",
+            "v33_3_decision",
+            "v33_3_score",
+            "v33_3_confidence",
+
+            "v33_score",
+            "prescan_score",
+
+            "positive_5d_rate",
+            "average_return_5d",
+            "median_return_5d",
+            "worst_return_5d",
+
+            "risk_score",
+            "risk_available",
+            "risk_source",
+
+            "timing_confidence",
+            "timing_available",
+            "timing_source",
+
+            "regime",
+            "regime_confidence",
+        ]
+
         print(
             result[
-                [
-                    "v33_3_rank",
-                    "symbol",
-                    "v33_3_decision",
-                    "v33_3_score",
-                    "v33_3_confidence",
-                    "v33_score",
-                    "prescan_score",
-                    "positive_5d_rate",
-                    "average_return_5d",
-                    "median_return_5d",
-                    "worst_return_5d",
-                    "risk_score",
-                ]
+                display_columns
             ].to_string(
                 index=False
             )
