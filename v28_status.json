@@ -2,10 +2,10 @@
   "status": "ready",
   "new_observation_count": 2,
   "latest_candidate_count": 2,
-  "history_count": 36,
+  "history_count": 38,
   "tracked_count": 0,
   "analysis_only_count": 2,
-  "top_symbol": "YGGYO",
+  "top_symbol": "KCHOL",
   "top_decision": "ELE",
   "version": "V28.0"
 }

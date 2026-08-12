@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,YGGYO,239.9,LEARNED,78.19,GÃÃLÃ ONAY,53.35,70.83,56.0,1.0,62.07,V15 TEMKÄ°NLÄ° Ä°ZLEME,86.35,98.0,91.0,ORTA DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
-2,AKSGY,9.71,LEARNED,62.65,TEMKÄ°NLÄ° Ä°ZLEME,47.67,76.88,56.0,0.39,54.64,V15 ELE,76.04,83.0,85.0,KARISIK DNA,,Market DNA karÄ±ÅÄ±k
-3,KRGYO,2.71,LEARNED,46.81,ELE,49.51,72.08,48.0,-0.31,49.98,V15 ELE,79.27,87.0,88.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,OYAKC,21.52,LEARNED,47.08,ELE,50.0,72.9,48.0,-0.2,50.42,V15 ELE,79.97,89.0,89.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,KCHOL,205.8,LEARNED,46.64,ELE,49.83,73.47,44.0,-0.39,50.0,V15 ELE,81.29,97.0,78.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+3,DOCO,11420.0,LEARNED,46.16,ELE,48.09,71.4,44.0,-0.63,48.68,V15 ELE,79.62,91.0,75.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

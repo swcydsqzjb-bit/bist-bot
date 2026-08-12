@@ -1,5 +1,5 @@
 ﻿entry_decision,observation_count,completed_5d_count,completed_10d_count,completed_15d_count,positive_5d_rate,positive_10d_rate,positive_15d_rate,average_return_5d,average_return_10d,average_return_15d,missed_opportunity_count,successful_observation_count
-ELE,18,11,5,1,63.64,60.0,0.0,1.94,5.64,-8.24,5,4
-TEYİT BEKLE,10,10,10,3,20.0,20.0,33.33,-6.78,-5.96,-3.44,1,0
-PASİF İZLEME,5,5,3,1,20.0,0.0,0.0,-3.24,-5.62,-5.27,0,0
-AKTİF İZLEME,3,3,3,1,0.0,66.67,0.0,-2.76,-1.04,-11.15,0,0
+ELE,20,11,5,1,63.64,60.0,0.0,2.25,5.97,-9.05,6,4
+TEYİT BEKLE,10,10,10,3,20.0,20.0,0.0,-7.2,-6.02,-4.09,1,1
+PASİF İZLEME,5,5,3,1,20.0,33.33,0.0,-3.49,-4.89,-5.33,0,0
+AKTİF İZLEME,3,3,3,1,33.33,66.67,0.0,-2.36,-1.61,-10.33,0,0
