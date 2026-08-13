@@ -605,6 +605,16 @@ jobs:
         run: |
           python v33_3_telegram.py
 
+      - name: V33.4 Performans Takibini Calistir
+        run: |
+          python v33_4_performance_tracker.py
+
+          test -f v33_4_status.json
+          test -f v33_4_candidate_history.csv
+
+          echo "===== V33.4 STATUS ====="
+          cat v33_4_status.json
+
       # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
