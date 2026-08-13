@@ -1,14 +1,14 @@
 {
-  "status": "ready",
-  "candidate_count": 2,
+  "status": "v22_input_missing",
+  "candidate_count": 0,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
   "waiting_count": 0,
   "passive_count": 0,
-  "eliminated_count": 2,
-  "top_symbol": "KCHOL",
-  "top_decision": "ELE",
-  "top_score": 37.86,
+  "eliminated_count": 0,
+  "top_symbol": "",
+  "top_decision": "",
+  "top_score": 0.0,
   "version": "V27.2"
 }

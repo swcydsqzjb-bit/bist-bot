@@ -1,3 +1,1 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,KCHOL,ELE,37.86,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,51.84,TEYİT BEKLE,50.0,50.0,YENİ,45.36,ORTA,39.0,YATAY,94.4,5,88.57,1.0,-4.3,5.68,205.8,205.8
-2,DOCO,ELE,36.57,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,49.91,TEYİT BEKLE,50.0,50.0,YENİ,43.39,ORTA,39.0,YATAY,92.12,5,84.7,0.71,-4.91,5.07,11420.0,11420.0

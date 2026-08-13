@@ -1,14 +1,14 @@
 {
-  "status": "ready",
-  "candidate_count": 2,
+  "status": "monitoring_plan_missing",
+  "candidate_count": 0,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
   "waiting_count": 0,
   "passive_count": 0,
-  "eliminated_count": 2,
-  "top_symbol": "KCHOL",
-  "top_state": "ELE",
-  "top_score": 51.84,
-  "learning_bonus": 1.0,
+  "eliminated_count": 0,
+  "top_symbol": "",
+  "top_state": "",
+  "top_score": 0.0,
+  "learning_bonus": 0.0,
   "version": "V22.1"
 }

@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 482,
+  "market_count": 484,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 78.56,
+  "regime_confidence": 77.62,
   "timing_data_count": 3,
-  "selected_timing_data_count": 3,
+  "selected_timing_data_count": 2,
   "risk_data_count": 3,
-  "selected_risk_data_count": 3,
-  "top_symbol": "FMIZP",
-  "top_score": 99.12,
+  "selected_risk_data_count": 2,
+  "top_symbol": "GSRAY",
+  "top_score": 98.04,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

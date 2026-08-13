@@ -1,11 +1,8 @@
 {
-  "status": "ready",
-  "new_observation_count": 2,
-  "latest_candidate_count": 2,
-  "history_count": 38,
+  "status": "v27_input_missing",
+  "new_observation_count": 0,
+  "history_count": 0,
   "tracked_count": 0,
-  "analysis_only_count": 2,
-  "top_symbol": "KCHOL",
-  "top_decision": "ELE",
+  "analysis_only_count": 0,
   "version": "V28.0"
 }
