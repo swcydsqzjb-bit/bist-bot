@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,OYAKC,21.52,LEARNED,44.8,ELE,48.56,77.5,36.0,-1.98,48.35,V15 ELE,78.11,80.0,90.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,AKMGY,258.25,LEARNED,43.11,ELE,46.53,74.26,44.0,-0.8,47.1,V15 ELE,73.44,87.0,77.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-3,ANSGR,28.8,LEARNED,40.23,ELE,45.25,77.8,32.0,-2.18,44.95,V15 ELE,71.91,75.0,83.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,AKSGY,9.8,LEARNED,76.7,ONAYLI Ä°ZLEME,53.26,70.34,64.0,1.27,61.99,V15 TEMKÄ°NLÄ° Ä°ZLEME,84.24,90.0,98.0,ORTA DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,KCHOL,207.2,LEARNED,65.68,TEMKÄ°NLÄ° Ä°ZLEME,52.74,73.08,52.0,0.05,57.77,V15 ELE,84.5,96.0,88.0,KARISIK DNA,,Market DNA karÄ±ÅÄ±k
+3,RGYAS,209.4,LEARNED,58.8,TEMKÄ°NLÄ° Ä°ZLEME,53.62,64.51,48.0,0.92,55.48,V15 ELE,85.03,100.0,89.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f

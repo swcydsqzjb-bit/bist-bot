@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 484,
+  "market_count": 483,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 77.62,
+  "regime_confidence": 77.31,
   "timing_data_count": 3,
-  "selected_timing_data_count": 2,
+  "selected_timing_data_count": 3,
   "risk_data_count": 3,
-  "selected_risk_data_count": 2,
-  "top_symbol": "GSRAY",
-  "top_score": 98.04,
+  "selected_risk_data_count": 3,
+  "top_symbol": "KCHOL",
+  "top_score": 97.83,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
