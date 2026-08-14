@@ -615,6 +615,10 @@ jobs:
           echo "===== V33.4 STATUS ====="
           cat v33_4_status.json
 
+      - name: V33.4 Telegram Raporunu Gonder
+        run: |
+          python v33_4_telegram.py
+
       # ============================================================
       # TUM MOTOR DURUMLARI
       # ============================================================
