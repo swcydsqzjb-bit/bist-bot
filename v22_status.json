@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 2,
+  "candidate_count": 1,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
-  "waiting_count": 1,
-  "passive_count": 1,
-  "eliminated_count": 0,
-  "top_symbol": "AKSGY",
-  "top_state": "TEYİT BEKLE",
-  "top_score": 57.59,
+  "waiting_count": 0,
+  "passive_count": 0,
+  "eliminated_count": 1,
+  "top_symbol": "YGGYO",
+  "top_state": "ELE",
+  "top_score": 53.53,
   "learning_bonus": 1.0,
   "version": "V22.1"
 }

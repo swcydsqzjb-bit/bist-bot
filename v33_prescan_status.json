@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 483,
+  "market_count": 484,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 77.31,
+  "regime_confidence": 77.37,
   "timing_data_count": 3,
   "selected_timing_data_count": 3,
   "risk_data_count": 3,
   "selected_risk_data_count": 3,
-  "top_symbol": "KCHOL",
-  "top_score": 97.83,
+  "top_symbol": "GLYHO",
+  "top_score": 97.37,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

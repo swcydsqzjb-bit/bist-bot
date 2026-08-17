@@ -1,3 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,RGYAS,PASİF İZLEME,45.19,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,63.24,TEYİT BEKLE,50.0,50.0,YENİ,51.99,DÜŞÜK,15.0,YATAY,97.52,5,92.55,2.4,-3.67,6.2,209.4,209.4
-2,AKSGY,PASİF İZLEME,41.38,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,TEYİT BEKLE,57.59,TEYİT BEKLE,50.0,50.0,YENİ,59.03,ORTA,32.0,YATAY,91.1,5,85.52,0.93,-4.3,4.52,9.8,9.8
+1,YGGYO,ELE,39.47,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,53.53,TEYİT BEKLE,50.0,50.0,YENİ,69.24,ORTA,41.0,YATAY,87.19,1,81.61,-0.85,-3.58,0.32,239.0,239.0
