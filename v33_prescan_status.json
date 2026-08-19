@@ -3,14 +3,14 @@
   "market_count": 481,
   "selected_count": 30,
   "max_candidates": 30,
-  "regime": "PANİK",
-  "regime_confidence": 88.64,
+  "regime": "YATAY",
+  "regime_confidence": 69.72,
   "timing_data_count": 3,
   "selected_timing_data_count": 3,
   "risk_data_count": 3,
   "selected_risk_data_count": 3,
-  "top_symbol": "DOCO",
-  "top_score": 97.51,
+  "top_symbol": "RGYAS",
+  "top_score": 100.0,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

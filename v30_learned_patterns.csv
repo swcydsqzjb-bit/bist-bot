@@ -1,85 +1,85 @@
 ﻿pattern_id,source_decision,feature,direction,threshold_low,threshold_high,sample_count,success_count,success_rate,average_return_5d,average_return_10d,average_return_15d,average_max_return_15d,recommended_bonus,confidence_class,active,version
-V30-0001,ELE,v27_master_score,LOW,,38.955,9,3,33.33,1.14,7.79,14.84,8.89,2.32,DÜŞÜK,False,V30.0
-V30-0002,ELE,v27_master_score,HIGH,38.955,,9,4,44.44,1.87,3.11,-3.58,7.71,0.45,DÜŞÜK,False,V30.0
-V30-0003,ELE,v22_signal_score,LOW,,52.69,9,3,33.33,1.71,8.78,27.23,9.28,2.3,DÜŞÜK,False,V30.0
-V30-0004,ELE,v22_signal_score,HIGH,52.69,,9,4,44.44,1.29,2.29,-2.08,7.32,0.45,DÜŞÜK,False,V30.0
-V30-0005,ELE,v24_score,LOW,,50.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0006,ELE,optimized_weight_pct,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0007,ELE,optimizer_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0008,ELE,top_pick_score,LOW,,55.095,9,3,33.33,1.06,7.26,9.09,8.42,1.92,DÜŞÜK,False,V30.0
-V30-0009,ELE,top_pick_score,HIGH,55.095,,9,4,44.44,1.95,3.55,0.25,8.18,0.69,DÜŞÜK,False,V30.0
-V30-0010,ELE,ai_final_score,LOW,,59.135,9,3,33.33,0.32,5.03,6.87,8.8,1.98,DÜŞÜK,False,V30.0
-V30-0011,ELE,ai_final_score,HIGH,59.135,,9,4,44.44,2.68,5.6,-0.85,7.8,0.62,DÜŞÜK,False,V30.0
-V30-0012,ELE,consensus_score,LOW,,47.47,9,6,66.67,2.88,8.01,10.08,12.76,4.81,DÜŞÜK,False,V30.0
-V30-0013,ELE,consensus_score,HIGH,47.47,,9,1,11.11,0.13,0.38,-5.66,3.84,0.45,DÜŞÜK,False,V30.0
-V30-0014,ELE,quality_score,LOW,,50.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0015,ELE,risk_score,LOW,,33.0,9,4,44.44,1.81,3.26,0.56,7.47,0.72,DÜŞÜK,False,V30.0
-V30-0016,ELE,risk_score,HIGH,33.0,,9,3,33.33,1.2,6.89,4.59,9.14,1.88,DÜŞÜK,False,V30.0
-V30-0017,ELE,market_percentile,LOW,,95.665,9,2,22.22,0.63,2.46,1.5,5.49,1.04,DÜŞÜK,False,V30.0
-V30-0018,ELE,market_percentile,HIGH,95.665,,9,5,55.56,2.37,6.82,5.31,11.11,2.3,DÜŞÜK,False,V30.0
-V30-0019,ELE,timing_confidence,LOW,,87.5,9,3,33.33,-0.1,1.32,-9.05,5.0,0.84,DÜŞÜK,False,V30.0
-V30-0020,ELE,timing_confidence,HIGH,87.5,,9,4,44.44,3.11,6.7,6.99,11.61,1.76,DÜŞÜK,False,V30.0
-V30-0021,ELE,expected_return,LOW,,0.225,9,2,22.22,0.77,3.06,0.0,5.62,1.19,DÜŞÜK,False,V30.0
-V30-0022,ELE,expected_return,HIGH,0.225,,9,5,55.56,2.24,6.48,3.78,10.98,2.15,DÜŞÜK,False,V30.0
-V30-0023,ELE,downside_20pct,LOW,,-2.995,9,1,11.11,0.07,-0.28,0.0,3.6,0.45,DÜŞÜK,False,V30.0
-V30-0024,ELE,downside_20pct,HIGH,-2.995,,9,6,66.67,2.94,7.3,3.78,13.01,4.38,DÜŞÜK,False,V30.0
-V30-0025,ELE,upside_80pct,LOW,,2.845,9,1,11.11,1.06,0.27,0.0,4.35,0.81,DÜŞÜK,False,V30.0
-V30-0026,ELE,upside_80pct,HIGH,2.845,,9,6,66.67,1.94,8.07,3.78,12.25,4.02,DÜŞÜK,False,V30.0
-V30-0027,ELE,rsi,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0028,ELE,volume_ratio,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0029,ELE,ema20_distance,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0030,ELE,smart_money_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0031,ELE,institutional_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0032,ELE,historical_support_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0033,ELE,prediction_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0034,ELE,live_confirmation_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0035,ELE,relationship_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0036,ELE,v8_score,LOW,,0.0,18,7,38.89,1.5,5.24,3.78,8.3,1.75,DÜŞÜK,False,V30.0
-V30-0037,PASİF İZLEME,v24_score,LOW,,50.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0038,PASİF İZLEME,optimized_weight_pct,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0039,PASİF İZLEME,optimizer_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0040,PASİF İZLEME,quality_score,LOW,,50.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0041,PASİF İZLEME,rsi,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0042,PASİF İZLEME,volume_ratio,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0043,PASİF İZLEME,ema20_distance,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0044,PASİF İZLEME,smart_money_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0045,PASİF İZLEME,institutional_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0046,PASİF İZLEME,historical_support_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0047,PASİF İZLEME,prediction_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0048,PASİF İZLEME,live_confirmation_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0049,PASİF İZLEME,relationship_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0050,PASİF İZLEME,v8_score,LOW,,0.0,5,0,0.0,-3.24,-2.7,-3.87,3.18,0.25,DÜŞÜK,False,V30.0
-V30-0051,TEYİT BEKLE,v27_master_score,LOW,,49.715,5,1,20.0,-5.16,-3.64,-4.31,2.64,0.25,DÜŞÜK,False,V30.0
-V30-0052,TEYİT BEKLE,v27_master_score,HIGH,49.715,,5,0,0.0,-9.24,-8.41,-9.06,0.05,0.25,DÜŞÜK,False,V30.0
-V30-0053,TEYİT BEKLE,v22_signal_score,LOW,,70.585,5,1,20.0,-5.16,-3.64,-4.31,2.64,0.25,DÜŞÜK,False,V30.0
-V30-0054,TEYİT BEKLE,v22_signal_score,HIGH,70.585,,5,0,0.0,-9.24,-8.41,-9.06,0.05,0.25,DÜŞÜK,False,V30.0
-V30-0055,TEYİT BEKLE,v24_score,LOW,,50.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0056,TEYİT BEKLE,optimized_weight_pct,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0057,TEYİT BEKLE,optimizer_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0058,TEYİT BEKLE,top_pick_score,LOW,,71.355,5,1,20.0,-5.16,-3.64,-4.31,2.64,0.25,DÜŞÜK,False,V30.0
-V30-0059,TEYİT BEKLE,top_pick_score,HIGH,71.355,,5,0,0.0,-9.24,-8.41,-9.06,0.05,0.25,DÜŞÜK,False,V30.0
-V30-0060,TEYİT BEKLE,ai_final_score,LOW,,73.145,5,1,20.0,-4.53,-2.91,-4.36,3.77,0.25,DÜŞÜK,False,V30.0
-V30-0061,TEYİT BEKLE,ai_final_score,HIGH,73.145,,5,0,0.0,-9.87,-9.13,-9.01,-1.08,0.25,DÜŞÜK,False,V30.0
-V30-0062,TEYİT BEKLE,consensus_score,LOW,,70.02,5,0,0.0,-10.57,-9.04,-9.31,-1.04,0.25,DÜŞÜK,False,V30.0
-V30-0063,TEYİT BEKLE,consensus_score,HIGH,70.02,,5,1,20.0,-3.83,-3.0,-4.06,3.73,0.25,DÜŞÜK,False,V30.0
-V30-0064,TEYİT BEKLE,quality_score,LOW,,50.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0065,TEYİT BEKLE,risk_score,LOW,,24.0,5,0,0.0,-9.14,-7.91,-9.19,0.41,0.25,DÜŞÜK,False,V30.0
-V30-0066,TEYİT BEKLE,risk_score,HIGH,24.0,,5,1,20.0,-5.26,-4.14,-4.18,2.28,0.25,DÜŞÜK,False,V30.0
-V30-0067,TEYİT BEKLE,market_percentile,LOW,,92.835,5,1,20.0,-4.46,-3.73,-4.0,2.6,0.25,DÜŞÜK,False,V30.0
-V30-0068,TEYİT BEKLE,market_percentile,HIGH,92.835,,5,0,0.0,-9.94,-8.32,-9.36,0.09,0.25,DÜŞÜK,False,V30.0
-V30-0069,TEYİT BEKLE,timing_confidence,LOW,,100.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0070,TEYİT BEKLE,expected_return,LOW,,4.71,5,1,20.0,-5.01,-1.84,-3.72,3.46,0.25,DÜŞÜK,False,V30.0
+V30-0001,ELE,v27_master_score,LOW,,38.85,10,4,40.0,1.5,7.83,15.3,9.37,2.36,DÜŞÜK,False,V30.0
+V30-0002,ELE,v27_master_score,HIGH,38.85,,10,4,40.0,1.7,3.11,-3.58,7.93,0.5,DÜŞÜK,False,V30.0
+V30-0003,ELE,v22_signal_score,LOW,,52.545,10,4,40.0,2.0,10.49,27.23,9.27,2.26,DÜŞÜK,False,V30.0
+V30-0004,ELE,v22_signal_score,HIGH,52.545,,10,4,40.0,1.2,2.26,-1.84,8.04,0.5,DÜŞÜK,False,V30.0
+V30-0005,ELE,v24_score,LOW,,50.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0006,ELE,optimized_weight_pct,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0007,ELE,optimizer_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0008,ELE,top_pick_score,LOW,,54.94,10,4,40.0,2.0,10.49,27.23,9.27,2.26,DÜŞÜK,False,V30.0
+V30-0009,ELE,top_pick_score,HIGH,54.94,,10,4,40.0,1.2,2.26,-1.84,8.04,0.5,DÜŞÜK,False,V30.0
+V30-0010,ELE,ai_final_score,LOW,,59.53,10,4,40.0,2.14,6.14,7.19,11.88,2.34,DÜŞÜK,False,V30.0
+V30-0011,ELE,ai_final_score,HIGH,59.53,,10,4,40.0,1.06,2.87,-0.85,5.42,0.5,DÜŞÜK,False,V30.0
+V30-0012,ELE,consensus_score,LOW,,46.76,10,6,60.0,2.94,8.04,10.39,12.46,3.9,DÜŞÜK,False,V30.0
+V30-0013,ELE,consensus_score,HIGH,46.76,,10,2,20.0,0.26,0.38,-5.66,4.84,0.5,DÜŞÜK,False,V30.0
+V30-0014,ELE,quality_score,LOW,,50.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0015,ELE,risk_score,LOW,,37.0,10,4,40.0,1.08,1.77,-4.25,7.35,0.5,DÜŞÜK,False,V30.0
+V30-0016,ELE,risk_score,HIGH,37.0,,10,4,40.0,2.12,9.43,9.45,9.96,2.26,DÜŞÜK,False,V30.0
+V30-0017,ELE,market_percentile,LOW,,94.72,10,2,20.0,0.92,2.51,1.97,5.3,1.17,DÜŞÜK,False,V30.0
+V30-0018,ELE,market_percentile,HIGH,94.72,,10,6,60.0,2.29,6.82,5.31,12.0,2.88,DÜŞÜK,False,V30.0
+V30-0019,ELE,timing_confidence,LOW,,87.5,10,3,30.0,-0.01,1.32,-9.05,5.92,0.88,DÜŞÜK,False,V30.0
+V30-0020,ELE,timing_confidence,HIGH,87.5,,10,5,50.0,3.21,6.73,7.23,11.39,1.84,DÜŞÜK,False,V30.0
+V30-0021,ELE,expected_return,LOW,,0.545,10,2,20.0,0.74,2.83,0.0,6.83,1.23,DÜŞÜK,False,V30.0
+V30-0022,ELE,expected_return,HIGH,0.545,,10,6,60.0,2.46,7.27,3.97,10.48,2.82,DÜŞÜK,False,V30.0
+V30-0023,ELE,downside_20pct,LOW,,-3.08,11,2,18.18,0.52,-0.28,0.0,4.07,0.69,DÜŞÜK,False,V30.0
+V30-0024,ELE,downside_20pct,HIGH,-3.08,,9,6,66.67,2.93,7.33,3.97,14.26,4.41,DÜŞÜK,False,V30.0
+V30-0025,ELE,upside_80pct,LOW,,3.435,10,2,20.0,2.82,2.97,0.0,7.46,1.25,DÜŞÜK,False,V30.0
+V30-0026,ELE,upside_80pct,HIGH,3.435,,10,6,60.0,0.38,7.15,3.97,9.84,2.8,DÜŞÜK,False,V30.0
+V30-0027,ELE,rsi,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0028,ELE,volume_ratio,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0029,ELE,ema20_distance,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0030,ELE,smart_money_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0031,ELE,institutional_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0032,ELE,historical_support_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0033,ELE,prediction_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0034,ELE,live_confirmation_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0035,ELE,relationship_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0036,ELE,v8_score,LOW,,0.0,20,8,40.0,1.6,5.25,3.97,8.65,1.86,DÜŞÜK,False,V30.0
+V30-0037,PASİF İZLEME,v24_score,LOW,,50.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0038,PASİF İZLEME,optimized_weight_pct,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0039,PASİF İZLEME,optimizer_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0040,PASİF İZLEME,quality_score,LOW,,50.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0041,PASİF İZLEME,rsi,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0042,PASİF İZLEME,volume_ratio,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0043,PASİF İZLEME,ema20_distance,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0044,PASİF İZLEME,smart_money_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0045,PASİF İZLEME,institutional_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0046,PASİF İZLEME,historical_support_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0047,PASİF İZLEME,prediction_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0048,PASİF İZLEME,live_confirmation_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0049,PASİF İZLEME,relationship_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0050,PASİF İZLEME,v8_score,LOW,,0.0,5,0,0.0,-3.49,-2.06,-3.38,3.18,0.25,DÜŞÜK,False,V30.0
+V30-0051,TEYİT BEKLE,v27_master_score,LOW,,49.715,5,1,20.0,-5.16,-3.67,-3.97,2.64,0.25,DÜŞÜK,False,V30.0
+V30-0052,TEYİT BEKLE,v27_master_score,HIGH,49.715,,5,0,0.0,-9.24,-8.37,-9.24,0.05,0.25,DÜŞÜK,False,V30.0
+V30-0053,TEYİT BEKLE,v22_signal_score,LOW,,70.585,5,1,20.0,-5.16,-3.67,-3.97,2.64,0.25,DÜŞÜK,False,V30.0
+V30-0054,TEYİT BEKLE,v22_signal_score,HIGH,70.585,,5,0,0.0,-9.24,-8.37,-9.24,0.05,0.25,DÜŞÜK,False,V30.0
+V30-0055,TEYİT BEKLE,v24_score,LOW,,50.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0056,TEYİT BEKLE,optimized_weight_pct,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0057,TEYİT BEKLE,optimizer_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0058,TEYİT BEKLE,top_pick_score,LOW,,71.355,5,1,20.0,-5.16,-3.67,-3.97,2.64,0.25,DÜŞÜK,False,V30.0
+V30-0059,TEYİT BEKLE,top_pick_score,HIGH,71.355,,5,0,0.0,-9.24,-8.37,-9.24,0.05,0.25,DÜŞÜK,False,V30.0
+V30-0060,TEYİT BEKLE,ai_final_score,LOW,,73.145,5,1,20.0,-4.53,-2.94,-4.02,3.77,0.25,DÜŞÜK,False,V30.0
+V30-0061,TEYİT BEKLE,ai_final_score,HIGH,73.145,,5,0,0.0,-9.87,-9.1,-9.18,-1.08,0.25,DÜŞÜK,False,V30.0
+V30-0062,TEYİT BEKLE,consensus_score,LOW,,70.02,5,0,0.0,-10.57,-9.07,-8.97,-1.04,0.25,DÜŞÜK,False,V30.0
+V30-0063,TEYİT BEKLE,consensus_score,HIGH,70.02,,5,1,20.0,-3.83,-2.97,-4.23,3.73,0.25,DÜŞÜK,False,V30.0
+V30-0064,TEYİT BEKLE,quality_score,LOW,,50.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0065,TEYİT BEKLE,risk_score,LOW,,24.0,5,0,0.0,-9.14,-8.36,-9.01,0.41,0.25,DÜŞÜK,False,V30.0
+V30-0066,TEYİT BEKLE,risk_score,HIGH,24.0,,5,1,20.0,-5.26,-3.68,-4.2,2.28,0.25,DÜŞÜK,False,V30.0
+V30-0067,TEYİT BEKLE,market_percentile,LOW,,92.835,5,1,20.0,-4.46,-3.69,-4.18,2.6,0.25,DÜŞÜK,False,V30.0
+V30-0068,TEYİT BEKLE,market_percentile,HIGH,92.835,,5,0,0.0,-9.94,-8.35,-9.03,0.09,0.25,DÜŞÜK,False,V30.0
+V30-0069,TEYİT BEKLE,timing_confidence,LOW,,100.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0070,TEYİT BEKLE,expected_return,LOW,,4.71,5,1,20.0,-5.01,-1.83,-3.56,3.46,0.25,DÜŞÜK,False,V30.0
 V30-0071,TEYİT BEKLE,expected_return,HIGH,4.71,,5,0,0.0,-9.39,-10.21,-9.65,-0.77,0.25,DÜŞÜK,False,V30.0
-V30-0072,TEYİT BEKLE,downside_20pct,LOW,,0.0,6,1,16.67,-5.33,-3.43,-4.78,2.96,0.3,DÜŞÜK,False,V30.0
-V30-0073,TEYİT BEKLE,upside_80pct,LOW,,7.57,5,1,20.0,-6.5,-4.37,-5.08,2.08,0.25,DÜŞÜK,False,V30.0
+V30-0072,TEYİT BEKLE,downside_20pct,LOW,,0.0,6,1,16.67,-5.33,-3.42,-4.65,2.96,0.3,DÜŞÜK,False,V30.0
+V30-0073,TEYİT BEKLE,upside_80pct,LOW,,7.57,5,1,20.0,-6.5,-4.36,-4.92,2.08,0.25,DÜŞÜK,False,V30.0
 V30-0074,TEYİT BEKLE,upside_80pct,HIGH,7.57,,5,0,0.0,-7.89,-7.68,-8.29,0.61,0.25,DÜŞÜK,False,V30.0
-V30-0075,TEYİT BEKLE,rsi,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0076,TEYİT BEKLE,volume_ratio,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0077,TEYİT BEKLE,ema20_distance,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0078,TEYİT BEKLE,smart_money_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0079,TEYİT BEKLE,institutional_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0080,TEYİT BEKLE,historical_support_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0081,TEYİT BEKLE,prediction_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0082,TEYİT BEKLE,live_confirmation_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0083,TEYİT BEKLE,relationship_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
-V30-0084,TEYİT BEKLE,v8_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.68,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0075,TEYİT BEKLE,rsi,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0076,TEYİT BEKLE,volume_ratio,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0077,TEYİT BEKLE,ema20_distance,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0078,TEYİT BEKLE,smart_money_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0079,TEYİT BEKLE,institutional_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0080,TEYİT BEKLE,historical_support_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0081,TEYİT BEKLE,prediction_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0082,TEYİT BEKLE,live_confirmation_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0083,TEYİT BEKLE,relationship_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0
+V30-0084,TEYİT BEKLE,v8_score,LOW,,0.0,10,1,10.0,-7.2,-6.02,-6.6,1.34,0.5,DÜŞÜK,False,V30.0

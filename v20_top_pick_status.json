@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "selected_count": 3,
+  "selected_count": 1,
   "confirmed_count": 0,
   "top_symbol": "RGYAS",
-  "top_score": 57.66,
+  "top_score": 67.15,
   "version": "V20.2"
 }

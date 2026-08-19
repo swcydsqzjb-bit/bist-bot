@@ -1,4 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,RGYAS,PASİF İZLEME,40.29,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,55.23,TEYİT BEKLE,50.0,50.0,YENİ,65.13,ORTA,45.0,PANİK,89.19,5,90.78,0.36,-3.69,4.02,203.8,203.8
-2,KCHOL,ELE,39.02,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,53.94,TEYİT BEKLE,50.0,50.0,YENİ,53.13,ORTA,40.0,PANİK,95.43,5,88.8,-0.01,-4.97,3.43,207.9,207.9
-3,AKSGY,ELE,36.17,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,49.99,TEYİT BEKLE,50.0,50.0,YENİ,48.2,ORTA,54.0,PANİK,93.35,5,85.59,1.81,-3.52,5.06,9.96,9.96
+1,RGYAS,TEYİT BEKLE,47.73,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,66.4,TEYİT BEKLE,50.0,50.0,YENİ,84.87,ORTA,27.0,YATAY,83.78,5,89.3,1.96,-0.12,4.4,204.6,204.6
