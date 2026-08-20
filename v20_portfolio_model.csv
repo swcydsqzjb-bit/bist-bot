@@ -1,2 +1,2 @@
 ﻿portfolio_rank,symbol,model_weight_pct,allocation_label,confirmation_state,top_pick_score,ai_final_score,consensus_score,risk_class,risk_score,close,best_horizon_days,expected_return,downside_20pct,upside_80pct,why_now,conflict_note
-1,RGYAS,85.0,ANA ADAY,İZLEMEDE TUT,67.15,69.37,84.87,ORTA,27.0,204.6,5,1.96,-0.12,4.4,Göreli güç piyasa ortalamasının üzerinde | Analiz motorları aynı yönde | Zamanlama güveni yüksek | Tarihsel beklenen sonuç pozitif | Yatay piyasada göreli gücü korunuyor,Risk seviyesi orta
+1,FENER,72.0,ANA ADAY,TEMKİNLİ İZLE,58.04,61.73,73.27,ORTA,37.0,3.18,1,0.51,-1.62,1.63,Göreli güç piyasa ortalamasının üzerinde | Zamanlama güveni yüksek | Tarihsel beklenen sonuç pozitif | Yatay piyasada göreli gücü korunuyor,Risk seviyesi orta

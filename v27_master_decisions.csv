@@ -1,2 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,RGYAS,TEYİT BEKLE,47.73,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,66.4,TEYİT BEKLE,50.0,50.0,YENİ,84.87,ORTA,27.0,YATAY,83.78,5,89.3,1.96,-0.12,4.4,204.6,204.6
+1,FENER,PASİF İZLEME,41.33,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,56.35,TEYİT BEKLE,50.0,50.0,YENİ,73.27,ORTA,37.0,YATAY,84.13,1,80.22,0.51,-1.62,1.63,3.18,3.18

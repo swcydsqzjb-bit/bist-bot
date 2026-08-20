@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,RGYAS,204.6,YATAY,69.72,79,83.78,67.22,GÃÃLÃ,52.87,73.01,72.61,77.12,66.06,V15 TEMKÄ°NLÄ° Ä°ZLEME,6.0,72.39,V17 ONAYLI İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
-2,KCHOL,214.6,YATAY,69.72,18,96.47,78.05,PÄ°YASA LÄ°DERÄ°,77.94,83.27,64.56,84.53,60.96,V15 TEMKÄ°NLÄ° Ä°ZLEME,4.0,69.75,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı
-3,OYAKC,21.88,YATAY,69.72,54,88.98,70.88,GÃÃLÃ,65.14,79.1,70.85,67.42,60.8,V15 TEMKÄ°NLÄ° Ä°ZLEME,2.0,65.62,V17 TEMKİNLİ İZLEME,Yatay rejimde hacim birikimi
+1,KCHOL,218.0,YATAY,80.01,29,94.15,75.6,PÄ°YASA LÄ°DERÄ°,80.73,79.41,60.8,76.57,59.67,V15 TEMKÄ°NLÄ° Ä°ZLEME,4.0,68.13,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı
+2,FENER,3.18,YATAY,80.01,77,84.13,68.45,GÃÃLÃ,60.82,70.86,75.23,70.46,56.81,V15 GERÄ° ÃEKTÄ°,6.0,66.07,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
+3,FONET,5.57,YATAY,80.01,70,85.59,69.1,GÃÃLÃ,79.89,75.42,48.29,62.49,46.71,V15 ELE,0.0,52.98,V17 ELE,Rejim kaynaklı ek puan değişimi yok
