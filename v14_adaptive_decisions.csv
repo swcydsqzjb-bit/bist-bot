@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,KCHOL,218.0,V8 GÜÇLÜ,76.92,82.0,87.0,ORTA DNA,74.84,60.0,48.0,1.35,BASE,70.18,6.5,0.0,76.68,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
-2,FENER,3.18,V8 İZLEME,71.64,86.0,70.0,ORTA DNA,75.78,60.0,60.0,0.95,BASE,68.07,5.0,0.0,73.07,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,
-3,FONET,5.57,V8 İZLEME,71.57,78.0,68.0,ZAYIF DNA,77.45,44.0,48.0,-1.21,BASE,63.92,3.0,21.0,45.92,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,KCHOL,218.0,V8 GÜÇLÜ,77.92,82.0,91.0,ORTA DNA,74.53,60.0,48.0,1.5,BASE,70.84,6.5,0.0,77.34,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,FENER,3.18,V8 İZLEME,71.68,89.0,70.0,ORTA DNA,75.11,60.0,60.0,1.29,BASE,68.17,6.5,0.0,74.67,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+3,FONET,5.57,V8 İZLEME,71.8,78.0,68.0,ZAYIF DNA,77.45,48.0,56.0,-0.97,BASE,65.31,3.0,21.0,47.31,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

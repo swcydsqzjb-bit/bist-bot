@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 479,
+  "market_count": 480,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 80.01,
+  "regime_confidence": 80.19,
   "timing_data_count": 3,
-  "selected_timing_data_count": 1,
+  "selected_timing_data_count": 2,
   "risk_data_count": 3,
-  "selected_risk_data_count": 1,
+  "selected_risk_data_count": 2,
   "top_symbol": "AKSGY",
-  "top_score": 97.7,
+  "top_score": 97.03,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

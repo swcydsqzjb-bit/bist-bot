@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 1,
-  "latest_candidate_count": 1,
-  "history_count": 46,
-  "tracked_count": 1,
+  "new_observation_count": 2,
+  "latest_candidate_count": 2,
+  "history_count": 48,
+  "tracked_count": 2,
   "analysis_only_count": 0,
-  "top_symbol": "FENER",
-  "top_decision": "PASİF İZLEME",
+  "top_symbol": "KCHOL",
+  "top_decision": "TEYİT BEKLE",
   "version": "V28.0"
 }

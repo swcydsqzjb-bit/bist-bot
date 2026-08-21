@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 1,
+  "position_count": 2,
   "cash_reserve_pct": 28.0,
   "invested_pct": 72.0,
-  "top_symbol": "FENER",
-  "top_weight_pct": 72.0,
+  "top_symbol": "KCHOL",
+  "top_weight_pct": 36.0,
   "version": "V20.3"
 }
