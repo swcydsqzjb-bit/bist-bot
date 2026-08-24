@@ -1,3 +1,4 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,KCHOL,TEYİT BEKLE,45.63,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,63.73,TEYİT BEKLE,50.0,50.0,YENİ,63.47,DÜŞÜK,24.0,YATAY,95.21,5,92.8,2.15,-4.52,6.49,218.0,218.0
-2,FENER,TEYİT BEKLE,43.88,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,60.52,TEYİT BEKLE,50.0,50.0,YENİ,76.2,ORTA,37.0,YATAY,83.96,5,87.35,1.91,0.0,4.38,3.18,3.18
+1,RGYAS,TEYİT BEKLE,43.15,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,60.33,TEYİT BEKLE,50.0,50.0,YENİ,62.53,DÜŞÜK,23.0,YATAY,90.85,5,83.97,0.37,-3.58,2.98,208.4,208.4
+2,AKSGY,PASİF İZLEME,42.35,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,58.77,TEYİT BEKLE,50.0,50.0,YENİ,52.9,DÜŞÜK,23.0,YATAY,93.14,5,89.28,1.15,-2.95,4.06,10.11,10.11
+3,BINBN,ELE,37.81,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,51.35,TEYİT BEKLE,50.0,50.0,YENİ,47.35,ORTA,30.0,YATAY,94.18,1,81.7,-0.48,-3.58,1.36,195.0,195.0
