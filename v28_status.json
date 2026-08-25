@@ -1,11 +1,8 @@
 {
-  "status": "ready",
-  "new_observation_count": 3,
-  "latest_candidate_count": 3,
-  "history_count": 51,
-  "tracked_count": 2,
-  "analysis_only_count": 1,
-  "top_symbol": "RGYAS",
-  "top_decision": "TEYİT BEKLE",
+  "status": "v27_input_missing",
+  "new_observation_count": 0,
+  "history_count": 0,
+  "tracked_count": 0,
+  "analysis_only_count": 0,
   "version": "V28.0"
 }

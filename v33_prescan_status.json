@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 481,
+  "market_count": 480,
   "selected_count": 30,
   "max_candidates": 30,
-  "regime": "YATAY",
-  "regime_confidence": 77.06,
+  "regime": "PANİK",
+  "regime_confidence": 86.45,
   "timing_data_count": 3,
-  "selected_timing_data_count": 2,
+  "selected_timing_data_count": 1,
   "risk_data_count": 3,
-  "selected_risk_data_count": 2,
-  "top_symbol": "AKSGY",
-  "top_score": 100.0,
+  "selected_risk_data_count": 1,
+  "top_symbol": "BRKVY",
+  "top_score": 97.55,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
