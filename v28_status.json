@@ -1,8 +1,11 @@
 {
-  "status": "v27_input_missing",
-  "new_observation_count": 0,
-  "history_count": 0,
-  "tracked_count": 0,
-  "analysis_only_count": 0,
+  "status": "ready",
+  "new_observation_count": 2,
+  "latest_candidate_count": 2,
+  "history_count": 53,
+  "tracked_count": 1,
+  "analysis_only_count": 1,
+  "top_symbol": "FENER",
+  "top_decision": "TEYİT BEKLE",
   "version": "V28.0"
 }
