@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "candidate_count": 2,
+  "candidate_count": 1,
   "pattern_count": 0,
   "usable_pattern_count": 0,
   "matched_candidate_count": 0,
@@ -8,9 +8,9 @@
   "negative_bonus_count": 0,
   "approved_count": 0,
   "total_learning_bonus": 0.0,
-  "top_symbol": "FENER",
+  "top_symbol": "BINBN",
   "top_decision": "PASİF İZLEME",
-  "top_score": 46.14,
+  "top_score": 46.77,
   "v30_learning_active": false,
   "rsi_usage": "DISABLED",
   "version": "V31.0"
