@@ -3,6 +3,9 @@ name: LARUS ALPHA FULL MARKET
 on:
   workflow_dispatch:
 
+  schedule:
+    - cron: "30 17 * * 1-5"
+
 permissions:
   contents: write
 
