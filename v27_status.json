@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
-  "waiting_count": 1,
+  "waiting_count": 2,
   "passive_count": 0,
   "eliminated_count": 0,
   "top_symbol": "BINBN",
   "top_decision": "TEYİT BEKLE",
-  "top_score": 46.77,
+  "top_score": 47.02,
   "version": "V27.2"
 }

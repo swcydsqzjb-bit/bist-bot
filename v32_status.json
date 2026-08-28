@@ -1,12 +1,12 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "approved_count": 0,
   "strong_confirmation_count": 0,
   "active_tracking_count": 0,
   "shadow_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 1,
+  "passive_count": 2,
   "eliminated_count": 0,
   "learning_ready": false,
   "completed_observation_count": 46,
@@ -15,10 +15,10 @@
   "minimum_pattern_required": 3,
   "matched_candidate_count": 0,
   "mode": "SHADOW",
-  "top_symbol": "BINBN",
+  "top_symbol": "AHGAZ",
   "top_decision": "PASİF İZLEME",
-  "top_score": 49.27,
-  "top_confidence": 46.51,
+  "top_score": 51.32,
+  "top_confidence": 43.75,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }
