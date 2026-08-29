@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "new_observation_count": 2,
+  "new_observation_count": 0,
   "latest_candidate_count": 2,
   "history_count": 56,
-  "tracked_count": 2,
+  "tracked_count": 0,
   "analysis_only_count": 0,
   "top_symbol": "BINBN",
   "top_decision": "TEYİT BEKLE",

@@ -12,10 +12,10 @@
   "timing_available_count": 2,
   "timing_missing_count": 8,
   "regime": "YATAY",
-  "regime_confidence": 75.6,
+  "regime_confidence": 75.58,
   "top_symbol": "AKCNS",
   "top_decision": "AKTİF İZLEME",
-  "top_score": 84.1,
+  "top_score": 84.13,
   "rsi_usage": "DISABLED",
   "version": "V33.3"
 }
