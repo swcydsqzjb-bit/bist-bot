@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 2,
-  "cash_reserve_pct": 20.0,
-  "invested_pct": 80.0,
-  "top_symbol": "AHGAZ",
-  "top_weight_pct": 40.0,
+  "position_count": 1,
+  "cash_reserve_pct": 23.0,
+  "invested_pct": 77.0,
+  "top_symbol": "INVES",
+  "top_weight_pct": 77.0,
   "version": "V20.3"
 }

@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 480,
+  "market_count": 482,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 75.58,
+  "regime_confidence": 79.2,
   "timing_data_count": 3,
-  "selected_timing_data_count": 3,
+  "selected_timing_data_count": 2,
   "risk_data_count": 3,
-  "selected_risk_data_count": 3,
-  "top_symbol": "BINBN",
-  "top_score": 96.67,
+  "selected_risk_data_count": 2,
+  "top_symbol": "TUKAS",
+  "top_score": 96.78,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
