@@ -1,4 +1,14 @@
 ﻿signal_date,symbol,signal_price,return_1d,return_3d,return_5d,return_10d,max_return_10d,min_return_10d,status
+2026-08-31,AGESA,259.25,,,,,,,bekliyor
+2026-08-31,ALARK,109.6,,,,,,,bekliyor
+2026-08-31,ALKLC,421.0,,,,,,,bekliyor
+2026-08-31,BIENY,22.52,,,,,,,bekliyor
+2026-08-31,BUCIM,5.75,,,,,,,bekliyor
+2026-08-31,ENPRA,60.65,,,,,,,bekliyor
+2026-08-31,IZFAS,63.6,,,,,,,bekliyor
+2026-08-31,MARTI,1.46,,,,,,,bekliyor
+2026-08-31,NUHCM,219.5,,,,,,,bekliyor
+2026-08-31,ULKER,92.65,,,,,,,bekliyor
 2026-08-26,ARTMS,39.18,0.97,,,,0.97,0.97,1g_güncellendi
 2026-08-26,ASUZU,49.34,-0.57,,,,-0.57,-0.57,1g_güncellendi
 2026-08-26,AYCES,442.0,1.58,,,,1.58,1.58,1g_güncellendi
