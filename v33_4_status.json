@@ -1,11 +1,11 @@
 {
   "status": "ready",
   "tracking_date": "2026-08-31",
-  "new_candidate_count": 10,
+  "new_candidate_count": 0,
   "total_tracking_count": 140,
   "completed_count": 70,
   "active_count": 70,
-  "price_update_count": 40,
+  "price_update_count": 0,
   "hit_3pct_count": 41,
   "hit_5pct_count": 25,
   "hit_7pct_count": 14,
