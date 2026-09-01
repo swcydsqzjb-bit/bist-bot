@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 0,
+  "new_observation_count": 1,
   "latest_candidate_count": 1,
-  "history_count": 57,
+  "history_count": 58,
   "tracked_count": 0,
-  "analysis_only_count": 0,
-  "top_symbol": "INVES",
+  "analysis_only_count": 1,
+  "top_symbol": "ENKAI",
   "top_decision": "ELE",
   "version": "V28.0"
 }
