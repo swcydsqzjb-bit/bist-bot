@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,VAKBN,32.56,V8 İZLEME,71.43,85.0,75.0,ORTA DNA,80.15,64.0,64.0,1.56,BASE,70.06,6.5,0.0,76.56,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
-2,ENKAI,88.9,V8 GÜÇLÜ,72.14,75.0,75.0,ZAYIF DNA,80.89,40.0,56.0,-0.74,BASE,65.47,3.0,21.0,47.47,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-3,AVPGY,56.9,V8 İZLEME,71.31,77.0,81.0,ZAYIF DNA,76.17,32.0,44.0,-0.09,BASE,62.81,0.0,21.0,41.81,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,YIGIT,22.1,V8 İZLEME,70.03,81.0,72.0,ORTA DNA,79.93,56.0,64.0,1.04,BASE,67.96,4.5,0.0,72.46,ONAYLI Ä°ZLEME,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,
+2,RGYAS,204.7,V8 İZLEME,70.34,72.0,93.0,ZAYIF DNA,76.46,40.0,48.0,-0.29,BASE,63.84,3.0,21.0,45.84,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+3,VAKBN,34.08,V8 İZLEME,71.95,81.0,70.0,ZAYIF DNA,78.06,36.0,52.0,-1.36,BASE,63.73,3.0,21.0,45.73,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 481,
+  "market_count": 479,
   "selected_count": 30,
   "max_candidates": 30,
-  "regime": "YATAY",
-  "regime_confidence": 63.67,
+  "regime": "PANİK",
+  "regime_confidence": 90.18,
   "timing_data_count": 3,
-  "selected_timing_data_count": 2,
+  "selected_timing_data_count": 1,
   "risk_data_count": 3,
-  "selected_risk_data_count": 2,
+  "selected_risk_data_count": 1,
   "top_symbol": "ISMEN",
-  "top_score": 98.75,
+  "top_score": 99.53,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
