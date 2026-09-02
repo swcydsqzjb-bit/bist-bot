@@ -1,4 +1,6 @@
 ﻿signal_date,symbol,signal_price,return_1d,return_3d,return_5d,return_10d,max_return_10d,min_return_10d,status
+2026-09-02,KZGYO,19.67,,,,,,,bekliyor
+2026-09-02,OYYAT,36.02,,,,,,,bekliyor
 2026-08-31,AGESA,259.25,2.03,,,,2.03,2.03,1g_güncellendi
 2026-08-31,ALARK,109.6,-1.55,,,,-1.55,-1.55,1g_güncellendi
 2026-08-31,ALKLC,421.0,1.43,,,,1.43,1.43,1g_güncellendi
