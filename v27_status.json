@@ -5,10 +5,10 @@
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 0,
-  "eliminated_count": 1,
-  "top_symbol": "YIGIT",
-  "top_decision": "ELE",
-  "top_score": 35.94,
+  "passive_count": 1,
+  "eliminated_count": 0,
+  "top_symbol": "AKSGY",
+  "top_decision": "PASİF İZLEME",
+  "top_score": 39.99,
   "version": "V27.2"
 }

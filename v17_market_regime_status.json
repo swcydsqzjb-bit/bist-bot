@@ -1,15 +1,15 @@
 {
   "regime": "PANİK",
-  "regime_confidence": 90.18,
+  "regime_confidence": 100.0,
   "market_count": 479,
-  "breadth_1d_positive_pct": 28.81,
-  "breadth_5d_positive_pct": 17.12,
-  "breadth_20d_positive_pct": 44.05,
-  "above_ema20_pct": 26.3,
-  "median_return_1d": -0.79,
-  "median_return_5d": -4.15,
-  "median_return_20d": -1.26,
-  "median_rsi": 44.28,
+  "breadth_1d_positive_pct": 19.0,
+  "breadth_5d_positive_pct": 14.61,
+  "breadth_20d_positive_pct": 40.08,
+  "above_ema20_pct": 20.67,
+  "median_return_1d": -1.75,
+  "median_return_5d": -5.2,
+  "median_return_20d": -2.9,
+  "median_rsi": 39.77,
   "comparison_scope": "FULL_MARKET",
   "status": "ready",
   "candidate_file_status": "ready",
@@ -17,6 +17,6 @@
   "approved_count": 0,
   "strong_approved_count": 0,
   "approved_monitoring_count": 0,
-  "cautious_count": 0,
-  "eliminated_count": 3
+  "cautious_count": 1,
+  "eliminated_count": 2
 }

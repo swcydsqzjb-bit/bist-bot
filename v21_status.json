@@ -1,7 +1,7 @@
 {
   "status": "learning_active",
   "history_sources": "signals_history.csv,v11_signal_history.csv,v3_signals_history.csv,v5_backfill_history.csv",
-  "completed_5d": 466,
+  "completed_5d": 472,
   "minimum_required": 30,
   "reliability_factor": 1.0,
   "strongest_feature": "institutional_score",
