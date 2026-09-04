@@ -1,11 +1,11 @@
 ﻿feature,base_weight,recommended_weight,change,sample_count,correlation_5d,spread_5d,direction
 v8_score,20.0,20.485,0.485,223,0.04299,0.627,ARTIR
-smart_money_score,18.0,17.732,-0.268,472,-0.01688,-0.401,KORU
+smart_money_score,18.0,17.676,-0.324,475,-0.02124,-0.478,KORU
 institutional_score,16.0,16.704,0.704,223,0.03391,1.136,ARTIR
 historical_support_score,12.0,11.009,-0.991,114,-0.079,-1.35,AZALT
 prediction_score,10.0,8.854,-1.146,109,-0.13704,-1.195,AZALT
 live_confirmation_score,8.0,8.032,0.032,109,-0.00084,0.071,KORU
 relationship_score,6.0,4.464,-1.536,109,-0.18406,-1.599,AZALT
-rsi,4.0,3.98,-0.02,472,-0.01426,0.075,KORU
-volume_ratio,4.0,4.242,0.242,472,0.02576,0.278,KORU
-ema20_distance,2.0,2.0,0.0,472,-0.02589,0.078,KORU
+rsi,4.0,3.94,-0.06,475,-0.0159,0.008,KORU
+volume_ratio,4.0,4.17,0.17,475,0.02043,0.177,KORU
+ema20_distance,2.0,2.0,0.0,475,-0.0275,0.012,KORU

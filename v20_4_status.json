@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "plan_count": 1,
-  "planned_candidate_count": 1,
+  "plan_count": 3,
+  "planned_candidate_count": 3,
   "active_confirmation_count": 0,
-  "waiting_confirmation_count": 1,
+  "waiting_confirmation_count": 3,
   "passive_count": 0,
-  "top_symbol": "AKSGY",
+  "top_symbol": "SERNT",
   "input_file": "v20_portfolio_model.csv",
   "output_file": "v20_monitoring_plan.csv",
   "version": "V20.4.2"

@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 1,
-  "latest_candidate_count": 1,
-  "history_count": 60,
-  "tracked_count": 1,
-  "analysis_only_count": 0,
-  "top_symbol": "AKSGY",
-  "top_decision": "PASİF İZLEME",
+  "new_observation_count": 3,
+  "latest_candidate_count": 3,
+  "history_count": 63,
+  "tracked_count": 2,
+  "analysis_only_count": 1,
+  "top_symbol": "AKCNS",
+  "top_decision": "TEYİT BEKLE",
   "version": "V28.0"
 }

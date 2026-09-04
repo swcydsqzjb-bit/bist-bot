@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "selected_count": 1,
+  "selected_count": 3,
   "confirmed_count": 0,
-  "top_symbol": "AKSGY",
-  "top_score": 58.68,
+  "top_symbol": "AKCNS",
+  "top_score": 64.27,
   "version": "V20.2"
 }

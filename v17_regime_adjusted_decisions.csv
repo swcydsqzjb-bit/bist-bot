@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,AKSGY,9.95,PANİK,100.0,17,96.66,79.68,PÄ°YASA LÄ°DERÄ°,75.31,82.97,80.03,81.58,64.09,V15 TEMKÄ°NLÄ° Ä°ZLEME,-3.0,65.46,V17 TEMKİNLİ İZLEME,Panik rejimi genel risk kesintisi | Panik rejiminde yüksek kalite | Panik rejiminde piyasa liderliği
-2,ISMEN,35.42,PANİK,100.0,6,98.96,84.93,PÄ°YASA LÄ°DERÄ°,85.61,86.46,75.55,91.6,50.96,V15 ELE,-3.0,57.47,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde yüksek kalite | Panik rejiminde piyasa liderliği
-3,KZGYO,21.24,PANİK,100.0,8,98.54,83.67,PÄ°YASA LÄ°DERÄ°,90.2,86.1,82.76,69.01,54.34,V15 GERÄ° ÃEKTÄ°,-6.0,56.55,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+1,SERNT,8.35,YATAY,60.19,28,94.36,76.12,PÄ°YASA LÄ°DERÄ°,81.53,77.51,61.42,80.52,59.81,V15 TEMKÄ°NLÄ° Ä°ZLEME,4.0,68.38,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı
+2,AKCNS,243.9,YATAY,60.19,15,97.08,78.8,PÄ°YASA LÄ°DERÄ°,74.29,83.62,69.42,89.22,58.12,V15 TEMKÄ°NLÄ° Ä°ZLEME,4.0,67.91,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı
+3,AGESA,259.0,YATAY,60.19,46,90.61,73.31,PÄ°YASA LÄ°DERÄ°,80.31,80.93,41.8,83.2,44.32,V15 ELE,4.0,56.44,V17 ELE,Yatay rejimde kalite avantajı

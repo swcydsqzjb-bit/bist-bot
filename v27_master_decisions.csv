@@ -1,2 +1,4 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,AKSGY,PASİF İZLEME,39.99,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,55.73,TEYİT BEKLE,50.0,50.0,YENİ,53.42,ORTA,31.0,PANİK,96.66,5,81.22,0.24,-2.28,3.49,9.95,9.95
+1,AKCNS,TEYİT BEKLE,45.07,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,62.53,TEYİT BEKLE,50.0,50.0,YENİ,64.65,DÜŞÜK,15.0,YATAY,97.08,5,82.52,0.55,-2.57,4.14,243.9,243.9
+2,SERNT,TEYİT BEKLE,44.57,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,61.8,TEYİT BEKLE,50.0,50.0,YENİ,66.96,DÜŞÜK,19.0,YATAY,94.36,10,81.45,0.68,-3.48,5.17,8.35,8.35
+3,AGESA,ELE,38.0,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,50.46,TEYİT BEKLE,50.0,50.0,YENİ,53.44,ORTA,35.0,YATAY,90.61,1,87.32,-0.67,-3.31,0.77,259.0,259.0

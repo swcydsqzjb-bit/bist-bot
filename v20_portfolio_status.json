@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 1,
-  "cash_reserve_pct": 38.0,
-  "invested_pct": 62.0,
-  "top_symbol": "AKSGY",
-  "top_weight_pct": 62.0,
+  "position_count": 3,
+  "cash_reserve_pct": 20.0,
+  "invested_pct": 80.0,
+  "top_symbol": "SERNT",
+  "top_weight_pct": 28.49,
   "version": "V20.3"
 }

@@ -3,14 +3,14 @@
   "market_count": 479,
   "selected_count": 30,
   "max_candidates": 30,
-  "regime": "PANİK",
-  "regime_confidence": 100.0,
+  "regime": "YATAY",
+  "regime_confidence": 60.19,
   "timing_data_count": 3,
   "selected_timing_data_count": 2,
   "risk_data_count": 3,
   "selected_risk_data_count": 2,
-  "top_symbol": "POLHO",
-  "top_score": 98.7,
+  "top_symbol": "SERNT",
+  "top_score": 100.0,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
