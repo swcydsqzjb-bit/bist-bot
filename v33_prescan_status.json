@@ -1,10 +1,10 @@
 {
   "status": "ready",
-  "market_count": 479,
+  "market_count": 585,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 60.19,
+  "regime_confidence": 60.59,
   "timing_data_count": 3,
   "selected_timing_data_count": 2,
   "risk_data_count": 3,
