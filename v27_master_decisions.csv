@@ -1,4 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,SERNT,TEYİT BEKLE,44.82,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,62.39,TEYİT BEKLE,50.0,50.0,YENİ,68.25,DÜŞÜK,24.0,YATAY,95.56,5,83.53,1.31,-4.42,4.9,8.35,8.35
-2,AKCNS,TEYİT BEKLE,43.81,Genel görünüm olumlu fakat canlı teknik giriş teyidi henüz oluşmadı,0.0,0.0,,TEYİT BEKLE,61.01,TEYİT BEKLE,50.0,50.0,YENİ,60.74,DÜŞÜK,19.0,YATAY,97.95,10,80.78,0.94,-2.7,5.06,243.9,243.9
-3,AGESA,ELE,38.44,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,51.19,TEYİT BEKLE,50.0,50.0,YENİ,53.16,ORTA,35.0,YATAY,91.62,1,89.27,-0.47,-3.31,0.77,259.0,259.0
+1,KUYAS,ELE,42.1,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,57.77,TEYİT BEKLE,50.0,50.0,YENİ,54.83,DÜŞÜK,15.0,YATAY,93.85,1,83.05,-0.47,-3.38,2.76,71.05,71.05
