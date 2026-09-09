@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 585,
+  "market_count": 586,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 66.62,
+  "regime_confidence": 79.51,
   "timing_data_count": 2,
-  "selected_timing_data_count": 1,
+  "selected_timing_data_count": 0,
   "risk_data_count": 2,
-  "selected_risk_data_count": 1,
-  "top_symbol": "ISYAT",
-  "top_score": 96.79,
+  "selected_risk_data_count": 0,
+  "top_symbol": "EUREN",
+  "top_score": 98.12,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,KUYAS,71.05,YATAY,66.62,37,93.85,76.86,PÄ°YASA LÄ°DERÄ°,83.25,76.69,70.5,72.88,54.61,V15 ELE,6.0,66.84,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
-2,KONYA,4062.5,YATAY,66.62,10,98.46,81.5,PÄ°YASA LÄ°DERÄ°,85.12,84.9,92.91,56.75,50.01,V15 ELE,2.0,60.83,V17 TEMKİNLİ İZLEME,Yatay rejimde hacim birikimi
-3,YKBNK,37.62,YATAY,66.62,0,0.0,0.0,,0.0,0.0,0.0,0.0,47.95,V15 ELE,0.0,34.52,V17 ELE,Rejim kaynaklı ek puan değişimi yok
+1,ENJSA,118.6,YATAY,79.51,21,96.59,80.77,PÄ°YASA LÄ°DERÄ°,83.98,91.58,60.31,79.78,58.9,V15 TEMKÄ°NLÄ° Ä°ZLEME,4.0,69.02,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı
+2,DZGYO,8.0,YATAY,79.51,8,98.81,84.28,PÄ°YASA LÄ°DERÄ°,92.93,83.89,81.76,72.36,54.29,V15 ELE,3.0,65.69,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+3,ALBRK,9.21,YATAY,79.51,0,0.0,0.0,,0.0,0.0,0.0,0.0,51.81,V15 ELE,0.0,37.3,V17 ELE,Rejim kaynaklı ek puan değişimi yok
