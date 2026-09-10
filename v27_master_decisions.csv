@@ -1,2 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,ENJSA,ELE,42.27,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,58.42,TEYİT BEKLE,50.0,50.0,YENİ,53.86,DÜŞÜK,15.0,YATAY,96.59,1,82.42,-0.41,-2.94,1.94,118.6,118.6
+1,MANAS,PASİF İZLEME,41.62,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,56.54,TEYİT BEKLE,50.0,50.0,YENİ,61.46,ORTA,27.0,YATAY,92.83,1,83.51,0.38,-2.65,3.05,35.9,35.9

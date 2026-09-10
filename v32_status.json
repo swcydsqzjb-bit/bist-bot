@@ -15,10 +15,10 @@
   "minimum_pattern_required": 3,
   "matched_candidate_count": 0,
   "mode": "SHADOW",
-  "top_symbol": "ENJSA",
+  "top_symbol": "MANAS",
   "top_decision": "PASİF İZLEME",
-  "top_score": 42.27,
-  "top_confidence": 41.51,
+  "top_score": 43.12,
+  "top_confidence": 41.32,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }

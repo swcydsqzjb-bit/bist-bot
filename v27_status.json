@@ -5,10 +5,10 @@
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 0,
-  "eliminated_count": 1,
-  "top_symbol": "ENJSA",
-  "top_decision": "ELE",
-  "top_score": 42.27,
+  "passive_count": 1,
+  "eliminated_count": 0,
+  "top_symbol": "MANAS",
+  "top_decision": "PASİF İZLEME",
+  "top_score": 41.62,
   "version": "V27.2"
 }
