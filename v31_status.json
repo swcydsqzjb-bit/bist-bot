@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "pattern_count": 0,
   "usable_pattern_count": 0,
   "matched_candidate_count": 0,
@@ -8,9 +8,9 @@
   "negative_bonus_count": 0,
   "approved_count": 0,
   "total_learning_bonus": 0.0,
-  "top_symbol": "MANAS",
-  "top_decision": "PASİF İZLEME",
-  "top_score": 41.62,
+  "top_symbol": "VKGYO",
+  "top_decision": "ELE",
+  "top_score": 41.52,
   "v30_learning_active": false,
   "rsi_usage": "DISABLED",
   "version": "V31.0"

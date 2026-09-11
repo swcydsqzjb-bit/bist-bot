@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,HUNER,4.06,V8 GÜÇLÜ,72.73,84.0,89.0,KARISIK DNA,64.22,52.0,72.0,2.1,BASE,67.79,6.0,6.0,67.79,TEMKÄ°NLÄ° Ä°ZLEME,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,Market DNA karÄ±ÅÄ±k
-2,MANAS,35.9,V8 İZLEME,71.56,80.0,89.0,ZAYIF DNA,70.84,48.0,60.0,0.15,BASE,65.52,3.0,15.0,53.52,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f
-3,KUYAS,72.3,V8 İZLEME,69.7,80.0,81.0,ZAYIF DNA,71.69,44.0,44.0,1.91,BASE,64.03,1.5,15.0,50.53,ELE,Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA zayÄ±f
+1,VKGYO,1.95,V8 GÜÇLÜ,72.27,77.0,83.0,KARISIK DNA,80.57,52.0,52.0,0.88,BASE,67.79,3.0,6.0,64.79,TEMKÄ°NLÄ° Ä°ZLEME,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA karÄ±ÅÄ±k
+2,TNZTP,31.38,V8 GÜÇLÜ,72.22,78.0,76.0,ZAYIF DNA,79.64,44.0,52.0,-1.22,BASE,65.17,3.0,21.0,47.17,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+3,AGHOL,34.2,V8 İZLEME,68.96,72.0,81.0,ZAYIF DNA,80.83,32.0,24.0,-1.85,BASE,59.77,0.0,21.0,38.77,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
