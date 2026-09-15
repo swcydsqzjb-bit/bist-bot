@@ -1,11 +1,11 @@
 ﻿feature,sample_count,correlation_with_5d,absolute_signal,normalized_weight,direction,message
-relationship_score,121,-0.1922,0.1922144904906626,31.74,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-prediction_score,121,-0.1584,0.15836675293331098,26.15,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-volume_ratio,251,0.099,0.09899321279164984,16.35,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-historical_support_score,130,-0.0611,0.06110767227414698,10.09,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-live_confirmation_score,121,-0.0346,0.03463601912455775,5.72,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-v8_score,251,0.0197,0.019686680895418657,3.25,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-rsi,251,0.0156,0.015603677563761822,2.58,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-ema20_distance,251,0.0127,0.01274601019044806,2.1,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-smart_money_score,251,0.0113,0.011275952088930981,1.86,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-institutional_score,251,-0.001,0.0009927956494064655,0.16,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+relationship_score,128,-0.167,0.16698672118142585,28.89,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+prediction_score,128,-0.1346,0.13462574240065076,23.29,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+volume_ratio,266,0.096,0.09600854105065068,16.61,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+v8_score,266,0.0384,0.03842472102637013,6.65,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+live_confirmation_score,128,-0.0367,0.03672383548484986,6.35,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+historical_support_score,138,-0.0306,0.030568994619359188,5.29,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+ema20_distance,266,0.0251,0.025066808915350302,4.34,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+rsi,266,0.0206,0.020557806298614725,3.56,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+institutional_score,266,0.0179,0.017883475838143374,3.09,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+smart_money_score,266,0.0112,0.011242212510679434,1.94,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.

@@ -1,4 +1,3 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,VKGYO,1.95,LEARNED,64.8,TEMKÄ°NLÄ° Ä°ZLEME,46.25,80.57,52.0,0.88,54.7,V15 ELE,72.28,77.0,83.0,KARISIK DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA karÄ±ÅÄ±k
-2,TNZTP,31.38,LEARNED,47.17,ELE,45.4,79.64,44.0,-1.22,48.05,V15 ELE,72.22,78.0,76.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-3,AGHOL,34.2,LEARNED,39.45,ELE,44.48,80.97,32.0,-1.86,44.6,V15 ELE,69.61,72.0,81.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,TRCAS,49.08,LEARNED,44.52,ELE,47.69,78.45,48.0,-0.96,48.67,V15 ELE,73.08,75.0,93.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,AHGAZ,41.1,LEARNED,41.59,ELE,44.84,68.5,36.0,0.89,45.2,V15 ELE,66.72,70.0,90.0,ZAYIF DNA,,Market DNA zayÄ±f | RSI yÃ¼ksek

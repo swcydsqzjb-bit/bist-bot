@@ -1,3 +1,1 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,VKGYO,ELE,42.69,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,58.36,TEYİT BEKLE,50.0,50.0,YENİ,64.03,DÜŞÜK,23.0,YATAY,93.52,1,84.12,-0.31,-1.8,0.8,1.95,1.95
-2,TNZTP,ELE,38.74,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,52.18,TEYİT BEKLE,50.0,50.0,YENİ,46.44,ORTA,30.0,YATAY,97.27,1,89.01,-0.28,-3.15,0.22,31.38,31.38
