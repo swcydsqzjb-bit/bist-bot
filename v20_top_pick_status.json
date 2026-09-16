@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "candidate_count": 2,
-  "selected_count": 1,
+  "candidate_count": 1,
+  "selected_count": 0,
   "confirmed_count": 0,
-  "top_symbol": "TRCAS",
-  "top_score": 48.79,
+  "top_symbol": "CANTE",
+  "top_score": 49.79,
   "version": "V20.2"
 }

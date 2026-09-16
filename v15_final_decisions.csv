@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,TRCAS,49.08,LEARNED,44.52,ELE,47.69,78.45,48.0,-0.96,48.67,V15 ELE,73.08,75.0,93.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,AHGAZ,41.1,LEARNED,41.59,ELE,44.84,68.5,36.0,0.89,45.2,V15 ELE,66.72,70.0,90.0,ZAYIF DNA,,Market DNA zayÄ±f | RSI yÃ¼ksek
+1,CANTE,1.35,LEARNED,43.89,ELE,47.7,65.26,32.0,-0.04,46.81,V15 ELE,71.39,86.0,83.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

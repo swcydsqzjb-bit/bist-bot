@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,TRCAS,49.08,V8 GÜÇLÜ,73.08,75.0,93.0,ZAYIF DNA,78.45,48.0,40.0,-0.96,BASE,65.52,0.0,21.0,44.52,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,AHGAZ,41.1,V8 İZLEME,66.72,70.0,90.0,ZAYIF DNA,68.5,36.0,44.0,0.89,BASE,60.59,0.0,19.0,41.59,ELE,,Market DNA zayÄ±f | RSI yÃ¼ksek
+1,CANTE,1.35,V8 İZLEME,71.39,86.0,83.0,ZAYIF DNA,65.26,32.0,56.0,-0.04,BASE,61.89,3.0,21.0,43.89,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
