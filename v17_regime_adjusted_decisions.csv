@@ -1,2 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,CANTE,1.35,PANİK,100.0,3,99.66,86.83,PÄ°YASA LÄ°DERÄ°,96.19,93.0,87.02,59.68,46.81,V15 ELE,-6.0,52.01,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+1,AHGAZ,40.98,YATAY,56.35,2,99.83,88.58,PÄ°YASA LÄ°DERÄ°,97.65,91.56,80.76,76.2,52.1,V15 ELE,3.0,65.32,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+2,HUNER,4.02,YATAY,56.35,1,100.0,91.19,PÄ°YASA LÄ°DERÄ°,92.59,95.24,90.19,83.06,50.64,V15 ELE,3.0,64.99,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+3,ZRGYO,19.91,YATAY,56.35,8,98.81,85.67,PÄ°YASA LÄ°DERÄ°,90.65,94.74,68.83,80.4,53.39,V15 ELE,1.0,63.43,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde aşırı momentum

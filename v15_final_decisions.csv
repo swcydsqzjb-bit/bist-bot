@@ -1,2 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,CANTE,1.35,LEARNED,43.89,ELE,47.7,65.26,32.0,-0.04,46.81,V15 ELE,71.39,86.0,83.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,ZRGYO,19.91,LEARNED,59.22,TEMKÄ°NLÄ° Ä°ZLEME,48.1,74.95,56.0,-1.15,53.39,V15 ELE,75.69,94.0,70.0,KARISIK DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA karÄ±ÅÄ±k | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,AHGAZ,40.98,LEARNED,52.38,ELE,50.77,75.58,36.0,0.09,52.1,V15 ELE,78.4,82.0,98.0,ZAYIF DNA,,Market DNA zayÄ±f
+3,HUNER,4.02,LEARNED,49.58,ELE,48.57,77.76,48.0,-0.86,50.64,V15 ELE,76.24,90.0,77.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

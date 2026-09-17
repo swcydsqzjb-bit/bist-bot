@@ -1,4 +1,4 @@
 ﻿group,signal_count,completed_5d,positive_5d_pct,hit_3pct_5d_pct,average_result_5d,median_result_5d
-GENEL,272,272,44.49,53.68,-0.56,-1.04
+GENEL,275,275,44.0,53.45,-0.73,-1.05
 KAYNAK_V10,131,131,44.27,64.89,-0.18,-1.21
-KAYNAK_V8,141,141,44.68,43.26,-0.91,-1.03
+KAYNAK_V8,144,144,43.75,43.06,-1.22,-1.04

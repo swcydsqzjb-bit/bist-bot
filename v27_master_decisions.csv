@@ -1,1 +1,4 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
+1,ZRGYO,PASİF İZLEME,43.18,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,59.43,TEYİT BEKLE,50.0,50.0,YENİ,50.42,DÜŞÜK,11.0,YATAY,98.81,1,84.91,0.57,-1.06,2.0,19.91,19.91
+2,AHGAZ,ELE,40.07,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,54.69,TEYİT BEKLE,50.0,50.0,YENİ,47.51,ORTA,30.0,YATAY,99.83,1,93.7,-0.31,-3.02,1.67,40.98,40.98
+3,HUNER,ELE,38.72,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,52.87,TEYİT BEKLE,50.0,50.0,YENİ,42.02,ORTA,30.0,YATAY,100.0,1,89.38,0.17,-2.62,2.35,4.02,4.02
