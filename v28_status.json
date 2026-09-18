@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 3,
-  "latest_candidate_count": 3,
-  "history_count": 76,
-  "tracked_count": 1,
-  "analysis_only_count": 2,
-  "top_symbol": "ZRGYO",
-  "top_decision": "PASİF İZLEME",
+  "new_observation_count": 1,
+  "latest_candidate_count": 1,
+  "history_count": 77,
+  "tracked_count": 0,
+  "analysis_only_count": 1,
+  "top_symbol": "BIMAS",
+  "top_decision": "ELE",
   "version": "V28.0"
 }

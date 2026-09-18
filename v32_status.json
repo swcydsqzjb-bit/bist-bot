@@ -1,12 +1,12 @@
 {
   "status": "ready",
-  "candidate_count": 3,
+  "candidate_count": 1,
   "approved_count": 0,
   "strong_confirmation_count": 0,
   "active_tracking_count": 0,
   "shadow_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 3,
+  "passive_count": 1,
   "eliminated_count": 0,
   "learning_ready": false,
   "completed_observation_count": 69,
@@ -15,10 +15,10 @@
   "minimum_pattern_required": 3,
   "matched_candidate_count": 0,
   "mode": "SHADOW",
-  "top_symbol": "ZRGYO",
+  "top_symbol": "BIMAS",
   "top_decision": "PASİF İZLEME",
-  "top_score": 46.18,
-  "top_confidence": 41.85,
+  "top_score": 32.13,
+  "top_confidence": 37.97,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }
