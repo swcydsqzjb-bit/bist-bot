@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,AHGAZ,41.76,LEARNED,53.86,ELE,44.49,68.65,48.0,1.5,49.42,V15 ELE,68.17,65.0,93.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA zayÄ±f
-2,BIMAS,419.75,LEARNED,51.19,ELE,41.88,80.42,40.0,0.39,47.5,V15 ELE,67.44,80.0,58.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f
-3,ISDMR,61.65,LEARNED,38.96,ELE,43.76,76.61,36.0,-2.26,43.83,V15 ELE,68.16,75.0,76.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,AHGAZ,41.76,LEARNED,51.33,ELE,44.47,69.05,44.0,0.84,48.35,V15 ELE,68.36,65.0,93.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f
+2,LOGO,143.5,LEARNED,41.4,ELE,45.59,76.9,40.0,-0.93,46.06,V15 ELE,70.2,72.0,89.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+3,ISDMR,61.65,LEARNED,39.43,ELE,46.41,80.45,28.0,-3.6,45.19,V15 ELE,72.41,83.0,77.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

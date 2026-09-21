@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "selected_count": 1,
+  "selected_count": 0,
   "confirmed_count": 0,
-  "top_symbol": "BIMAS",
-  "top_score": 51.93,
+  "top_symbol": "AHGAZ",
+  "top_score": 48.89,
   "version": "V20.2"
 }
