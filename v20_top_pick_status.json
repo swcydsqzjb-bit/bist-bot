@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "selected_count": 0,
+  "selected_count": 3,
   "confirmed_count": 0,
   "top_symbol": "AHGAZ",
-  "top_score": 48.89,
+  "top_score": 55.26,
   "version": "V20.2"
 }

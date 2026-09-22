@@ -1,8 +1,11 @@
 {
-  "status": "v27_input_missing",
-  "new_observation_count": 0,
-  "history_count": 0,
+  "status": "ready",
+  "new_observation_count": 3,
+  "latest_candidate_count": 3,
+  "history_count": 80,
   "tracked_count": 0,
-  "analysis_only_count": 0,
+  "analysis_only_count": 3,
+  "top_symbol": "AHGAZ",
+  "top_decision": "ELE",
   "version": "V28.0"
 }
