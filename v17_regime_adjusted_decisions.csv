@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,HUNER,4.17,YATAY,63.25,1,100.0,91.63,PÄ°YASA LÄ°DERÄ°,97.49,97.21,84.45,79.88,46.63,V15 ELE,3.0,62.23,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
-2,AHGAZ,44.0,YATAY,63.25,4,99.49,88.78,PÄ°YASA LÄ°DERÄ°,98.28,89.69,84.32,75.34,45.04,V15 ELE,3.0,60.29,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
-3,LOGO,145.9,YATAY,63.25,2,99.83,89.77,PÄ°YASA LÄ°DERÄ°,97.04,97.35,70.9,85.18,43.68,V15 ELE,3.0,59.58,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+1,HUNER,4.17,YATAY,63.33,1,100.0,91.63,PÄ°YASA LÄ°DERÄ°,97.49,97.21,84.56,79.8,46.49,V15 ELE,3.0,62.13,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+2,AHGAZ,44.0,YATAY,63.33,4,99.49,88.81,PÄ°YASA LÄ°DERÄ°,98.28,89.69,84.47,75.3,45.04,V15 ELE,3.0,60.29,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+3,LOGO,145.9,YATAY,63.33,2,99.83,89.8,PÄ°YASA LÄ°DERÄ°,97.04,97.35,71.09,85.14,43.68,V15 ELE,3.0,59.59,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
