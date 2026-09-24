@@ -1,5 +1,5 @@
 ﻿signal_date,symbol,signal_price,return_1d,return_3d,return_5d,return_10d,max_return_10d,min_return_10d,status
-2026-09-10,AKMGY,259.75,-5.68,-7.26,-8.07,-13.96,-5.68,-13.96,tamamlandı
+2026-09-10,AKMGY,259.75,-5.68,-7.26,-8.07,-13.96,-5.68,-12.65,5g_güncellendi
 2026-09-09,ALBRK,8.69,5.98,0.12,-8.06,-1.96,5.98,-8.06,tamamlandı
 2026-09-09,BIOEN,19.32,-1.35,-4.97,-15.79,-45.29,-0.0,-45.29,tamamlandı
 2026-09-09,BORSK,6.8,-2.06,-7.79,-13.09,-16.76,-2.06,-18.38,tamamlandı
