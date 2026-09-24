@@ -4,13 +4,13 @@
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 63.33,
+  "regime_confidence": 63.25,
   "timing_data_count": 3,
   "selected_timing_data_count": 1,
   "risk_data_count": 3,
   "selected_risk_data_count": 1,
-  "top_symbol": "TRENJ",
-  "top_score": 98.29,
+  "top_symbol": "AGHOL",
+  "top_score": 96.46,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
