@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,HUNER,4.17,YATAY,63.25,23,96.25,81.64,PÄ°YASA LÄ°DERÄ°,84.27,97.05,72.79,61.08,46.44,V15 ELE,2.0,58.3,V17 TEMKİNLİ İZLEME,Yatay rejimde hacim birikimi
-2,LOGO,145.9,YATAY,63.25,30,95.05,79.46,PÄ°YASA LÄ°DERÄ°,87.47,95.77,72.87,45.35,44.47,V15 ELE,2.0,56.27,V17 ELE,Yatay rejimde hacim birikimi
-3,AHGAZ,44.0,YATAY,63.25,11,98.29,85.39,PÄ°YASA LÄ°DERÄ°,94.67,89.24,83.48,64.62,44.16,V15 ELE,-1.0,54.71,V17 ELE,Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+1,AHGAZ,44.0,PANİK,100.0,3,99.66,87.22,PÄ°YASA LÄ°DERÄ°,97.01,90.92,76.97,75.04,45.28,V15 ELE,-6.0,51.02,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+2,HUNER,4.17,PANİK,100.0,14,97.78,80.42,PÄ°YASA LÄ°DERÄ°,92.58,95.96,55.2,60.91,46.51,V15 ELE,-6.0,50.0,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+3,LOGO,145.9,PANİK,100.0,19,96.93,79.63,PÄ°YASA LÄ°DERÄ°,88.41,92.58,63.14,60.73,44.53,V15 ELE,-6.0,48.36,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği

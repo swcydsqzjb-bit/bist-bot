@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 3,
-  "selected_count": 3,
+  "selected_count": 0,
   "confirmed_count": 0,
-  "top_symbol": "AHGAZ",
-  "top_score": 53.87,
+  "top_symbol": "HUNER",
+  "top_score": 52.04,
   "version": "V20.2"
 }

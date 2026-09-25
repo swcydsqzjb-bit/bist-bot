@@ -11,11 +11,11 @@
   "risk_missing_count": 9,
   "timing_available_count": 1,
   "timing_missing_count": 9,
-  "regime": "YATAY",
-  "regime_confidence": 63.25,
-  "top_symbol": "LOGO",
+  "regime": "PANİK",
+  "regime_confidence": 100.0,
+  "top_symbol": "HUNER",
   "top_decision": "ÜST DÜZEY TEYİT",
-  "top_score": 79.75,
+  "top_score": 79.73,
   "rsi_usage": "DISABLED",
   "version": "V33.3"
 }

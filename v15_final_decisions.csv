@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,HUNER,4.17,LEARNED,44.85,ELE,44.75,77.29,40.0,-2.07,46.44,V15 ELE,69.63,84.0,70.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,LOGO,145.9,LEARNED,39.27,ELE,44.58,77.9,32.0,-1.34,44.47,V15 ELE,69.48,72.0,86.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-3,AHGAZ,44.0,LEARNED,41.39,ELE,43.25,68.04,36.0,0.56,44.16,V15 ELE,66.64,65.0,91.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | RSI yÃ¼ksek | EMA20 mesafesi yÃ¼ksek
+1,HUNER,4.17,LEARNED,44.91,ELE,44.82,77.38,40.0,-2.0,46.51,V15 ELE,69.63,84.0,70.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,AHGAZ,44.0,LEARNED,43.8,ELE,43.34,68.19,40.0,1.22,45.28,V15 ELE,66.64,65.0,91.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA zayÄ±f | RSI yÃ¼ksek | EMA20 mesafesi yÃ¼ksek
+3,LOGO,145.9,LEARNED,39.29,ELE,44.67,78.0,32.0,-1.34,44.53,V15 ELE,69.48,72.0,86.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
