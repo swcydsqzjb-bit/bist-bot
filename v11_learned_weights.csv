@@ -1,11 +1,11 @@
 ﻿feature,sample_count,correlation_with_5d,absolute_signal,normalized_weight,direction,message
-ema20_distance,306,0.1088,0.10875537021207397,18.33,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-smart_money_score,306,0.1003,0.10025986027630401,16.9,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-rsi,306,0.097,0.0970211965508117,16.35,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-v8_score,306,0.0797,0.079739675335567,13.44,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+ema20_distance,306,0.1088,0.10875537021207396,18.33,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+smart_money_score,306,0.1003,0.10025986027630404,16.9,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+rsi,306,0.097,0.09702119655081164,16.35,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+v8_score,306,0.0797,0.07973967533556708,13.44,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
 relationship_score,147,-0.0757,0.07567874691365316,12.76,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-volume_ratio,306,0.061,0.060974215105083905,10.28,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
-institutional_score,306,-0.0381,0.038134675477020416,6.43,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+volume_ratio,306,0.061,0.06097421510508394,10.28,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
+institutional_score,306,-0.0381,0.03813467547702041,6.43,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
 historical_support_score,159,0.0255,0.025496286993750464,4.3,pozitif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
 prediction_score,147,-0.0049,0.004919074451666816,0.83,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.
 live_confirmation_score,147,-0.0023,0.0023309303898992944,0.39,negatif,Ilk asama korelasyon agirligi; otomatik al-sat karari degildir.

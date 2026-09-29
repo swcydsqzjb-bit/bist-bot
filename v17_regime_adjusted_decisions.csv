@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,TRMET,140.4,YATAY,66.62,8,98.81,83.87,PÄ°YASA LÄ°DERÄ°,88.88,90.55,75.44,73.2,44.64,V15 ELE,6.0,61.63,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
-2,BAHKM,183.4,YATAY,66.62,6,99.15,86.04,PÄ°YASA LÄ°DERÄ°,92.36,95.02,85.81,60.08,47.63,V15 ELE,-1.0,57.38,V17 ELE,Yatay rejimde hacim birikimi | Yatay rejimde aşırı momentum
+1,TRMET,136.8,PANİK,100.0,8,98.81,82.14,PÄ°YASA LÄ°DERÄ°,89.69,84.72,75.18,72.12,43.02,V15 ELE,-6.0,47.97,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği

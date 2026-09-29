@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,BAHKM,183.4,V8 İZLEME,69.44,73.0,93.0,ZAYIF DNA,74.29,44.0,52.0,-0.13,BASE,64.04,3.0,21.0,46.04,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,TRMET,140.4,V8 İZLEME,67.67,79.0,74.0,ZAYIF DNA,79.23,32.0,52.0,-3.32,BASE,59.94,3.0,21.0,41.94,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,TRMET,136.8,V8 İZLEME,67.93,77.0,74.0,ZAYIF DNA,79.12,32.0,40.0,-8.71,BASE,58.07,0.0,21.0,37.07,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

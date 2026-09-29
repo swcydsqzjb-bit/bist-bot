@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,BAHKM,183.4,LEARNED,46.04,ELE,45.64,74.29,44.0,-0.13,47.63,V15 ELE,69.44,73.0,93.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,TRMET,140.4,LEARNED,41.94,ELE,43.86,79.23,32.0,-3.32,44.64,V15 ELE,67.67,79.0,74.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,TRMET,136.8,LEARNED,37.07,ELE,43.58,79.12,32.0,-8.71,43.02,V15 ELE,67.93,77.0,74.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
