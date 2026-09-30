@@ -1,2 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,TRMET,136.8,PANİK,100.0,8,98.81,82.14,PÄ°YASA LÄ°DERÄ°,89.69,84.72,75.18,72.12,43.02,V15 ELE,-6.0,47.97,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+1,GMTAS,49.24,PANİK,100.0,4,99.49,87.86,PÄ°YASA LÄ°DERÄ°,95.63,90.17,87.53,70.59,47.95,V15 ELE,-6.0,53.13,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+2,ENERY,13.08,PANİK,100.0,6,99.15,86.21,PÄ°YASA LÄ°DERÄ°,96.89,96.16,66.2,72.89,45.09,V15 ELE,-6.0,50.6,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+3,AHGAZ,42.22,PANİK,100.0,10,98.46,82.69,PÄ°YASA LÄ°DERÄ°,86.23,95.66,62.1,77.68,45.14,V15 ELE,-6.0,49.66,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği

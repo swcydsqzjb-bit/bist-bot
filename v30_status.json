@@ -1,13 +1,13 @@
 {
   "status": "ready",
   "learning_active": true,
-  "completed_observation_count": 77,
+  "completed_observation_count": 80,
   "minimum_required": 20,
   "pattern_count": 108,
-  "active_pattern_count": 3,
-  "active_adjustment_count": 3,
-  "total_available_bonus": 8.39,
+  "active_pattern_count": 2,
+  "active_adjustment_count": 2,
+  "total_available_bonus": 5.27,
   "max_total_bonus": 12.0,
-  "strongest_feature": "market_percentile",
+  "strongest_feature": "consensus_score",
   "version": "V30.0"
 }

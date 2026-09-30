@@ -1,2 +1,4 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,TRMET,136.8,LEARNED,37.07,ELE,43.58,79.12,32.0,-8.71,43.02,V15 ELE,67.93,77.0,74.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,GMTAS,49.24,LEARNED,45.7,ELE,47.63,76.75,32.0,-1.49,47.95,V15 ELE,73.3,79.0,93.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,AHGAZ,42.22,LEARNED,40.17,ELE,45.2,78.99,32.0,-1.46,45.14,V15 ELE,70.26,73.0,88.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+3,ENERY,13.08,LEARNED,43.76,ELE,43.24,75.48,36.0,-1.28,45.09,V15 ELE,67.76,74.0,76.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
