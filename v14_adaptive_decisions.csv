@@ -1,4 +1,2 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,GMTAS,49.24,V8 GÜÇLÜ,73.3,79.0,93.0,ZAYIF DNA,76.75,32.0,48.0,-1.49,BASE,63.7,3.0,21.0,45.7,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-2,ENERY,13.08,V8 İZLEME,67.76,74.0,76.0,ZAYIF DNA,75.48,36.0,60.0,-1.28,BASE,61.76,3.0,21.0,43.76,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
-3,AHGAZ,42.22,V8 İZLEME,70.26,73.0,88.0,ZAYIF DNA,78.99,32.0,32.0,-1.46,BASE,61.17,0.0,21.0,40.17,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,AHGAZ,43.3,V8 İZLEME,67.86,76.0,70.0,ZAYIF DNA,77.33,40.0,52.0,-3.08,BASE,60.72,3.0,21.0,42.72,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

@@ -5,12 +5,12 @@
   "max_candidates": 30,
   "regime": "PANİK",
   "regime_confidence": 100.0,
-  "timing_data_count": 3,
+  "timing_data_count": 1,
   "selected_timing_data_count": 1,
-  "risk_data_count": 3,
+  "risk_data_count": 1,
   "selected_risk_data_count": 1,
-  "top_symbol": "GLYHO",
-  "top_score": 98.16,
+  "top_symbol": "CELHA",
+  "top_score": 92.95,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
