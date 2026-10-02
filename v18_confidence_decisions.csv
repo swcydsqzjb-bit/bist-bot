@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,v15_score,v17_score,v17_decision,relative_strength_score,market_percentile,confidence_score,confidence_class,v18_decision,confidence_reasons,confidence_risks,completed_5d
-1,AHGAZ,43.3,PANİK,100.0,44.58,50.43,V17 ELE,86.92,100.0,78.0,YÜKSEK GÜVEN,V18 ELE,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | Ana bileşenlerin çoğu güçlü | Bileşenler birbiriyle uyumlu | V15 ve V17 uyumlu | Piyasa rejimi güveni yüksek | Öğrenme hafızası yeterli,V17 skoru zayıf | Piyasa rejimi adayı baskılıyor,310
+1,ENERY,13.53,YATAY,55.65,49.73,61.11,V17 TEMKİNLİ İZLEME,83.23,99.15,76.0,YÜKSEK GÜVEN,V18 TEMKİNLİ İZLEME,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | Ana bileşenlerin çoğu güçlü | Öğrenme hafızası yeterli,,313

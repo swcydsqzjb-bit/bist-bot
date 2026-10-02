@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,AHGAZ,43.3,LEARNED,42.72,ELE,42.87,77.33,40.0,-3.08,44.58,V15 ELE,67.86,76.0,70.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,ENERY,13.53,LEARNED,51.82,ELE,45.48,72.98,48.0,1.64,49.73,V15 ELE,70.59,74.0,88.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA zayÄ±f | EMA20 mesafesi yÃ¼ksek

@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,AHGAZ,43.3,PANİK,100.0,1,100.0,86.92,PÄ°YASA LÄ°DERÄ°,93.62,95.59,80.84,67.3,44.58,V15 ELE,-6.0,50.43,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+1,ENERY,13.53,YATAY,55.65,6,99.15,83.23,PÄ°YASA LÄ°DERÄ°,85.38,99.35,70.37,66.81,49.73,V15 ELE,2.0,61.11,V17 TEMKİNLİ İZLEME,Yatay rejimde hacim birikimi
