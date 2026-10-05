@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,v15_score,v17_score,v17_decision,relative_strength_score,market_percentile,confidence_score,confidence_class,v18_decision,confidence_reasons,confidence_risks,completed_5d
-1,ENERY,13.53,YATAY,55.65,49.73,61.11,V17 TEMKİNLİ İZLEME,83.23,99.15,76.0,YÜKSEK GÜVEN,V18 TEMKİNLİ İZLEME,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | Ana bileşenlerin çoğu güçlü | Öğrenme hafızası yeterli,,313
+1,CELHA,28.04,YATAY,68.18,42.28,51.64,V17 ELE,75.7,92.84,61.0,ORTA GÜVEN,V18 ELE,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | İki ana bileşen güçlü | Öğrenme hafızası yeterli,V17 skoru zayıf,313
