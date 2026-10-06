@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 1,
-  "selected_count": 0,
+  "selected_count": 1,
   "confirmed_count": 0,
-  "top_symbol": "CELHA",
-  "top_score": 54.07,
+  "top_symbol": "GLYHO",
+  "top_score": 53.1,
   "version": "V20.2"
 }
