@@ -10,8 +10,8 @@
   "total_learning_bonus": 0.0,
   "top_symbol": "GLYHO",
   "top_decision": "ELE",
-  "top_score": 36.84,
-  "v30_learning_active": false,
+  "top_score": 39.94,
+  "v30_learning_active": true,
   "rsi_usage": "DISABLED",
   "version": "V31.0"
 }

@@ -1,13 +1,13 @@
 {
   "status": "ready",
-  "learning_active": false,
-  "completed_observation_count": 86,
+  "learning_active": true,
+  "completed_observation_count": 88,
   "minimum_required": 20,
   "pattern_count": 108,
-  "active_pattern_count": 0,
-  "active_adjustment_count": 0,
-  "total_available_bonus": 0.0,
+  "active_pattern_count": 2,
+  "active_adjustment_count": 2,
+  "total_available_bonus": 6.3,
   "max_total_bonus": 12.0,
-  "strongest_feature": "",
+  "strongest_feature": "expected_return",
   "version": "V30.0"
 }

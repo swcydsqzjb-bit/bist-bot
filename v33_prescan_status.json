@@ -4,13 +4,13 @@
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 78.35,
+  "regime_confidence": 70.04,
   "timing_data_count": 1,
   "selected_timing_data_count": 1,
   "risk_data_count": 1,
   "selected_risk_data_count": 1,
-  "top_symbol": "SEKFK",
-  "top_score": 96.57,
+  "top_symbol": "CCOLA",
+  "top_score": 99.49,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }
