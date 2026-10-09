@@ -1,1 +1,2 @@
-﻿
+﻿portfolio_rank,symbol,model_weight_pct,allocation_label,confirmation_state,top_pick_score,ai_final_score,consensus_score,risk_class,risk_score,close,best_horizon_days,expected_return,downside_20pct,upside_80pct,why_now,conflict_note
+1,GLYHO,70.0,ANA ADAY,TEMKİNLİ İZLE,61.11,65.41,54.49,DÜŞÜK,24.0,17.55,5,1.75,-4.16,6.18,Göreli güçte piyasanın üst %10 diliminde | Zamanlama güveni yüksek | Tarihsel beklenen sonuç pozitif | Yatay piyasada göreli gücü korunuyor | Risk seviyesi düşük,Motorlar arasında belirgin görüş ayrılığı var
