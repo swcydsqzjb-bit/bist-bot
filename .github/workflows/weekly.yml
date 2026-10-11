@@ -1,0 +1,102 @@
+name: LARUS HAFTALIK RSI FK
+
+on:
+  schedule:
+    # Pazar 17.30 UTC = Türkiye saati 20.30
+    - cron: "30 17 * * 0"
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Deneme: Telegram gondermez, takip kaydini degistirmez"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: larus-weekly-rsi-fk
+  cancel-in-progress: false
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.CHAT_ID }}
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
+      SCAN_WORKERS: "2"
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
+
+    steps:
+      - name: Repoyu cek
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Haftalik tarama paketlerini kur
+        run: |
+          python -m pip install "yfinance==1.7.0" "pandas>=2.2,<3" "numpy>=1.26,<3"
+
+      - name: Haftalik taramayi calistir
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            python weekly_scan.py --dry-run
+          else
+            python weekly_scan.py
+          fi
+
+      - name: Haftalik raporlari sakla
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: larus-weekly-${{ github.run_id }}
+          path: weekly_rsi_fk_output/
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Haftalik takip kaydini kaydet
+        if: always() && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+        run: |
+          set -e
+
+          if [ ! -f weekly_rsi_fk/state.json ]; then
+            exit 0
+          fi
+
+          git config user.name "larus-weekly-bot"
+          git config user.email "larus-weekly-bot@users.noreply.github.com"
+
+          git add -- weekly_rsi_fk/state.json
+
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+
+          git commit -m "LARUS weekly RSI FK tracking"
+
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$GITHUB_REF_NAME"
+
+            if ! git rebase "origin/$GITHUB_REF_NAME"; then
+              git rebase --abort || true
+              exit 1
+            fi
+
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              exit 0
+            fi
+
+            sleep $((attempt * 3))
+          done
+
+          exit 1
