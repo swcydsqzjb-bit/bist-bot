@@ -1,0 +1,78 @@
+{
+  "selections": [
+    {
+      "week": "2026-10-09",
+      "candidates": [
+        {
+          "rsi": 26.442089666239397,
+          "pe": 11.95945997495909,
+          "price": 8.850000381469727,
+          "volume_ratio": 3.513445425128431,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "LIDER",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 30.59811345035679,
+          "pe": 12.565729516479825,
+          "price": 13.859999656677246,
+          "volume_ratio": 2.150189019267386,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "OZRDN",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 31.653842949250134,
+          "pe": 8.664772727272727,
+          "price": 122.0,
+          "volume_ratio": 1.416642035881699,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "GRTHO",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 24.58358920466864,
+          "pe": 10.666666825612387,
+          "price": 3.200000047683716,
+          "volume_ratio": 0.5272344883313631,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "symbol": "DAPGM",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 27.02228150688184,
+          "pe": 13.333333532015484,
+          "price": 0.800000011920929,
+          "volume_ratio": 0.13208362362955503,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "symbol": "ALVES",
+          "earnings_quarter": "2026-06-30"
+        }
+      ],
+      "created_at": "2026-10-11T23:42:48.506651+03:00"
+    }
+  ]
+}
