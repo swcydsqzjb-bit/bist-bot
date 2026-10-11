@@ -1,4 +1,4 @@
-"""Larus haftalık BIST taraması."""
+"""LARUS haftalık RSI + F/K taraması."""
 from __future__ import annotations
 
 import argparse
@@ -11,8 +11,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
 from pathlib import Path
-from urllib.request import Request, urlopen
 from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -34,8 +34,10 @@ def finite_positive(value):
 def cutoff_friday(now=None):
     now = now or datetime.now(ZoneInfo("Europe/Istanbul"))
     day = now.date()
+
     if day.weekday() == 4 and now.hour < 19:
         day -= timedelta(days=7)
+
     return pd.Timestamp(
         day - timedelta(days=(day.weekday() - 4) % 7)
     )
@@ -185,6 +187,7 @@ def universe():
     else:
         def get_page(page):
             url = "https://stockanalysis.com/list/borsa-istanbul/"
+
             if page > 1:
                 url += f"?page={page}"
 
@@ -192,6 +195,7 @@ def universe():
                 url,
                 headers={"User-Agent": "Mozilla/5.0"},
             )
+
             with urlopen(req, timeout=40) as response:
                 return response.read().decode()
 
@@ -222,7 +226,7 @@ def universe():
         if len(symbols) < expected:
             raise RuntimeError(
                 f"Hisse listesi eksik: "
-                f"{len(symbols)}/{expected}. Tarama durdu."
+                f"{len(symbols)}/{expected}."
             )
 
         source = "StockAnalysis"
@@ -235,8 +239,7 @@ def universe():
 
     if len(symbols) < 500 and not manual.exists():
         raise RuntimeError(
-            "Otomatik hisse listesi 500 altında; "
-            "kapsam doğrulanamadı."
+            "Otomatik hisse listesi 500 altında."
         )
 
     if not symbols:
@@ -344,6 +347,7 @@ def update_tracking(state, prices, cutoff):
                     "week": target.date().isoformat(),
                     "return_pct": float((end / base - 1) * 100),
                 }
+
                 results.append({
                     "symbol": item["symbol"],
                     "origin": entry["week"],
@@ -404,7 +408,57 @@ def main():
         else {"selections": []}
     )
 
-    symbols, source = universe()
+    # Web sitesi erişimi engellerse depodaki kod listesi kullanılır.
+    try:
+        symbols, source = universe()
+    except Exception as exc:
+        print(
+            f"Web listesi alınamadı: {type(exc).__name__}; "
+            "yedek liste deneniyor.",
+            flush=True,
+        )
+
+        snapshot = ROOT / "v16_full_market_snapshot.csv"
+
+        if not snapshot.exists():
+            raise RuntimeError(
+                "Yedek hisse listesi bulunamadı."
+            ) from None
+
+        table = pd.read_csv(
+            snapshot, encoding="utf-8-sig"
+        )
+
+        if "symbol" not in table.columns:
+            raise RuntimeError(
+                "Yedek listede symbol sütunu yok."
+            )
+
+        codes = (
+            table["symbol"]
+            .dropna()
+            .astype(str)
+            .str.strip()
+            .str.upper()
+            .str.replace(r"\.IS$", "", regex=True)
+        )
+
+        symbols = sorted({
+            code for code in codes
+            if re.fullmatch(r"[A-Z0-9]{3,8}", code)
+        })
+
+        if len(symbols) < 500:
+            raise RuntimeError(
+                f"Yedek liste yetersiz: {len(symbols)} hisse."
+            )
+
+        source = "V16 yedek hisse kodları"
+
+    print(
+        f"Hisse listesi: {source} | {len(symbols)} hisse",
+        flush=True,
+    )
 
     tracked = {
         i["symbol"]
@@ -465,6 +519,7 @@ def main():
         pd.DataFrame(diagnostics).to_csv(
             OUT / "diagnostics.csv", index=False
         )
+
         raise RuntimeError(
             f"Yetersiz fiyat verisi kapsamı "
             f"({valid}/{len(symbols)}): "
@@ -503,6 +558,7 @@ def main():
         "LARUS — HAFTALIK RSI + F/K",
         f"Tamamlanan hafta: {week}",
         f"Evren: {len(symbols)} | Güncel fiyat verisi: {valid}",
+        f"Liste kaynağı: {source}",
         "Koşullar: haftalık RSI(14)<40; F/K 5–15",
         "",
     ]
@@ -539,6 +595,7 @@ def main():
 
     if recent:
         lines.append("ÖNCEKİ LİSTENİN 1 HAFTALIK SONUCU")
+
         lines.extend(
             f"{r['symbol']}: %{r['return_pct']:+.2f}"
             for r in recent
@@ -608,10 +665,12 @@ def main():
     if not args.dry_run:
         STATE.parent.mkdir(exist_ok=True)
         temporary = STATE.with_suffix(".tmp")
+
         temporary.write_text(
             json.dumps(state, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
+
         temporary.replace(STATE)
         telegram(message)
 
