@@ -15,7 +15,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "LIDER",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-16",
+            "return_pct": -8.587572837546276
+          }
         },
         {
           "rsi": 30.59811345035679,
@@ -29,7 +33,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "OZRDN",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-16",
+            "return_pct": -16.810966676925887
+          }
         },
         {
           "rsi": 31.653842949250134,
@@ -43,7 +51,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "GRTHO",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-16",
+            "return_pct": -40.901640594982716
+          }
         },
         {
           "rsi": 24.58358920466864,
@@ -56,7 +68,11 @@
             "Güçlü haftalık kapanış"
           ],
           "symbol": "DAPGM",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-16",
+            "return_pct": -11.875003399327344
+          }
         },
         {
           "rsi": 27.02228150688184,
@@ -69,10 +85,74 @@
             "Güçlü haftalık kapanış"
           ],
           "symbol": "ALVES",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-16",
+            "return_pct": -32.499998323619394
+          }
         }
       ],
       "created_at": "2026-10-11T23:42:48.506651+03:00"
+    },
+    {
+      "week": "2026-10-16",
+      "candidates": [
+        {
+          "rsi": 39.48954485682283,
+          "pe": 5.996539765988254,
+          "price": 17.329999923706055,
+          "volume_ratio": 1.8664354058765915,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "CRDFA",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 19.456248906939564,
+          "pe": 13.982608629309613,
+          "price": 16.079999923706055,
+          "volume_ratio": 0.7357766543201676,
+          "score": 0,
+          "reasons": [],
+          "symbol": "MOPAS",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 19.54730662424761,
+          "pe": 5.382830626450116,
+          "price": 116.0,
+          "volume_ratio": 0.9482382845652028,
+          "score": 0,
+          "reasons": [],
+          "symbol": "RAYSG",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 20.402203840671888,
+          "pe": 5.565217266912046,
+          "price": 1.2799999713897705,
+          "volume_ratio": 0.8037310148222373,
+          "score": 0,
+          "reasons": [],
+          "symbol": "KATMR",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 21.066398001291418,
+          "pe": 8.705882465138155,
+          "price": 1.4800000190734863,
+          "volume_ratio": 0.3200329178642696,
+          "score": 0,
+          "reasons": [],
+          "symbol": "IHEVA",
+          "earnings_quarter": "2026-06-30"
+        }
+      ],
+      "created_at": "2026-10-18T22:35:21.873816+03:00"
     }
   ]
 }
