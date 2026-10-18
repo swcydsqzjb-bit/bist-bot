@@ -1,0 +1,48 @@
+{
+  "selections": [
+    {
+      "week": "2026-10-16",
+      "candidates": [
+        {
+          "rsi": 52.656701034886886,
+          "pe": 7.304761977422805,
+          "price": 30.68000030517578,
+          "volume_ratio": 0.39344584309500835,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 0.5007577555678155,
+          "symbol": "PCILT"
+        },
+        {
+          "rsi": 52.24996500957286,
+          "pe": 10.888889100816515,
+          "price": 3.9200000762939453,
+          "volume_ratio": 0.7287785695443785,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 2.047776700076809,
+          "symbol": "AKFYE"
+        },
+        {
+          "rsi": 59.05587607548325,
+          "pe": 5.778877963327339,
+          "price": 17.510000228881836,
+          "volume_ratio": 0.7875431510946853,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 6.3130817153179475,
+          "symbol": "GLYHO"
+        }
+      ]
+    }
+  ]
+}
