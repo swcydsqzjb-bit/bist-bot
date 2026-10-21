@@ -1,8 +1,8 @@
 {
   "status": "ready",
   "requested_symbol_count": 710,
-  "market_count": 587,
+  "market_count": 592,
   "candidate_count": 1,
-  "leader_count": 59,
+  "leader_count": 60,
   "comparison_scope": "FULL_MARKET"
 }

@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,v15_score,v17_score,v17_decision,relative_strength_score,market_percentile,confidence_score,confidence_class,v18_decision,confidence_reasons,confidence_risks,completed_5d
-1,GLYHO,17.55,YATAY,72.01,54.92,66.55,V17 TEMKİNLİ İZLEME,85.76,99.32,83.0,ÇOK YÜKSEK GÜVEN,V18 TEMKİNLİ İZLEME,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | Ana bileşenlerin çoğu güçlü | Bileşenler birbiriyle uyumlu | Öğrenme hafızası yeterli,,323
+1,YKBNK,36.66,YATAY,55.16,42.68,30.73,V17 ELE,0.0,0.0,21.0,ÇOK DÜŞÜK GÜVEN,V18 ELE,Bileşenler birbiriyle uyumlu | Öğrenme hafızası yeterli,V17 skoru zayıf | Göreli güç zayıf | Karşılaştırma grubunun alt diliminde | Birden fazla bileşen zayıf,331
