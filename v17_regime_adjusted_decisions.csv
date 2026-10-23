@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,YKBNK,36.66,YATAY,55.16,0,0.0,0.0,,0.0,0.0,0.0,0.0,42.68,V15 ELE,0.0,30.73,V17 ELE,Rejim kaynaklı ek puan değişimi yok
+1,ENTRA,4.41,PANİK,100.0,3,99.66,85.84,PÄ°YASA LÄ°DERÄ°,94.97,88.69,57.76,96.05,50.54,V15 ELE,-3.0,57.42,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde yüksek kalite | Panik rejiminde piyasa liderliği

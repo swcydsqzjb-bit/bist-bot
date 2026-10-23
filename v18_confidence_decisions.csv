@@ -1,2 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,v15_score,v17_score,v17_decision,relative_strength_score,market_percentile,confidence_score,confidence_class,v18_decision,confidence_reasons,confidence_risks,completed_5d
-1,YKBNK,36.66,YATAY,55.16,42.68,30.73,V17 ELE,0.0,0.0,21.0,ÇOK DÜŞÜK GÜVEN,V18 ELE,Bileşenler birbiriyle uyumlu | Öğrenme hafızası yeterli,V17 skoru zayıf | Göreli güç zayıf | Karşılaştırma grubunun alt diliminde | Birden fazla bileşen zayıf,331
+1,ENTRA,4.41,PANİK,100.0,50.54,57.42,V17 ELE,85.84,99.66,81.0,YÜKSEK GÜVEN,V18 ELE,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | Ana bileşenlerin çoğu güçlü | Piyasa rejimi güveni yüksek | Öğrenme hafızası yeterli,,331
