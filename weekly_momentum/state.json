@@ -14,7 +14,11 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 0.5007577555678155,
-          "symbol": "PCILT"
+          "symbol": "PCILT",
+          "outcome": {
+            "week": "2026-10-23",
+            "return_pct": -11.799220349494899
+          }
         },
         {
           "rsi": 52.24996500957286,
@@ -27,7 +31,11 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 2.047776700076809,
-          "symbol": "AKFYE"
+          "symbol": "AKFYE",
+          "outcome": {
+            "week": "2026-10-23",
+            "return_pct": -6.887754481417707
+          }
         },
         {
           "rsi": 59.05587607548325,
@@ -40,7 +48,30 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 6.3130817153179475,
-          "symbol": "GLYHO"
+          "symbol": "GLYHO",
+          "outcome": {
+            "week": "2026-10-23",
+            "return_pct": -11.707596595878368
+          }
+        }
+      ]
+    },
+    {
+      "week": "2026-10-23",
+      "candidates": [
+        {
+          "rsi": 54.1443321236917,
+          "pe": 9.8611107578984,
+          "price": 21.299999237060547,
+          "volume_ratio": 1.7266995035017054,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 5.128976489430248,
+          "symbol": "SANKO"
         }
       ]
     }
