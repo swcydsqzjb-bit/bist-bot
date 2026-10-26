@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,ENTRA,4.41,LEARNED,55.09,ELE,44.48,81.02,48.0,0.34,50.54,V15 ELE,72.14,82.0,75.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f
+1,ENTRA,4.42,LEARNED,64.39,TEMKÄ°NLÄ° Ä°ZLEME,44.42,80.91,52.0,0.37,53.49,V15 ELE,71.36,82.0,76.0,KARISIK DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA karÄ±ÅÄ±k
+2,SANKO,21.3,LEARNED,36.89,ELE,41.92,79.71,36.0,-4.35,42.3,V15 ELE,65.3,72.0,81.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
