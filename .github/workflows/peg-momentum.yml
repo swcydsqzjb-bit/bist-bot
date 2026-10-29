@@ -1,0 +1,53 @@
+name: LARUS PEG Momentum
+
+on:
+  workflow_dispatch:
+    inputs:
+      asof:
+        description: 'Tamamlanmış seans tarihi YYYY-MM-DD (boş: otomatik)'
+        required: false
+  pull_request:
+    paths:
+      - 'peg_momentum/**'
+      - '.github/workflows/peg-momentum.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install 'pandas>=2.2,<3' 'numpy>=1.26,<3'
+      - run: python -m unittest discover -s peg_momentum/tests -v
+  scan:
+    if: github.event_name == 'workflow_dispatch'
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: Fiyatları indir ve doğrulanmış temel verilerle tara
+        env:
+          SCAN_DATE: ${{ inputs.asof }}
+        run: |
+          if [ -n "$SCAN_DATE" ]; then
+            python -m peg_momentum.run --asof "$SCAN_DATE"
+          else
+            python -m peg_momentum.run
+          fi
+      - name: Tanı ve sonuç dosyalarını sakla
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: peg-momentum-results
+          path: peg_momentum_output/
+          if-no-files-found: warn
