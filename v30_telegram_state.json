@@ -1,10 +1,10 @@
 {
-  "updated_at_utc": "2026-10-26T22:14:05.006066+00:00",
-  "total_observations": 94,
+  "updated_at_utc": "2026-10-29T22:26:44.806108+00:00",
+  "total_observations": 95,
   "latest_observation_count": 1,
   "completed_observations": 92,
   "pattern_count": 108,
   "active_pattern_count": 1,
   "active_adjustment_count": 1,
-  "total_available_bonus": 3.56
+  "total_available_bonus": 3.54
 }

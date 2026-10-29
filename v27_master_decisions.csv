@@ -1,2 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,ENTRA,ELE,35.59,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,47.21,TEYİT BEKLE,50.0,50.0,YENİ,49.23,ORTA,46.0,PANİK,97.64,1,83.2,-0.42,-3.03,0.97,4.42,4.42
+1,ENTRA,ELE,40.54,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,53.26,TEYİT BEKLE,50.0,50.0,YENİ,72.32,ORTA,35.0,YATAY,92.09,1,80.14,-0.69,-3.03,0.42,4.42,4.42
