@@ -27,8 +27,7 @@ def fundamental(row, asof):
             return 'DATA_MISSING', [key + '_missing'], {}
     if str(row.get('comparable', '')).lower() not in {'true', '1', '1.0'}:
         return 'DATA_MISSING', ['comparability_not_verified'], {}
-    if str(row.get('recurring_earnings_verified', '')).lower() not in {'true', '1', '1.0'}:
-        return 'DATA_MISSING', ['recurring_earnings_not_verified'], {}
+    recurring_verified = str(row.get('recurring_earnings_verified', '')).lower() in {'true', '1', '1.0'}
     for key in FIN_FIELDS:
         try:
             if not np.isfinite(float(row.get(key, np.nan))):
@@ -79,7 +78,11 @@ def fundamental(row, asof):
     metrics = dict(peg_historical=peg, eps_growth_pct=growth,
                    operating_profit_growth_pct=op_growth * 100,
                    cash_conversion=cash_ratio, net_debt_ebitda=leverage)
-    return ('REJECTED' if reasons else 'PASS'), reasons, metrics
+    if reasons:
+        return 'REJECTED', reasons, metrics
+    if not recurring_verified:
+        return 'REVIEW_REQUIRED', ['recurring_earnings_not_verified'], metrics
+    return 'PASS', [], metrics
 
 
 def rma(s, n):

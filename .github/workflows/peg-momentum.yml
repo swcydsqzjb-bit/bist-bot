@@ -35,6 +35,12 @@ jobs:
         with:
           python-version: '3.10'
       - run: pip install -r requirements.txt
+      - name: PDF metin okuma aracını hazırla
+        run: |
+          if ! command -v pdftotext >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
       - name: Fiyatları indir ve doğrulanmış temel verilerle tara
         env:
           SCAN_DATE: ${{ inputs.asof }}

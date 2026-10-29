@@ -9,9 +9,11 @@ Bu modülde RSI kullanılır; önceki RSI'siz motorlar aynı kalır.
 - Hisse evreni mevcut `weekly_scan.universe()` fonksiyonundan alınır. Otomatik liste eksikse tarama durur; eski V16 listesine sessizce düşmez.
 - Yahoo'dan 5 yıllık günlük veriler alınır; OHLC'nin tamamı aynı düzeltme faktörüyle işlenir.
 - İş Yatırım mali tablo servisinden otomatik bilanço indirme eklendi. Son açıklanan dört dönem sayfadaki dönem listesinden bulunur; takvimde bir çeyrek geçti diye bilanço açıklanmış sayılmaz.
-- **İndirme, karşılaştırılabilir PEG verisi doğrulaması değildir.** Kaynak birikimli tablolar sunuyor ve bazı geçmiş yıl sonlarını güncel baza taşıyor. Yayın zamanı, tüm dönemlerin aynı satın alma gücü ve tek seferlik kâr kontrolleri henüz çözülemedi.
+- **İndirme, karşılaştırılabilir PEG verisi doğrulaması değildir.** Kaynak birikimli tablolar sunuyor ve bazı geçmiş yıl sonlarını güncel baza taşıyor. Genel şirket evreni için yayın zamanı, karşılaştırma bazı ve tek seferlik kâr kontrolleri henüz tamamlanmadı; aşağıdaki ASELS zinciri istisnadır.
+- **Yeni: ASELS 2026/09 zinciri için aynı satın alma gücünde hesap doğrulandı.** Tam KAP raporları ve PDF dipnotlarından katsayı, yayın zamanı, karşılaştırmalı dönemler ve ağırlıklı pay sayıları okunur. Bu ilk desteklenen zincirdir; tüm şirketler için otomatik normalizasyon değildir.
 - Mevcut botun Yahoo EPS/FK verisi, karşılaştırılabilir esas faaliyet kârı ve nakit akışı yerine kullanılmaz.
 - Bu nedenle doğrulanmış `peg_momentum/data/fundamentals.csv` yokken durum `INCOMPLETE_DATA` olur, aday listesi boş kalır ve süreç kod 2 ile çıkar. Rapor ve teknik ön izleme yine saklanır.
+- Kullanıcı tarafından sağlanan doğrulanmış CSV yoksa runner desteklenen KAP zincirini dener; başarılı satır `kap_normalized_preview.csv` olur. Kâr kalitesi henüz doğrulanmadığı için bu satır REVIEW_REQUIRED kalır. Hata halinde önceki çalıştırmanın normalleştirilmiş çıktısı yeniden kullanılmaz.
 - Otomatik Telegram gönderimi, emir gönderimi, zamanlanmış çalışma ve geçmiş performans testi bu değişiklikte yoktur.
 
 ## Çalıştırma
@@ -43,6 +45,53 @@ KAP özet sayfası ise cari dönem sütunlarını saklıyor ve sonraki düzeltme
 Bu nedenle farklar veri hatası olarak sınıflandırılmaz; karşılaştırma bazı incelemesi gerektirir.
 KAP özetinden eski ve yeni kalemleri doğrudan birleştirerek TTM türetilmez.
 Kontrol sonuçları: `validation/kap_sample_audit_2026-10-30.csv`.
+
+## Aynı bazda KAP hesabı — ilk doğrulanan zincir
+
+```bash
+python -m peg_momentum.kap_normalize
+```
+
+`pdftotext` gerekir (Ubuntu: `poppler-utils`). Tarama iş akışı eksikse bu aracı kurar.
+Desteklenen raporlar: ASELS 2026/09 (1688432), 2025/12 (1561039), 2025/09 (1511313).
+Kaynaklar doğrudan `https://www.kap.org.tr/tr/Bildirim/<numara>` ve bu bildirimlerin Türkçe PDF ekleridir.
+
+Katsayılar son PDF'nin enflasyon dipnotundan otomatik okunur:
+2025/12 → 2026/09: 1,2432; 2025/09 → 2026/09: 1,2973.
+Bütün raporların satın alma gücü tarihleri ve nakit akışı/gelir tablosu bağlamları ayrıca doğrulanır.
+Ortak gözlemlerle beş raporlar arası tutarlılık kontrolü yapılır; fark varsa hesap reddedilir.
+PDF dipnotlarının her birinde ağırlıklı payların sabit olduğu ve sulandırılmış pay bulunmadığı doğrulanır.
+Sermayeyi doğrudan pay sayısı varsaymak yerine bu pay başına kazanç dipnotu kullanılır.
+
+Son 12 ay kârı = cari YTD + önceki yıl tam yıl kârı × yıl sonu katsayısı − son rapordaki karşılaştırmalı YTD.
+Önceki 12 ay kârı = son rapordaki karşılaştırmalı YTD + yıllık rapordaki önceki yıl tam yıl kârı × yıl sonu katsayısı − önceki ara rapordaki karşılaştırmalı YTD × ara dönem katsayısı.
+Nakit akışı, faaliyet kârı ve amortisman da aynı satın alma gücünde yıllıklandırılır.
+Çeyreklik faaliyet kârı ve satışlar doğrudan son raporun açık üç aylık sütunlarından alınır.
+FAVÖK, faaliyet kârı + nakit akışındaki amortisman ile hesaplanan yaklaşık değerdir; şirketin düzeltilmiş FAVÖK'ü değildir.
+Katsayılar raporda dört ondalığa yuvarlandığı için türetilen rakamlar da bu hassasiyetle yaklaşık değerlerdir.
+
+30 Ekim kontrolünde, 28 Ekim kapanışı 358,50 TL ile:
+
+| Hesap | Yaklaşık sonuç |
+|---|---:|
+| Aynı bazda son 12 ay ana ortaklık kârı | 48,589 milyar TL |
+| Karşılaştırılabilir önceki 12 ay kârı | 29,389 milyar TL |
+| EPS büyümesi | %65,33 |
+| Tarihsel F/K | 33,64 |
+| Tarihsel PEG | 0,515 |
+| Çeyreklik esas faaliyet kârı yıllık büyümesi | %59,42 |
+| İşletme nakit akışı / net kâr | 1,081 |
+
+Sonuç **REVIEW_REQUIRED**: sayısal koşullar uygun olsa bile tek seferlik kâr/gelir kalitesi kontrolü tamamlanmış sayılmaz.
+Bu bir alım sinyali değildir; haftalık teknik tetik de bu örnekte çalıştırılmadı.
+Sonuç dosyası: `validation/asels_normalization_2026-10-30.json`.
+
+Bilinen sınırlar: diğer şirketler henüz desteklenmiyor; yabancı fonksiyonel para birimi (ör. THYAO),
+değişen ağırlıklı pay sayısı veya eksik katsayılar bu modelde reddedilir. Sabit rapor numaraları kullanılır;
+aynı döneme ait sonraki düzeltmelerin tam keşfi henüz uygulanmadı. Kaynak sayfası daha yeni dönem gösterirse eski zincir kullanılmaz.
+Kapanış sonrası açıklama en erken sonraki hafta içi güne alınır; resmi tatil/yarım gün takviminin genel entegrasyonu hâlâ eksiktir.
+Kâr kalitesi doğrulanmadığında metrikler artık gizlenmez; sayısal koşullar geçiyorsa REVIEW_REQUIRED,
+sayısal bir koşul başarısızsa REJECTED raporlanır. Her iki durumda da aday listesine girmez.
 
 `python -m peg_momentum.run --asof 2026-10-30` ile kapanmış seans tarihi seçilebilir.
 Yerel İstanbul saati 19:00 öncesi bugünkü veriler kullanılmaz; hafta sonu cuma kullanılır.

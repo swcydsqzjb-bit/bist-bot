@@ -140,7 +140,14 @@ def main():
     path = Path(args.fundamentals)
     financials_present = path.is_file()
     if not financials_present:
-        path = ROOT / 'peg_momentum/templates/fundamentals.csv'
+        try:
+            from .kap_normalize import collect
+            path=collect(out,ROOT/'.kap_report_cache',asof)
+            financials_present=True
+        except Exception as exc:
+            (out/'kap_normalization_error.json').write_text(json.dumps({'error':type(exc).__name__,
+                'reason':str(exc)[:200], 'note':'No stale normalized CSV reused.'}),encoding='utf-8')
+            path = ROOT / 'peg_momentum/templates/fundamentals.csv'
     engine.run(SimpleNamespace(asof=str(asof.date()), universe=out/'universe.csv', prices=out/'prices.csv',
                                fundamentals=path, benchmark='XU100', output=out))
     summary = finish_report(out, asof, source, symbols, prices, diagnostics, financials_present)
