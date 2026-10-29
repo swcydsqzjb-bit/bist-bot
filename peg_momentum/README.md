@@ -8,7 +8,9 @@ Bu modülde RSI kullanılır; önceki RSI'siz motorlar aynı kalır.
 - CSV tarama motoru ve otomatik günlük fiyat indirme adaptörü hazır.
 - Hisse evreni mevcut `weekly_scan.universe()` fonksiyonundan alınır. Otomatik liste eksikse tarama durur; eski V16 listesine sessizce düşmez.
 - Yahoo'dan 5 yıllık günlük veriler alınır; OHLC'nin tamamı aynı düzeltme faktörüyle işlenir.
-- **Doğrulanmış otomatik bilanço adaptörü henüz yok.** Mevcut botun Yahoo EPS/FK verisi, karşılaştırılabilir esas faaliyet kârı ve nakit akışı yerine kullanılmaz.
+- İş Yatırım mali tablo servisinden otomatik bilanço indirme eklendi. Son açıklanan dört dönem sayfadaki dönem listesinden bulunur; takvimde bir çeyrek geçti diye bilanço açıklanmış sayılmaz.
+- **İndirme, karşılaştırılabilir PEG verisi doğrulaması değildir.** Kaynak birikimli tablolar sunuyor ve bazı geçmiş yıl sonlarını güncel baza taşıyor. Yayın zamanı, tüm dönemlerin aynı satın alma gücü ve tek seferlik kâr kontrolleri henüz çözülemedi.
+- Mevcut botun Yahoo EPS/FK verisi, karşılaştırılabilir esas faaliyet kârı ve nakit akışı yerine kullanılmaz.
 - Bu nedenle doğrulanmış `peg_momentum/data/fundamentals.csv` yokken durum `INCOMPLETE_DATA` olur, aday listesi boş kalır ve süreç kod 2 ile çıkar. Rapor ve teknik ön izleme yine saklanır.
 - Otomatik Telegram gönderimi, emir gönderimi, zamanlanmış çalışma ve geçmiş performans testi bu değişiklikte yoktur.
 
@@ -21,6 +23,26 @@ pip install -r requirements.txt
 python -m unittest discover -s peg_momentum/tests -v
 python -m peg_momentum.run
 ```
+
+Yalnızca üç şirketle canlı kaynak kontrolü (fiyat/aday taraması yapmaz):
+
+```bash
+python -m peg_momentum.financial_source --symbols THYAO,ASELS,BIMAS
+python -m peg_momentum.source_audit --source-csv peg_momentum_output/source_financials.csv
+```
+
+`--symbols` verilmezse mevcut botun hisse evreni kullanılır. Kaynak erişim hatalarında kod atlanmaz;
+tanı dosyasına hata satırı yazılır. Otomatik indirme, doğrulanmış `data/fundamentals.csv` dosyasının üzerine yazmaz.
+Üç şirket için yapılan canlı kontrol tüm BIST'in bilanço kapsamını kanıtlamaz.
+
+30 Ekim 2026 kontrolü: THYAO 2026/06, ASELS 2026/09 ve BIMAS 2026/06 dönemlerindeki
+satış, esas faaliyet kârı ve ana ortaklık net kârından oluşan 9 güncel kalem KAP özet tablosuyla
+gösterim hassasiyeti içinde eşleşti. Aynı şirketlerin 2025/12 dönemlerindeki 9 kalemde fark görüldü.
+İş Yatırım, son yıl sonu rakamlarının enflasyonla son finansal döneme taşındığını açıklıyor;
+KAP özet sayfası ise cari dönem sütunlarını saklıyor ve sonraki düzeltmeleri içermediğini belirtiyor.
+Bu nedenle farklar veri hatası olarak sınıflandırılmaz; karşılaştırma bazı incelemesi gerektirir.
+KAP özetinden eski ve yeni kalemleri doğrudan birleştirerek TTM türetilmez.
+Kontrol sonuçları: `validation/kap_sample_audit_2026-10-30.csv`.
 
 `python -m peg_momentum.run --asof 2026-10-30` ile kapanmış seans tarihi seçilebilir.
 Yerel İstanbul saati 19:00 öncesi bugünkü veriler kullanılmaz; hafta sonu cuma kullanılır.
@@ -98,6 +120,9 @@ eksik seans takviminin tam kontrolü henüz yoktur.
 - `download_diagnostics.csv`: her kod için indirilen satır sayısı/erişim hatası.
 - `status.json`, `report.md`: kapsam ve veri eksikliği özeti.
 - `prices.csv`, `universe.csv`: o çalıştırmada kullanılan girdiler.
+- `source_financials.csv`: TRY cinsinden kaynak kalemler; birikimli/sonradan düzeltilmiş veriler olabilir, TTM değildir.
+- `financial_source_diagnostics.csv`, `financial_source_status.json`: indirme kapsamı ve doğrulama sınırı.
+- `kap_sample_audit.csv`: yalnızca desteklenen üç şirket için KAP kalem kontrolü; eşleşme PEG doğrulaması sayılmaz.
 
 Otomatik runner'da yeterli fiyat veya değerlendirilmiş temel veri kapsamı %70 altındaysa aday listesi baskılanır,
 `INCOMPLETE_DATA` yazılır. Hiçbir hisse şartları geçmediği halde veriler yeterliyse bu geçerli bir sıfır-aday sonucudur.
@@ -111,6 +136,8 @@ Eski çıktılar Telegram'a gönderilmez; bu modül hiçbir mesaj göndermez.
 
 - yfinance fiyat parametreleri: https://ranaroussi.github.io/yfinance/reference/yfinance.price_history.html
 - TMS29 karşılaştırma örneği: https://www.kap.org.tr/tr/api/file/download/4028328c9d7b22d2019ddf0b54bb705d
+- İş Yatırım mali tablo baz notu: https://www.isyatirim.com.tr/tr-tr/analiz/hisse/Sayfalar/sirket-karti.aspx?hisse=THYAO
+- KAP özet/baz uyarısı: https://www.kap.org.tr/tr/sirket-finansal-bilgileri/4028e4a140f2ed720140f376bebb01a7
 - Teknik eşikler yatırım performansı kanıtı değildir. Likidite/spread, işlem kısıtları, tavan/taban erişimi ve haber analizi modellenmedi.
 - Gerçek geçmiş testte o tarihte bilinen bilanço arşivi, tarihteki evren, sonraki seans gerçekleştirilebilir giriş fiyatı,
   komisyon ve kayma gerekir. Bu değişiklik bunları uygulamaz.

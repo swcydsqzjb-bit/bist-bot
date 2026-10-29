@@ -124,6 +124,10 @@ def main():
     out = Path(args.output)
     out.mkdir(parents=True, exist_ok=True)
     pd.DataFrame({'symbol': symbols}).to_csv(out/'universe.csv', index=False)
+    # Automatic acquisition is an evidence/diagnostic layer, never a substitute
+    # for comparison-basis and publication-time verification.
+    from .financial_source import acquire
+    acquire(symbols, asof.date(), out, args.workers)
     frames, diagnostics = [], []
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         for n, (symbol, frame, error) in enumerate(pool.map(lambda s: download_one(s, asof), symbols + ['XU100']), 1):
