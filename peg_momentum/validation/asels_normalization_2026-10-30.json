@@ -1,0 +1,33 @@
+{
+  "period_end": "2026-09-30",
+  "coefficients": {
+    "2026-09-30": 1.0,
+    "2025-12-31": 1.2432,
+    "2025-09-30": 1.2973
+  },
+  "weighted_shares": 4560000000.0,
+  "eps_growth_pct": 65.33139483143631,
+  "peg_historical": 0.5149813970951769,
+  "ebitda_method": "operating profit plus cashflow depreciation; proxy, not company-adjusted EBITDA",
+  "recurring_earnings_verified": false,
+  "scope": "ASELS_CHAIN_ONLY",
+  "report_ids": [
+    1688432,
+    1561039,
+    1511313
+  ],
+  "asof": "2026-10-29",
+  "price_date": "2026-10-28",
+  "price": 358.5,
+  "status": "REVIEW_REQUIRED",
+  "reasons": [
+    "recurring_earnings_not_verified"
+  ],
+  "metrics": {
+    "peg_historical": 0.5149813970951769,
+    "eps_growth_pct": 65.33139483143631,
+    "operating_profit_growth_pct": 59.418183775070446,
+    "cash_conversion": 1.0812060955536036,
+    "net_debt_ebitda": 0.7240251070379949
+  }
+}

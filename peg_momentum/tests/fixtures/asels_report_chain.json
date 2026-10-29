@@ -1,0 +1,312 @@
+[
+  {
+    "report_id": 1688432,
+    "published": "2026-10-27T18:34:03+03:00",
+    "statements": {
+      "balance": {
+        "contexts": [
+          [
+            "2026-09-30"
+          ],
+          [
+            "2025-12-31"
+          ]
+        ],
+        "values": {
+          "ifrs-full_CashAndCashEquivalents": [
+            31845162000.0,
+            36159144000.0
+          ],
+          "ifrs-full_Assets": [
+            618870910000.0,
+            536532103000.0
+          ],
+          "kap-fr_CurrentBorowings": [
+            25688821000.0,
+            16317607000.0
+          ],
+          "kap-fr_CurrentPortionOfNoncurrentBorrowings": [
+            42408432000.0,
+            30957513000.0
+          ],
+          "ifrs-full_LongtermBorrowings": [
+            18910830000.0,
+            6251061000.0
+          ],
+          "ifrs-full_IssuedCapital": [
+            4560000000.0,
+            4560000000.0
+          ]
+        },
+        "unit": 1000
+      },
+      "income": {
+        "contexts": [
+          [
+            "2026-01-01",
+            "2026-09-30"
+          ],
+          [
+            "2025-01-01",
+            "2025-09-30"
+          ],
+          [
+            "2026-07-01",
+            "2026-09-30"
+          ],
+          [
+            "2025-07-01",
+            "2025-09-30"
+          ]
+        ],
+        "values": {
+          "ifrs-full_Revenue": [
+            151486106000.0,
+            117890283000.0,
+            58062724000.0,
+            42982813000.0
+          ],
+          "ifrs-full_ProfitLossFromOperatingActivities": [
+            39308750000.0,
+            34085260000.0,
+            15522810000.0,
+            9737164000.0
+          ],
+          "ifrs-full_ProfitLossAttributableToOwnersOfParent": [
+            26470603000.0,
+            15114555000.0,
+            11227027000.0,
+            6182113000.0
+          ]
+        },
+        "unit": 1000
+      },
+      "cashflow": {
+        "contexts": [
+          [
+            "2026-01-01",
+            "2026-09-30"
+          ],
+          [
+            "2025-01-01",
+            "2025-09-30"
+          ]
+        ],
+        "values": {
+          "ifrs-full_CashFlowsFromUsedInOperatingActivities": [
+            22998149000.0,
+            31258043000.0
+          ],
+          "ifrs-full_AdjustmentsForDepreciationAndAmortisationExpense": [
+            7832289000.0,
+            4862684000.0
+          ]
+        },
+        "unit": 1000
+      }
+    },
+    "pdf_url": "https://www.kap.org.tr/tr/api/file/download/4028328da16c7fe501a17df6956f2be0"
+  },
+  {
+    "report_id": 1561039,
+    "published": "2026-02-24T18:27:36+03:00",
+    "statements": {
+      "balance": {
+        "contexts": [
+          [
+            "2025-12-31"
+          ],
+          [
+            "2024-12-31"
+          ]
+        ],
+        "values": {
+          "ifrs-full_CashAndCashEquivalents": [
+            29086476000.0,
+            21776847000.0
+          ],
+          "ifrs-full_Assets": [
+            431587329000.0,
+            317802518000.0
+          ],
+          "kap-fr_CurrentBorowings": [
+            13125911000.0,
+            17755196000.0
+          ],
+          "kap-fr_CurrentPortionOfNoncurrentBorrowings": [
+            24902275000.0,
+            12134745000.0
+          ],
+          "ifrs-full_LongtermBorrowings": [
+            5028364000.0,
+            12731534000.0
+          ],
+          "ifrs-full_IssuedCapital": [
+            4560000000.0,
+            4560000000.0
+          ]
+        },
+        "unit": 1000
+      },
+      "income": {
+        "contexts": [
+          [
+            "2025-01-01",
+            "2025-12-31"
+          ],
+          [
+            "2024-01-01",
+            "2024-12-31"
+          ]
+        ],
+        "values": {
+          "ifrs-full_Revenue": [
+            180444938000.0,
+            157339507000.0
+          ],
+          "ifrs-full_ProfitLossFromOperatingActivities": [
+            49145855000.0,
+            35753980000.0
+          ],
+          "ifrs-full_ProfitLossAttributableToOwnersOfParent": [
+            29949517000.0,
+            20024831000.0
+          ]
+        },
+        "unit": 1000
+      },
+      "cashflow": {
+        "contexts": [
+          [
+            "2025-01-01",
+            "2025-12-31"
+          ],
+          [
+            "2024-01-01",
+            "2024-12-31"
+          ]
+        ],
+        "values": {
+          "ifrs-full_CashFlowsFromUsedInOperatingActivities": [
+            48901969000.0,
+            28033716000.0
+          ],
+          "ifrs-full_AdjustmentsForDepreciationAndAmortisationExpense": [
+            5548597000.0,
+            4318827000.0
+          ]
+        },
+        "unit": 1000
+      }
+    },
+    "pdf_url": "https://www.kap.org.tr/tr/api/file/download/4028328d9c81f588019c9013a93861e2"
+  },
+  {
+    "report_id": 1511313,
+    "published": "2025-11-04T18:37:58+03:00",
+    "statements": {
+      "balance": {
+        "contexts": [
+          [
+            "2025-09-30"
+          ],
+          [
+            "2024-12-31"
+          ]
+        ],
+        "values": {
+          "ifrs-full_CashAndCashEquivalents": [
+            14437566000.0,
+            20868120000.0
+          ],
+          "ifrs-full_Assets": [
+            324319352000.0,
+            304540919000.0
+          ],
+          "kap-fr_CurrentBorowings": [
+            12737397000.0,
+            17014289000.0
+          ],
+          "kap-fr_CurrentPortionOfNoncurrentBorrowings": [
+            24257680000.0,
+            11628374000.0
+          ],
+          "ifrs-full_LongtermBorrowings": [
+            1211187000.0,
+            12200259000.0
+          ],
+          "ifrs-full_IssuedCapital": [
+            4560000000.0,
+            4560000000.0
+          ]
+        },
+        "unit": 1000
+      },
+      "income": {
+        "contexts": [
+          [
+            "2025-01-01",
+            "2025-09-30"
+          ],
+          [
+            "2024-01-01",
+            "2024-09-30"
+          ],
+          [
+            "2025-07-01",
+            "2025-09-30"
+          ],
+          [
+            "2024-07-01",
+            "2024-09-30"
+          ]
+        ],
+        "values": {
+          "ifrs-full_Revenue": [
+            90872870000.0,
+            80930749000.0,
+            33132260000.0,
+            29073200000.0
+          ],
+          "ifrs-full_ProfitLossFromOperatingActivities": [
+            26273798000.0,
+            19151739000.0,
+            7505657000.0,
+            5629542000.0
+          ],
+          "ifrs-full_ProfitLossAttributableToOwnersOfParent": [
+            11650688000.0,
+            8186540000.0,
+            4765332000.0,
+            2671202000.0
+          ]
+        },
+        "unit": 1000
+      },
+      "cashflow": {
+        "contexts": [
+          [
+            "2025-01-01",
+            "2025-09-30"
+          ],
+          [
+            "2024-01-01",
+            "2024-09-30"
+          ]
+        ],
+        "values": {
+          "ifrs-full_CashFlowsFromUsedInOperatingActivities": [
+            24094505000.0,
+            1204217000.0
+          ],
+          "ifrs-full_AdjustmentsForDepreciationAndAmortisationExpense": [
+            3748282000.0,
+            2990899000.0
+          ]
+        },
+        "unit": 1000
+      }
+    },
+    "pdf_url": "https://www.kap.org.tr/tr/api/file/download/4028328c998ee9d7019a4f7c9e5b576c"
+  }
+]
