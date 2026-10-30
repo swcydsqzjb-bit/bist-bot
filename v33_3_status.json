@@ -2,11 +2,11 @@
   "status": "ready",
   "candidate_count": 10,
   "strong_confirmation_count": 1,
-  "active_tracking_count": 3,
-  "waiting_count": 6,
+  "active_tracking_count": 4,
+  "waiting_count": 5,
   "passive_count": 0,
   "eliminated_count": 0,
-  "approved_count": 4,
+  "approved_count": 5,
   "risk_available_count": 1,
   "risk_missing_count": 9,
   "timing_available_count": 1,
@@ -15,7 +15,7 @@
   "regime_confidence": 65.2,
   "top_symbol": "ENTRA",
   "top_decision": "ÜST DÜZEY TEYİT",
-  "top_score": 86.99,
+  "top_score": 87.68,
   "rsi_usage": "DISABLED",
   "version": "V33.3"
 }
