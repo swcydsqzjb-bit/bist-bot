@@ -71,9 +71,17 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 5.128976489430248,
-          "symbol": "SANKO"
+          "symbol": "SANKO",
+          "outcome": {
+            "week": "2026-10-30",
+            "return_pct": -3.849763963359565
+          }
         }
       ]
+    },
+    {
+      "week": "2026-10-30",
+      "candidates": []
     }
   ]
 }
