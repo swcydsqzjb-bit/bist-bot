@@ -188,7 +188,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "LIDER",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-30",
+            "return_pct": -7.037038824903751
+          }
         },
         {
           "rsi": 31.274688950997245,
@@ -200,7 +204,11 @@
             "Güçlü haftalık kapanış"
           ],
           "symbol": "MHRGY",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-30",
+            "return_pct": -3.4883756389998966
+          }
         },
         {
           "rsi": 18.106593048110184,
@@ -210,7 +218,11 @@
           "score": 0,
           "reasons": [],
           "symbol": "MOPAS",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-30",
+            "return_pct": -5.154639107685954
+          }
         },
         {
           "rsi": 19.461441020361065,
@@ -220,7 +232,11 @@
           "score": 0,
           "reasons": [],
           "symbol": "KOTON",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-30",
+            "return_pct": -8.644862285981736
+          }
         },
         {
           "rsi": 19.674497296073156,
@@ -230,10 +246,86 @@
           "score": 0,
           "reasons": [],
           "symbol": "GENTS",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-10-30",
+            "return_pct": -3.6363602210010226
+          }
         }
       ],
       "created_at": "2026-10-25T22:10:03.201712+03:00"
+    },
+    {
+      "week": "2026-10-30",
+      "candidates": [
+        {
+          "rsi": 28.086794645176113,
+          "pe": 5.028409307653254,
+          "price": 70.80000305175781,
+          "volume_ratio": 1.245749035793661,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "GRTHO",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 31.55004477712039,
+          "pe": 11.253520804391782,
+          "price": 7.989999771118164,
+          "volume_ratio": 1.0526991161427686,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "symbol": "MOBTL",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 33.82039266133765,
+          "pe": 7.119402956606736,
+          "price": 4.769999980926514,
+          "volume_ratio": 0.10697713222966497,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "symbol": "GEDIK",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 33.97457598000527,
+          "pe": 9.112781868841415,
+          "price": 24.239999771118164,
+          "volume_ratio": 0.4452499925104489,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "symbol": "MACKO",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 35.06651353632178,
+          "pe": 6.03448275862069,
+          "price": 14.0,
+          "volume_ratio": 1.210041570070065,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "TATGD",
+          "earnings_quarter": "2026-09-30"
+        }
+      ],
+      "created_at": "2026-11-02T00:22:33.169915+03:00"
     }
   ]
 }
