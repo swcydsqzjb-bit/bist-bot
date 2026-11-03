@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,DOCO,11652.5,LEARNED,45.9,ELE,44.83,73.03,44.0,-1.6,46.75,V15 ELE,71.41,85.0,75.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,DOCO,12065.0,LEARNED,42.6,ELE,46.33,77.99,36.0,-3.18,46.3,V15 ELE,75.05,85.0,80.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,LIDFA,1.71,LEARNED,35.45,ELE,41.93,81.26,24.0,-5.67,41.4,V15 ELE,67.07,74.0,75.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

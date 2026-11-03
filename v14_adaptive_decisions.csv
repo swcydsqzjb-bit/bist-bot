@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,DOCO,11652.5,V8 İZLEME,71.41,85.0,75.0,ZAYIF DNA,73.03,44.0,60.0,-1.6,BASE,63.9,3.0,21.0,45.9,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,DOCO,12065.0,V8 GÜÇLÜ,75.05,85.0,80.0,ZAYIF DNA,77.99,36.0,44.0,-3.18,BASE,63.6,0.0,21.0,42.6,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,LIDFA,1.71,V8 İZLEME,67.07,74.0,75.0,ZAYIF DNA,81.26,24.0,32.0,-5.67,BASE,56.45,0.0,21.0,35.45,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
