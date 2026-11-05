@@ -1,2 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,DOCO,ELE,36.58,Beklenen istatistiksel sonuç pozitif değil,0.0,0.0,,ELE,48.29,TEYİT BEKLE,50.0,50.0,YENİ,46.85,ORTA,42.0,YATAY,99.16,1,88.0,-0.08,-2.66,2.4,12065.0,12065.0
+1,DOCO,ELE,41.07,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,55.56,TEYİT BEKLE,50.0,50.0,YENİ,43.25,DÜŞÜK,16.0,RALLİ,99.66,1,90.22,0.16,-3.14,3.62,12200.0,12200.0

@@ -9,7 +9,7 @@
   "passive_count": 1,
   "eliminated_count": 0,
   "learning_ready": false,
-  "completed_observation_count": 93,
+  "completed_observation_count": 94,
   "minimum_completed_required": 30,
   "usable_pattern_count": 0,
   "minimum_pattern_required": 3,
@@ -17,8 +17,8 @@
   "mode": "SHADOW",
   "top_symbol": "DOCO",
   "top_decision": "PASİF İZLEME",
-  "top_score": 31.08,
-  "top_confidence": 37.22,
+  "top_score": 43.57,
+  "top_confidence": 40.45,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }
