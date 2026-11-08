@@ -82,6 +82,79 @@
     {
       "week": "2026-10-30",
       "candidates": []
+    },
+    {
+      "week": "2026-11-06",
+      "candidates": [
+        {
+          "rsi": 51.48449971768519,
+          "pe": 5.396039729857996,
+          "price": 16.350000381469727,
+          "volume_ratio": 1.6252164313052222,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 0.23343800709445528,
+          "symbol": "GLYHO"
+        },
+        {
+          "rsi": 50.809188171596105,
+          "pe": 11.625374353389601,
+          "price": 427.0,
+          "volume_ratio": 1.2628983577485562,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 0.9352749240753022,
+          "symbol": "MPARK"
+        },
+        {
+          "rsi": 57.063874324387726,
+          "pe": 13.781001403837154,
+          "price": 294.5,
+          "volume_ratio": 1.2870711247420963,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 7.8363060893421155,
+          "symbol": "TAVHL"
+        },
+        {
+          "rsi": 54.46490319312461,
+          "pe": 7.370130117837484,
+          "price": 11.350000381469727,
+          "volume_ratio": 0.7416436732624475,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 3.691359972217234,
+          "symbol": "INDES"
+        },
+        {
+          "rsi": 53.05831193667104,
+          "pe": 9.869159270669812,
+          "price": 21.1200008392334,
+          "volume_ratio": 0.8402494043326957,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 3.724977832349974,
+          "symbol": "SANKO"
+        }
+      ]
     }
   ]
 }
