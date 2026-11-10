@@ -1,4 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,MPARK,429.25,YATAY,62.33,7,98.99,83.94,PÄ°YASA LÄ°DERÄ°,85.54,88.48,82.4,75.22,41.35,V15 ELE,6.0,59.27,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
-2,GARFA,22.7,YATAY,62.33,30,95.14,74.17,PÄ°YASA LÄ°DERÄ°,63.4,86.68,68.34,78.93,44.44,V15 ELE,4.0,56.76,V17 ELE,Yatay rejimde kalite avantajı
-3,TRGYO,89.65,YATAY,62.33,36,94.14,72.63,PÄ°YASA LÄ°DERÄ°,59.61,78.69,67.75,91.12,38.13,V15 ELE,4.0,51.79,V17 ELE,Yatay rejimde kalite avantajı
+1,DOCO,12045.0,YATAY,57.35,78,87.12,67.11,GÃÃLÃ,49.34,95.63,43.85,77.02,44.58,V15 ELE,4.0,54.89,V17 ELE,Yatay rejimde kalite avantajı
+2,ISCTR,13.29,YATAY,57.35,0,0.0,0.0,,0.0,0.0,0.0,0.0,44.97,V15 ELE,0.0,32.38,V17 ELE,Rejim kaynaklı ek puan değişimi yok
+3,YKBNK,37.24,YATAY,57.35,0,0.0,0.0,,0.0,0.0,0.0,0.0,44.35,V15 ELE,0.0,31.93,V17 ELE,Rejim kaynaklı ek puan değişimi yok
