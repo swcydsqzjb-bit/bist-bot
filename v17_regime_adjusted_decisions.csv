@@ -1,4 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,DOCO,12777.5,RALLİ,92.07,28,95.48,75.29,PÄ°YASA LÄ°DERÄ°,62.53,90.31,68.24,80.76,56.73,V15 GERÄ° ÃEKTÄ°,0.0,61.93,V17 TEMKİNLİ İZLEME,Rejim kaynaklı ek puan değişimi yok
-2,METRO,8.09,RALLİ,92.07,33,94.65,74.23,PÄ°YASA LÄ°DERÄ°,69.75,87.39,68.24,66.91,46.1,V15 ELE,0.0,53.98,V17 ELE,Rejim kaynaklı ek puan değişimi yok
-3,YKBNK,38.74,RALLİ,92.07,0,0.0,0.0,,0.0,0.0,0.0,0.0,51.34,V15 ELE,-4.0,32.96,V17 ELE,Ralli rejiminde piyasa gerisinde
+1,TCELL,97.75,PANİK,96.14,46,92.47,73.71,PÄ°YASA LÄ°DERÄ°,62.23,82.64,71.96,81.17,48.63,V15 ELE,-3.0,52.65,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde yüksek kalite | Panik rejiminde piyasa liderliği

@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "candidate_count": 3,
-  "selected_count": 1,
+  "candidate_count": 1,
+  "selected_count": 0,
   "confirmed_count": 0,
-  "top_symbol": "DOCO",
-  "top_score": 67.74,
+  "top_symbol": "TCELL",
+  "top_score": 49.22,
   "version": "V20.2"
 }
