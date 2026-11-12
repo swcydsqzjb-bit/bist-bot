@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,TCELL,97.75,PANİK,96.14,46,92.47,73.71,PÄ°YASA LÄ°DERÄ°,62.23,82.64,71.96,81.17,48.63,V15 ELE,-3.0,52.65,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde yüksek kalite | Panik rejiminde piyasa liderliği
+1,METRO,8.36,PANİK,94.18,7,99.0,81.55,PÄ°YASA LÄ°DERÄ°,89.3,94.54,58.59,71.63,55.2,V15 GERÄ° ÃEKTÄ°,-6.0,56.58,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+2,YKBNK,38.44,PANİK,94.18,0,0.0,0.0,,0.0,0.0,0.0,0.0,45.82,V15 ELE,-8.0,24.99,V17 ELE,Panik rejimi genel risk kesintisi

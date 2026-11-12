@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,TCELL,97.75,LEARNED,45.67,ELE,47.14,79.3,44.0,-0.72,48.63,V15 ELE,75.69,80.0,93.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,METRO,8.36,LEARNED,75.59,ONAYLI Ä°ZLEME,40.12,74.77,68.0,2.37,55.2,V15 GERÄ° ÃEKTÄ°,65.03,67.0,75.0,GUCLU DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
+2,YKBNK,38.44,LEARNED,44.93,ELE,44.09,81.6,28.0,-2.17,45.82,V15 ELE,72.52,77.0,79.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif

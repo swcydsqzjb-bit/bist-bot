@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,TCELL,97.75,V8 GÜÇLÜ,75.69,80.0,93.0,ZAYIF DNA,79.3,44.0,40.0,-0.72,BASE,66.67,0.0,21.0,45.67,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,METRO,8.36,V8 İZLEME,65.03,67.0,75.0,GUCLU DNA,74.77,68.0,76.0,2.37,BASE,67.59,8.0,0.0,75.59,ONAYLI Ä°ZLEME,5 gÃ¼nlÃ¼k pozitif oranÄ± olumlu | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
+2,YKBNK,38.44,V8 GÜÇLÜ,72.52,77.0,79.0,ZAYIF DNA,81.6,28.0,48.0,-2.17,BASE,62.93,3.0,21.0,44.93,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
