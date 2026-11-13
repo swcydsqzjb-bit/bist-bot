@@ -1,12 +1,12 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "approved_count": 0,
   "strong_confirmation_count": 0,
   "active_tracking_count": 0,
   "shadow_tracking_count": 0,
   "waiting_count": 0,
-  "passive_count": 1,
+  "passive_count": 2,
   "eliminated_count": 0,
   "learning_ready": false,
   "completed_observation_count": 97,
@@ -15,10 +15,10 @@
   "minimum_pattern_required": 3,
   "matched_candidate_count": 0,
   "mode": "SHADOW",
-  "top_symbol": "METRO",
+  "top_symbol": "OYAKC",
   "top_decision": "PASİF İZLEME",
-  "top_score": 42.52,
-  "top_confidence": 40.25,
+  "top_score": 38.57,
+  "top_confidence": 40.44,
   "rsi_usage": "DISABLED",
   "version": "V32.0"
 }

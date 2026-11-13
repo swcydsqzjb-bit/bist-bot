@@ -1,3 +1,4 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,METRO,8.36,PANİK,94.18,7,99.0,81.55,PÄ°YASA LÄ°DERÄ°,89.3,94.54,58.59,71.63,55.2,V15 GERÄ° ÃEKTÄ°,-6.0,56.58,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
-2,YKBNK,38.44,PANİK,94.18,0,0.0,0.0,,0.0,0.0,0.0,0.0,45.82,V15 ELE,-8.0,24.99,V17 ELE,Panik rejimi genel risk kesintisi
+1,KCHOL,208.2,YATAY,67.57,22,96.49,77.09,PÄ°YASA LÄ°DERÄ°,67.46,84.76,78.95,79.33,48.81,V15 ELE,6.0,62.73,V17 TEMKİNLİ İZLEME,Yatay rejimde kalite avantajı | Yatay rejimde hacim birikimi
+2,OYAKC,19.88,YATAY,67.57,31,94.99,75.93,PÄ°YASA LÄ°DERÄ°,66.75,87.12,64.13,86.74,44.74,V15 ELE,4.0,57.47,V17 ELE,Yatay rejimde kalite avantajı
+3,KLSYN,15.11,YATAY,67.57,39,93.66,74.25,PÄ°YASA LÄ°DERÄ°,77.81,83.96,57.19,70.72,43.57,V15 ELE,4.0,56.16,V17 ELE,Yatay rejimde kalite avantajı
