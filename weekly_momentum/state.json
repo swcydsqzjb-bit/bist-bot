@@ -98,7 +98,11 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 0.23343800709445528,
-          "symbol": "GLYHO"
+          "symbol": "GLYHO",
+          "outcome": {
+            "week": "2026-11-13",
+            "return_pct": -2.1406750660776686
+          }
         },
         {
           "rsi": 50.809188171596105,
@@ -112,7 +116,11 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 0.9352749240753022,
-          "symbol": "MPARK"
+          "symbol": "MPARK",
+          "outcome": {
+            "week": "2026-11-13",
+            "return_pct": 9.133489461358323
+          }
         },
         {
           "rsi": 57.063874324387726,
@@ -126,7 +134,11 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 7.8363060893421155,
-          "symbol": "TAVHL"
+          "symbol": "TAVHL",
+          "outcome": {
+            "week": "2026-11-13",
+            "return_pct": 2.6315789473684292
+          }
         },
         {
           "rsi": 54.46490319312461,
@@ -139,7 +151,11 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 3.691359972217234,
-          "symbol": "INDES"
+          "symbol": "INDES",
+          "outcome": {
+            "week": "2026-11-13",
+            "return_pct": -10.748900669823847
+          }
         },
         {
           "rsi": 53.05831193667104,
@@ -152,7 +168,83 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 3.724977832349974,
-          "symbol": "SANKO"
+          "symbol": "SANKO",
+          "outcome": {
+            "week": "2026-11-13",
+            "return_pct": 1.4204508766081814
+          }
+        }
+      ]
+    },
+    {
+      "week": "2026-11-13",
+      "candidates": [
+        {
+          "rsi": 53.686507136797324,
+          "pe": 14.155332856120257,
+          "price": 395.5,
+          "volume_ratio": 1.200905310871588,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 2.299098165024338,
+          "symbol": "BIMAS"
+        },
+        {
+          "rsi": 58.13498966137042,
+          "pe": 5.363011652225874,
+          "price": 359.0,
+          "volume_ratio": 1.2557089146370386,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 4.6783309064737155,
+          "symbol": "TUPRS"
+        },
+        {
+          "rsi": 53.098986228117745,
+          "pe": 8.214568487727632,
+          "price": 207.5,
+          "volume_ratio": 1.719306141977026,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Hacimli yükseliş"
+          ],
+          "ema_distance": 1.5158082847352539,
+          "symbol": "KCHOL"
+        },
+        {
+          "rsi": 52.596539250411816,
+          "pe": 10.00000038004456,
+          "price": 80.30000305175781,
+          "volume_ratio": 0.6957216356151833,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 1.9237141677942216,
+          "symbol": "CCOLA"
+        },
+        {
+          "rsi": 51.91499199342432,
+          "pe": 10.833333520328297,
+          "price": 11.050000190734863,
+          "volume_ratio": 0.7975105154161689,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış"
+          ],
+          "ema_distance": 2.181110429811217,
+          "symbol": "AKSA"
         }
       ]
     }
