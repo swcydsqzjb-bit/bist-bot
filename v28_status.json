@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 2,
-  "latest_candidate_count": 2,
-  "history_count": 103,
+  "new_observation_count": 3,
+  "latest_candidate_count": 3,
+  "history_count": 106,
   "tracked_count": 0,
-  "analysis_only_count": 2,
-  "top_symbol": "OYAKC",
+  "analysis_only_count": 3,
+  "top_symbol": "ENJSA",
   "top_decision": "ELE",
   "version": "V28.0"
 }

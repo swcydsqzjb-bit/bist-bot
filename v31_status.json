@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "candidate_count": 2,
+  "candidate_count": 3,
   "pattern_count": 0,
   "usable_pattern_count": 0,
   "matched_candidate_count": 0,
@@ -8,10 +8,10 @@
   "negative_bonus_count": 0,
   "approved_count": 0,
   "total_learning_bonus": 0.0,
-  "top_symbol": "OYAKC",
+  "top_symbol": "ENJSA",
   "top_decision": "ELE",
-  "top_score": 40.07,
-  "v30_learning_active": false,
+  "top_score": 41.86,
+  "v30_learning_active": true,
   "rsi_usage": "DISABLED",
   "version": "V31.0"
 }

@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 2,
+  "position_count": 3,
   "cash_reserve_pct": 30.0,
   "invested_pct": 70.0,
-  "top_symbol": "OYAKC",
-  "top_weight_pct": 35.46,
+  "top_symbol": "ENKAI",
+  "top_weight_pct": 24.77,
   "version": "V20.3"
 }
