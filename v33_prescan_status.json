@@ -4,13 +4,13 @@
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "YATAY",
-  "regime_confidence": 77.65,
+  "regime_confidence": 75.03,
   "timing_data_count": 3,
-  "selected_timing_data_count": 1,
+  "selected_timing_data_count": 2,
   "risk_data_count": 3,
-  "selected_risk_data_count": 1,
-  "top_symbol": "PETUN",
-  "top_score": 98.12,
+  "selected_risk_data_count": 2,
+  "top_symbol": "TOASO",
+  "top_score": 98.25,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

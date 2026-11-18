@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 3,
+  "candidate_count": 1,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
   "waiting_count": 0,
   "passive_count": 0,
-  "eliminated_count": 3,
-  "top_symbol": "ENJSA",
+  "eliminated_count": 1,
+  "top_symbol": "TOASO",
   "top_decision": "ELE",
-  "top_score": 41.86,
+  "top_score": 36.59,
   "version": "V27.2"
 }

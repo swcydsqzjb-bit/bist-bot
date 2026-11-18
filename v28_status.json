@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 3,
-  "latest_candidate_count": 3,
-  "history_count": 106,
+  "new_observation_count": 1,
+  "latest_candidate_count": 1,
+  "history_count": 107,
   "tracked_count": 0,
-  "analysis_only_count": 3,
-  "top_symbol": "ENJSA",
+  "analysis_only_count": 1,
+  "top_symbol": "TOASO",
   "top_decision": "ELE",
   "version": "V28.0"
 }
