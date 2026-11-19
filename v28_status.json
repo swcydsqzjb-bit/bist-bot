@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 1,
-  "latest_candidate_count": 1,
-  "history_count": 107,
-  "tracked_count": 0,
+  "new_observation_count": 2,
+  "latest_candidate_count": 2,
+  "history_count": 109,
+  "tracked_count": 1,
   "analysis_only_count": 1,
-  "top_symbol": "TOASO",
-  "top_decision": "ELE",
+  "top_symbol": "KRGYO",
+  "top_decision": "TEYİT BEKLE",
   "version": "V28.0"
 }

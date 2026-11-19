@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "position_count": 1,
-  "cash_reserve_pct": 38.0,
-  "invested_pct": 62.0,
-  "top_symbol": "TOASO",
-  "top_weight_pct": 62.0,
+  "position_count": 2,
+  "cash_reserve_pct": 28.0,
+  "invested_pct": 72.0,
+  "top_symbol": "KRGYO",
+  "top_weight_pct": 38.63,
   "version": "V20.3"
 }

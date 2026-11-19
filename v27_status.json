@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "approved_count": 0,
   "top_level_confirmation_count": 0,
   "active_tracking_count": 0,
-  "waiting_count": 0,
+  "waiting_count": 1,
   "passive_count": 0,
   "eliminated_count": 1,
-  "top_symbol": "TOASO",
-  "top_decision": "ELE",
-  "top_score": 36.59,
+  "top_symbol": "KRGYO",
+  "top_decision": "TEYİT BEKLE",
+  "top_score": 44.76,
   "version": "V27.2"
 }
