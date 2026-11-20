@@ -1,14 +1,14 @@
 {
   "status": "ready",
-  "candidate_count": 1,
+  "candidate_count": 2,
   "actionable_count": 0,
   "strong_confirmation_count": 0,
-  "waiting_count": 1,
+  "waiting_count": 0,
   "passive_count": 0,
-  "eliminated_count": 0,
-  "top_symbol": "KLSYN",
-  "top_state": "TEYİT BEKLE",
-  "top_score": 57.71,
+  "eliminated_count": 2,
+  "top_symbol": "HKTM",
+  "top_state": "ELE",
+  "top_score": 53.81,
   "learning_bonus": 0.0,
   "version": "V22.1"
 }

@@ -1,2 +1,3 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
-1,KLSYN,PASİF İZLEME,42.0,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,TEYİT BEKLE,57.71,TEYİT BEKLE,50.0,50.0,YENİ,60.63,ORTA,47.0,PANİK,95.99,5,89.27,4.98,-0.69,8.45,16.31,16.31
+1,HKTM,ELE,39.8,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,53.81,TEYİT BEKLE,50.0,50.0,YENİ,43.91,ORTA,30.0,YATAY,99.17,1,91.62,1.53,-3.04,4.34,12.26,12.26
+2,TOASO,ELE,37.1,V22 sinyal motoru adayı elemiş durumda,0.0,0.0,,ELE,49.53,TEYİT BEKLE,50.0,50.0,YENİ,39.67,ORTA,30.0,YATAY,98.66,1,84.38,0.35,-2.47,3.15,249.3,249.3

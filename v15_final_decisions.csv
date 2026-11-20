@@ -1,2 +1,3 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,KLSYN,16.31,LEARNED,79.64,GÃÃLÃ ONAY,43.08,73.16,72.0,3.17,58.27,V15 TEMKÄ°NLÄ° Ä°ZLEME,67.3,65.0,95.0,GUCLU DNA,5 gÃ¼nlÃ¼k pozitif oranÄ± gÃ¼Ã§lÃ¼ | %3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri gÃ¼Ã§lÃ¼,
+1,HKTM,12.26,LEARNED,52.39,ELE,40.28,74.05,52.0,-1.66,46.66,V15 ELE,65.72,78.0,60.0,KARISIK DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA karÄ±ÅÄ±k | Benzer Ã¶rneklerin ortalama sonucu negatif
+2,TOASO,249.3,LEARNED,40.13,ELE,43.5,81.75,32.0,-3.32,44.1,V15 ELE,70.1,77.0,78.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
