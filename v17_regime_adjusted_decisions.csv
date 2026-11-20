@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,KRGYO,3.93,YATAY,71.46,6,99.17,78.91,PÄ°YASA LÄ°DERÄ°,86.26,88.88,60.36,69.85,54.61,V15 GERÄ° ÃEKTÄ°,0.0,61.41,V17 TEMKİNLİ İZLEME,Rejim kaynaklı ek puan değişimi yok
-2,TOASO,245.4,YATAY,71.46,48,92.15,70.41,PÄ°YASA LÄ°DERÄ°,62.89,82.0,54.38,82.28,45.95,V15 ELE,4.0,56.8,V17 ELE,Yatay rejimde kalite avantajı
+1,KLSYN,16.31,PANİK,100.0,25,95.99,74.53,PÄ°YASA LÄ°DERÄ°,87.51,88.46,39.17,67.51,58.27,V15 TEMKÄ°NLÄ° Ä°ZLEME,-6.0,56.82,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği

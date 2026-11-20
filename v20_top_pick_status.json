@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "candidate_count": 2,
-  "selected_count": 2,
+  "candidate_count": 1,
+  "selected_count": 1,
   "confirmed_count": 0,
-  "top_symbol": "KRGYO",
-  "top_score": 63.94,
+  "top_symbol": "KLSYN",
+  "top_score": 60.3,
   "version": "V20.2"
 }

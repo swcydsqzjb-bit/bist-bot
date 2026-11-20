@@ -1,11 +1,11 @@
 {
   "status": "ready",
-  "new_observation_count": 2,
-  "latest_candidate_count": 2,
-  "history_count": 109,
+  "new_observation_count": 1,
+  "latest_candidate_count": 1,
+  "history_count": 110,
   "tracked_count": 1,
-  "analysis_only_count": 1,
-  "top_symbol": "KRGYO",
-  "top_decision": "TEYİT BEKLE",
+  "analysis_only_count": 0,
+  "top_symbol": "KLSYN",
+  "top_decision": "PASİF İZLEME",
   "version": "V28.0"
 }

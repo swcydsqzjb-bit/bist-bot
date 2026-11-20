@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,v15_score,v17_score,v17_decision,relative_strength_score,market_percentile,confidence_score,confidence_class,v18_decision,confidence_reasons,confidence_risks,completed_5d
-1,KRGYO,3.93,YATAY,71.46,54.61,61.41,V17 TEMKİNLİ İZLEME,78.91,99.17,78.0,YÜKSEK GÜVEN,V18 TEMKİNLİ İZLEME,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | İki ana bileşen güçlü | Bileşenler birbiriyle uyumlu | Öğrenme hafızası yeterli,,357
-2,TOASO,245.4,YATAY,71.46,45.95,56.8,V17 ELE,70.41,92.15,63.0,ORTA GÜVEN,V18 ELE,Karşılaştırma grubunun üst diliminde | İki ana bileşen güçlü | Öğrenme hafızası yeterli,,357
+1,KLSYN,16.31,PANİK,100.0,58.27,56.82,V17 ELE,74.53,95.99,76.0,YÜKSEK GÜVEN,V18 ELE,Göreli güç yüksek | Karşılaştırma grubunun üst diliminde | İki ana bileşen güçlü | V15 ve V17 uyumlu | Piyasa rejimi güveni yüksek | Öğrenme hafızası yeterli,Piyasa rejimi adayı baskılıyor,360
