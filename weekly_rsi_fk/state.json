@@ -457,7 +457,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "DSTKF",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": 60.73984730650517
+          }
         },
         {
           "rsi": 34.72829566241015,
@@ -471,7 +475,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "A1YEN",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -9.615383439750557
+          }
         },
         {
           "rsi": 34.98835473303666,
@@ -485,7 +493,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "ISKPL",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": 0.0
+          }
         },
         {
           "rsi": 36.420461337091744,
@@ -499,7 +511,11 @@
             "Hacimli yükseliş"
           ],
           "symbol": "OZRDN",
-          "earnings_quarter": "2026-09-30"
+          "earnings_quarter": "2026-09-30",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": 9.460516354619797
+          }
         },
         {
           "rsi": 37.12292650047688,
@@ -513,10 +529,88 @@
             "Hacimli yükseliş"
           ],
           "symbol": "HDFGS",
-          "earnings_quarter": "2026-06-30"
+          "earnings_quarter": "2026-06-30",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -10.236220250711215
+          }
         }
       ],
       "created_at": "2026-11-16T01:00:52.437914+03:00"
+    },
+    {
+      "week": "2026-11-20",
+      "candidates": [
+        {
+          "rsi": 23.869348771941105,
+          "pe": 8.166666825612387,
+          "price": 4.900000095367432,
+          "volume_ratio": 4.368451661775078,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "KRTEK",
+          "earnings_quarter": "2026-09-30"
+        },
+        {
+          "rsi": 31.668846472841096,
+          "pe": 9.17574911091568,
+          "price": 134.6999969482422,
+          "volume_ratio": 2.088255811114211,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "DSTKF",
+          "earnings_quarter": "2026-09-30"
+        },
+        {
+          "rsi": 32.627800264576265,
+          "pe": 7.3333335645271065,
+          "price": 2.4200000762939453,
+          "volume_ratio": 2.287450986172337,
+          "score": 3,
+          "reasons": [
+            "RSI yükseliyor",
+            "Güçlü haftalık kapanış",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "PEKGY",
+          "earnings_quarter": "2026-06-30"
+        },
+        {
+          "rsi": 34.80290785953552,
+          "pe": 9.15789478703549,
+          "price": 1.7400000095367432,
+          "volume_ratio": 1.2767719419092056,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "MHRGY",
+          "earnings_quarter": "2026-09-30"
+        },
+        {
+          "rsi": 38.86429045643173,
+          "pe": 12.692656391659112,
+          "price": 14.0,
+          "volume_ratio": 1.3552011010939575,
+          "score": 2,
+          "reasons": [
+            "RSI yükseliyor",
+            "Hacimli yükseliş"
+          ],
+          "symbol": "OZRDN",
+          "earnings_quarter": "2026-09-30"
+        }
+      ],
+      "created_at": "2026-11-23T01:43:50.727011+03:00"
     }
   ]
 }
