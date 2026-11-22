@@ -191,7 +191,11 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 2.299098165024338,
-          "symbol": "BIMAS"
+          "symbol": "BIMAS",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -5.37294563843237
+          }
         },
         {
           "rsi": 58.13498966137042,
@@ -205,7 +209,11 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 4.6783309064737155,
-          "symbol": "TUPRS"
+          "symbol": "TUPRS",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -10.097493036211702
+          }
         },
         {
           "rsi": 53.098986228117745,
@@ -218,7 +226,11 @@
             "Hacimli yükseliş"
           ],
           "ema_distance": 1.5158082847352539,
-          "symbol": "KCHOL"
+          "symbol": "KCHOL",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -9.783134000847138
+          }
         },
         {
           "rsi": 52.596539250411816,
@@ -231,7 +243,11 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 1.9237141677942216,
-          "symbol": "CCOLA"
+          "symbol": "CCOLA",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -2.1793274389691253
+          }
         },
         {
           "rsi": 51.91499199342432,
@@ -244,9 +260,17 @@
             "Güçlü haftalık kapanış"
           ],
           "ema_distance": 2.181110429811217,
-          "symbol": "AKSA"
+          "symbol": "AKSA",
+          "outcome": {
+            "week": "2026-11-20",
+            "return_pct": -3.6199146181009056
+          }
         }
       ]
+    },
+    {
+      "week": "2026-11-20",
+      "candidates": []
     }
   ]
 }
