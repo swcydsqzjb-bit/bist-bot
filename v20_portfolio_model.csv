@@ -1,2 +1,2 @@
 ﻿portfolio_rank,symbol,model_weight_pct,allocation_label,confirmation_state,top_pick_score,ai_final_score,consensus_score,risk_class,risk_score,close,best_horizon_days,expected_return,downside_20pct,upside_80pct,why_now,conflict_note
-1,HKTM,55.0,ANA ADAY,TEMKİNLİ İZLE,54.19,61.46,48.57,ORTA,46.0,12.69,1,-0.19,-3.38,2.4,Göreli güçte piyasanın üst %10 diliminde | Zamanlama güveni yüksek,Motorlar arasında belirgin görüş ayrılığı var | Risk seviyesi orta | Zamanlama motorunun beklenen getirisi pozitif değil
+1,HKTM,55.0,ANA ADAY,TEMKİNLİ İZLE,52.29,59.93,42.15,ORTA,46.0,12.96,1,0.16,-3.14,2.77,Göreli güçte piyasanın üst %10 diliminde | Zamanlama güveni yüksek | Tarihsel beklenen sonuç pozitif,Motorlar arasında belirgin görüş ayrılığı var | Risk seviyesi orta

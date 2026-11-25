@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,classification,v8_score,smart_money_score,institutional_score,dna_classification,dna_confidence,positive_rate_5d,hit_3pct_5d_rate,average_result_5d,weight_mode,raw_score,positive_bonus,risk_penalty,v14_score,v14_decision,positive_reasons,risk_reasons
-1,HKTM,12.69,V8 GÜÇLÜ,78.1,83.0,95.0,KARISIK DNA,73.57,52.0,60.0,1.23,BASE,70.69,4.5,6.0,69.19,ONAYLI Ä°ZLEME,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA karÄ±ÅÄ±k
-2,TOASO,246.5,V8 İZLEME,69.09,73.0,75.0,ZAYIF DNA,80.72,40.0,44.0,-2.06,BASE,62.1,0.0,21.0,41.1,ELE,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,HKTM,12.96,V8 GÜÇLÜ,78.92,85.0,95.0,ZAYIF DNA,72.44,44.0,56.0,0.5,BASE,69.17,3.0,15.0,57.17,ELE,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f

@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,regime,regime_confidence,market_rank,market_percentile,relative_strength_score,relative_class,momentum_percentile,trend_percentile,volume_percentile,quality_percentile,v15_score,v15_decision,regime_adjustment,v17_score,v17_decision,regime_reasons
-1,HKTM,12.69,PANİK,100.0,3,99.67,82.95,PÄ°YASA LÄ°DERÄ°,91.03,86.38,80.94,65.13,56.77,V15 GERÄ° ÃEKTÄ°,-6.0,58.1,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
-2,TOASO,246.5,PANİK,100.0,9,98.66,80.02,PÄ°YASA LÄ°DERÄ°,83.23,87.6,68.45,74.57,44.13,V15 ELE,-6.0,48.18,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği
+1,HKTM,12.96,PANİK,99.0,5,99.33,84.9,PÄ°YASA LÄ°DERÄ°,94.73,86.78,85.32,63.81,52.85,V15 ELE,-6.0,55.82,V17 ELE,Panik rejimi genel risk kesintisi | Panik rejiminde piyasa liderliği

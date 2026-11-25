@@ -1,3 +1,2 @@
 ﻿rank,symbol,close,model_mode,v14_score,v14_decision,learned_component_score,dna_confidence,positive_rate_5d,average_result_5d,v15_score,v15_decision,v8_score,smart_money_score,institutional_score,dna_classification,positive_reasons,risk_reasons
-1,HKTM,12.69,LEARNED,69.19,ONAYLI Ä°ZLEME,48.51,73.57,52.0,1.23,56.77,V15 GERÄ° ÃEKTÄ°,78.1,83.0,95.0,KARISIK DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼ | Ortalama 5 gÃ¼nlÃ¼k getiri olumlu,Market DNA karÄ±ÅÄ±k
-2,TOASO,246.5,LEARNED,41.1,ELE,42.1,80.72,40.0,-2.06,44.13,V15 ELE,69.09,73.0,75.0,ZAYIF DNA,,Market DNA zayÄ±f | Benzer Ã¶rneklerin ortalama sonucu negatif
+1,HKTM,12.96,LEARNED,57.17,ELE,49.09,72.44,44.0,0.5,52.85,V15 ELE,78.92,85.0,95.0,ZAYIF DNA,%3 hedef geÃ§miÅi gÃ¼Ã§lÃ¼,Market DNA zayÄ±f
