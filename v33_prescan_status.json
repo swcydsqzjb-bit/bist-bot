@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "market_count": 599,
+  "market_count": 600,
   "selected_count": 30,
   "max_candidates": 30,
   "regime": "PANİK",
-  "regime_confidence": 99.0,
+  "regime_confidence": 100.0,
   "timing_data_count": 1,
   "selected_timing_data_count": 1,
   "risk_data_count": 1,
   "selected_risk_data_count": 1,
-  "top_symbol": "CMENT",
-  "top_score": 99.71,
+  "top_symbol": "CUSAN",
+  "top_score": 97.96,
   "rsi_usage": "DISABLED",
   "version": "V33.2"
 }

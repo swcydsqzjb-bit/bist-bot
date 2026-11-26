@@ -1,9 +1,9 @@
 {
   "status": "ready",
-  "tracking_date": "2026-11-25",
+  "tracking_date": "2026-11-26",
   "new_candidate_count": 10,
-  "total_tracking_count": 635,
-  "completed_count": 566,
+  "total_tracking_count": 645,
+  "completed_count": 576,
   "active_count": 69,
   "price_update_count": 39,
   "hit_3pct_count": 192,
@@ -11,8 +11,8 @@
   "hit_7pct_count": 87,
   "hit_9pct_count": 57,
   "average_return_d1": -0.37,
-  "average_return_d3": -1.17,
-  "average_return_d5": -1.89,
+  "average_return_d3": -1.29,
+  "average_return_d5": -1.95,
   "rsi_usage": "DISABLED",
   "version": "V33.4"
 }
