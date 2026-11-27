@@ -1,1 +1,2 @@
 ﻿v27_rank,symbol,v27_decision,v27_master_score,v27_reason,optimized_weight_pct,optimizer_score,portfolio_role,v22_signal_state,v22_signal_score,v24_state,v24_score,quality_score,reliability_class,consensus_score,risk_class,risk_score,regime,market_percentile,best_horizon_days,timing_confidence,expected_return,downside_20pct,upside_80pct,close,reference_price
+1,AVGYO,PASİF İZLEME,38.77,Canlı teyit yok ve toplam görünüm aktif takip için yeterli değil,0.0,0.0,,PASİF İZLEME,51.75,TEYİT BEKLE,50.0,50.0,YENİ,52.9,ORTA,43.0,PANİK,99.33,1,88.86,1.46,-2.07,4.41,15.76,15.76

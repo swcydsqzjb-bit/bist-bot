@@ -1,9 +1,9 @@
 {
   "status": "ready",
   "candidate_count": 1,
-  "selected_count": 0,
+  "selected_count": 1,
   "confirmed_count": 0,
   "top_symbol": "AVGYO",
-  "top_score": 50.8,
+  "top_score": 55.12,
   "version": "V20.2"
 }
